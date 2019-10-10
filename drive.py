@@ -15,6 +15,12 @@ import time
 import os
 import gc
 
+# Function to correctly exit program
+def handler(signal_received, frame):
+    vs.release()
+    print('CTRL-C detected. Exiting gracefully')
+    exit(0)
+
 # initialize communication with the arduino
 ser = serial.Serial("/dev/ttyUSB0",115200)
 ser.flushInput()
