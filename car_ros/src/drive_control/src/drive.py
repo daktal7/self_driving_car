@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
 	init_command = "!start1750\n"
 	ser.write(init_command.encode())
-	init_command = "!init1.5\n"
+	init_command = "!inits1.5\n"
 	ser.write(init_command.encode())
 	init_command = "!kp0.01\n"
 	ser.write(init_command.encode())
