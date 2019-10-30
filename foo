@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "Python_Main.py", line 25, in <module>
+    right_line, left_line = RI.split_detect(cropped_image_white_lines, cropped_image_yellow_lines, number_of_slices, 0, cropped_image_white_lines.shape[1], lane_image)
+  File "/home/nvidia/Desktop/class_code/self_driving_car/roadDetect.py", line 116, in split_detect
+    temp_im_white_lines = road_image.image_slices(canny_im_white_lines, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]]))
+  File "/home/nvidia/Desktop/class_code/self_driving_car/roadDetect.py", line 150, in image_slices
+    cv2.fillConvexPoly(mask, vertices, match_mask_color)
+cv2.error: OpenCV(3.4.2) /home/nvidia/opencv/modules/imgproc/src/drawing.cpp:2385: error: (-215:Assertion failed) points.checkVector(2, 4) >= 0 in function 'fillConvexPoly'
+

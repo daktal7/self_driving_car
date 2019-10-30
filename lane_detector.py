@@ -61,21 +61,21 @@ if __name__ == "__main__":
     RESIZEX = 640
     RESIZEY = 480
     reg = 3.5 # used to define the general region of interest, the image will be blacked out from 0 to reg/10 along y
-    stpClose = cv2.resize(mpimg.imread('images/stoplight_close.jpg'),(RESIZEX,RESIZEY))
-    stpClose_can = rd.getCanny(stpClose)
+    #stpClose = cv2.resize(mpimg.imread('images/stoplight_close.jpg'),(RESIZEX,RESIZEY))
+    #stpClose_can = rd.getCanny(stpClose)
 
-    stpClose_msk = rd.region_of_interest(stpClose_can,
-                                      np.array([
-                                          [0, len(stpClose_can[:,0])],
-                                          [0, int((reg*len(stpClose_can[:,0]))//10)],
-                                          [len(stpClose_can[0,:]), int((reg*len(stpClose_can[:,0]))//10)],
-                                          [len(stpClose_can[0,:]), len(stpClose_can[:,0])]
-                                       ])
-                                      )
-    stpFar = cv2.resize(mpimg.imread('images/stoplight_far.jpg'),(RESIZEX,RESIZEY))
-    stpsgnClose = cv2.resize(mpimg.imread('images/stopsign_close.jpg'),(RESIZEX,RESIZEY))
+    #stpClose_msk = rd.region_of_interest(stpClose_can,
+     #                                 np.array([
+      #                                    [0, len(stpClose_can[:,0])],
+       #                                   [0, int((reg*len(stpClose_can[:,0]))//10)],
+        #                                  [len(stpClose_can[0,:]), int((reg*len(stpClose_can[:,0]))//10)],
+         #                                 [len(stpClose_can[0,:]), len(stpClose_can[:,0])]
+          #                             ])
+           #                           )
+   # stpFar = cv2.resize(mpimg.imread('images/stoplight_far.jpg'),(RESIZEX,RESIZEY))
+    stpsgnClose = cv2.resize(mpimg.imread('stopsign_far.jpg'),(RESIZEX,RESIZEY))
     stpsgnClose_can = rd.getCanny(stpsgnClose)
-    stpsgnFar = cv2.resize(mpimg.imread('images/stopsign_far.jpg'),(RESIZEX,RESIZEY))
+    #stpsgnFar = cv2.resize(mpimg.imread('images/stopsign_far.jpg'),(RESIZEX,RESIZEY))
 
     stpsgnClose_msk = rd.region_of_interest(stpsgnClose_can,
                                       np.array([
@@ -86,18 +86,18 @@ if __name__ == "__main__":
                                        ])
                                       )
 
+    plt.figure()
+    plt.imshow(stpsgnClose_hsv[:,:,1],cmap='gray')
+
     #plt.figure()
-    #plt.imshow(stpsgnClose_hsv[:,:,1],cmap='gray')
+    #plt.imshow(stpClose_msk,cmap='gray')
 
-    plt.figure()
-    plt.imshow(stpClose_msk,cmap='gray')
+    #interLines = rd.detectIntersection(stpClose_msk,1,None,None)
 
-    interLines = rd.detectIntersection(stpClose_msk,1,None,None)
+    #line_im = rd.draw_lines(stpClose, interLines, [255, 0, 0])
 
-    line_im = rd.draw_lines(stpClose, interLines, [255, 0, 0])
-
-    plt.figure()
-    plt.imshow(line_im)
+    #plt.figure()
+    #plt.imshow(line_im)
 
     plt.show()
 

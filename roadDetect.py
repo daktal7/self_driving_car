@@ -113,8 +113,8 @@ class road_image:
         for n in range(resolution,0,-1):
             y_beg = n*dy
             y_end = n*dy+dy
-            temp_im_white_lines = road_image.image_slices(canny_im_white_lines, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]]))
-            temp_im_yellow_lines = road_image.image_slices(canny_im_yellow_lines, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]]))
+            temp_im_white_lines = road_image.image_slices(canny_im_white_lines, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
+            temp_im_yellow_lines = road_image.image_slices(canny_im_yellow_lines, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
 
             temp_lin_white = cv2.HoughLinesP(temp_im_white_lines, rho=6, theta=np.pi / 60, threshold=100, lines=np.array([]), minLineLength=30, maxLineGap=10)
             temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=6, theta=np.pi / 60, threshold=100, lines=np.array([]), minLineLength=30, maxLineGap=10)
