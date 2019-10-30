@@ -1,0 +1,9 @@
+<launch>
+
+	<node pkg="drive_control" type="camera_feed.py" name="video" output="screen">
+	</node>
+	
+	<node pkg="drive_control" type="lane_detector.py" name="lane_detector" output="screen">
+	</node>
+	
+</launch>

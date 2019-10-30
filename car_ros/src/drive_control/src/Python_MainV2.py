@@ -1,0 +1,170 @@
+#!/usr/bin/env python
+#Python_MainV2
+# Python Main
+import roadDetectV2
+from roadDetectV2 import road_image as RI
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import math
+import serial
+import time
+from signal import signal, SIGINT
+#import msvcrt #for exiting the loop
+import rospy
+from std_msgs.msg import Float32
+
+#############Serial Stuff Setup#############
+ser = serial.Serial("/dev/ttyUSB0",115200)
+ser.flushInput()
+time.sleep(2)
+init_command = "!start1750\n"
+ser.write(init_command.encode())
+init_command = "!init1.5\n"
+ser.write(init_command.encode())
+init_command = "!kp0.01\n"
+ser.write(init_command.encode())
+init_command = "!kd0.01\n"
+ser.write(init_command.encode())
+init_command = "!pid1\n"
+ser.write(init_command.encode())
+
+def speed(value):
+	command="!speed" + str(value) + "\n"
+	ser.write(command.encode())
+
+def steer(value):
+	command="!steering" + str(value) + "\n"
+	ser.write(command.encode())
+	
+# Function to correctly exit program
+def handler(signal_received, frame):
+	command = "!speed0\n"
+	ser.write(command.encode())
+	vs.release()
+	print('CTRL-C detected. Exiting gracefully')
+	exit(0)
+
+
+FRAMES_TO_AVERAGE = 20
+print("foo")
+number_of_slices = 5
+dynamic_coordinates_right = [[[123,123],[123,123],[123,123],[123,123]]]
+dynamic_coordinates_left = [[[123,123],[123,123],[123,123],[123,123]]]
+for num in range(number_of_slices):
+    dynamic_coordinates_right = np.concatenate((dynamic_coordinates_right, [[[123,123],[123,123],[123,123],[123,123]]]), axis = 0)
+    dynamic_coordinates_left = np.concatenate((dynamic_coordinates_left, [[[123,123],[123,123],[123,123],[123,123]]]), axis = 0)
+print("bar")
+# start of the Main
+# yellow_pic
+# frame = cv2.imread('color_wheel.png')
+#cap = cv2.VideoCapture("roadTest2.avi")
+cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
+pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
+rospy.init_node('angleTalker', anonymous=False)
+rate = rospy.Rate(10)
+signal(SIGINT, handler)
+print('Running. Press CTRL-C to exit')
+steering_angle = 0
+time.sleep(5)
+foo = 1
+while foo == 1:
+	steering_angle = 0
+	for x in range(0,FRAMES_TO_AVERAGE):
+		try:
+			_, frame = cap.read()
+		except:
+		#if frame is None:
+			foo = 0
+			break
+	# while(1):
+		image = cv2.resize(frame, (640, 480))
+
+		lane_image = np.copy(image)
+		canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
+		right_line, left_line = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
+		if right_line.shape[0] != 0:
+			line_image_right = RI.display_lines_3D(lane_image, right_line, (0,0,255))
+			# x_right_line, y_right_line = RI.stich_lines_of_slices_together(right_line, lane_image)
+		else:
+			line_image_right = lane_image
+			# print("no_right")
+		
+		if left_line.shape[0] != 0:
+			line_image_left = RI.display_lines_3D(lane_image, left_line, (0,255, 0))
+			# x_left_line, y_left_line = RI.stich_lines_of_slices_together(left_line, lane_image)
+			# print()
+		else:
+			line_image_left = lane_image
+			# print("no_left")
+		# print("RIGHT_LINE")
+		# print(right_line)
+		# print("LEFT_LINE")
+		# print(left_line)
+		lines_to_average = right_line
+		# print(lines_to_average)
+		# print("left_line.shape")
+		# print(left_line.shape)
+		# print("right_line.shape")
+		# print(right_line.shape)
+		# print("lines_to_average.shape")
+		lines_to_average = np.array(lines_to_average)
+		# print(lines_to_average.shape)
+		lines_to_average = np.concatenate((lines_to_average, left_line), axis = 0)
+		# print(lines_to_average)
+		lines_to_average = np.array(lines_to_average)
+		offset = 0
+		if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
+			average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+			if left_line.shape[0] > right_line.shape[0]: # more left lines so adjust it to the right a little
+				offset = 50
+			elif left_line.shape[0] < right_line.shape[0]: # more left lines so adjust it to the right a little
+				offset = -50
+			steering_point = (int(average_line[2] + offset), int(average_line[3]))
+		elif left_line.shape[0] != 0 and right_line.shape[0] == 0: # I only have the left line
+			average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+			steering_point = (int(average_line[2] + 250), int(average_line[3]))
+		elif left_line.shape[0] == 0 and right_line.shape[0] != 0: # I only have the right line
+			average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+			steering_point = (int(average_line[2] - 250), int(average_line[3]))
+		else: #this is a defualt value
+			steering_point = (500,300)
+		steering_angle = steering_angle + RI.getDriveAngle(steering_point)
+		
+		cv2.circle(lane_image, (steering_point[0], steering_point[1]), 4, (255,255,255), -1) #the color is organized as (blue, green, red)
+		combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
+		# lane_image = cv2.cvtColor(lane_image, cv2.COLOR_RGB2GRAY)
+		combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
+		    # a1 = averaged_lines[0][0], averaged_lines[0][1]
+		    # a2 = averaged_lines[0][2], averaged_lines[0][3]
+		    # b1 = averaged_lines[1][0], averaged_lines[1][1]
+		    # b2 = averaged_lines[1][2], averaged_lines[1][3]
+		    # vanishing_point = RI.intersection_point(a1, a2, b1, b2)
+		    # vanishing_point = (int(round(vanishing_point[0])), int(round(vanishing_point[1])))
+		    # cv2.circle(combo_image, vanishing_point, 5, (0,0, 255), 4)
+
+		    # combo_image = cropped_image_white_lines
+		# else:
+		# 	print("failed?")
+		# 	combo_image = cropped_image_white_lines
+
+	#	plt.imshow(combo_image)
+		#plt.show()
+		#cv2.imshow("result", combo_image)
+		#if cv2.waitKey(1) & 0xFF == ord('q'):
+		#	cap.release()
+		#	cv2.destroyAllWindows()
+		#	print("bar")
+		#	break
+	steering_angle = steering_angle / FRAMES_TO_AVERAGE
+	
+	print(steering_angle)
+	#speed(.05)
+	#steer(steering_angle)
+	#if msvcrt.kbhit():
+	#	if ord(msvcrt.getch()) == 27:
+	#		break
+	#pub.publish(steering_angle)
+	#rate.sleep()
+
