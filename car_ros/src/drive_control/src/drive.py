@@ -58,7 +58,7 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!pid1\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.5\n"
+	init_command = "!speed.4\n"
 	ser.write(init_command.encode())
 
 
