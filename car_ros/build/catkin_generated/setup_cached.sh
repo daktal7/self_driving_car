@@ -7,5 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export PKG_CONFIG_PATH="/home/nvidia/Desktop/class_code/car_ros/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PWD="/home/nvidia/Desktop/class_code/car_ros/build"
+export PKG_CONFIG_PATH="/opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/aarch64-linux-gnu/pkgconfig"
+export PWD="/home/nvidia/Desktop/class_code/self_driving_car/car_ros/build"

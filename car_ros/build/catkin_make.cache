@@ -1,2 +1,2 @@
 drive_control
--DCATKIN_DEVEL_PREFIX=/home/nvidia/Desktop/class_code/car_ros/devel -DCMAKE_INSTALL_PREFIX=/home/nvidia/Desktop/class_code/car_ros/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/nvidia/Desktop/class_code/self_driving_car/car_ros/devel -DCMAKE_INSTALL_PREFIX=/home/nvidia/Desktop/class_code/self_driving_car/car_ros/install -G Unix Makefiles

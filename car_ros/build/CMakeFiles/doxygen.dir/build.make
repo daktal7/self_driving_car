@@ -43,10 +43,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nvidia/Desktop/class_code/car_ros/src
+CMAKE_SOURCE_DIR = /home/nvidia/Desktop/class_code/self_driving_car/car_ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nvidia/Desktop/class_code/car_ros/build
+CMAKE_BINARY_DIR = /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build
 
 # Utility rule file for doxygen.
 
@@ -67,6 +67,6 @@ CMakeFiles/doxygen.dir/clean:
 .PHONY : CMakeFiles/doxygen.dir/clean
 
 CMakeFiles/doxygen.dir/depend:
-	cd /home/nvidia/Desktop/class_code/car_ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nvidia/Desktop/class_code/car_ros/src /home/nvidia/Desktop/class_code/car_ros/src /home/nvidia/Desktop/class_code/car_ros/build /home/nvidia/Desktop/class_code/car_ros/build /home/nvidia/Desktop/class_code/car_ros/build/CMakeFiles/doxygen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nvidia/Desktop/class_code/self_driving_car/car_ros/src /home/nvidia/Desktop/class_code/self_driving_car/car_ros/src /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build/CMakeFiles/doxygen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/doxygen.dir/depend
 

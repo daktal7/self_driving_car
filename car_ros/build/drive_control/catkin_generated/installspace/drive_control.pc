@@ -1,8 +1,8 @@
-prefix=/home/nvidia/Desktop/class_code/car_ros/install
+prefix=/home/nvidia/Desktop/class_code/self_driving_car/car_ros/install
 
 Name: drive_control
 Description: Description of drive_control
 Version: 0.0.0
-Cflags: 
-Libs: -L/home/nvidia/Desktop/class_code/car_ros/install/lib 
+Cflags: -I/home/nvidia/Desktop/class_code/self_driving_car/car_ros/install/include
+Libs: -L/home/nvidia/Desktop/class_code/self_driving_car/car_ros/install/lib 
 Requires: 

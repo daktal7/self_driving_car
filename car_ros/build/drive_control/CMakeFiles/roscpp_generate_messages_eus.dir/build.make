@@ -43,10 +43,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nvidia/Desktop/class_code/car_ros/src
+CMAKE_SOURCE_DIR = /home/nvidia/Desktop/class_code/self_driving_car/car_ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nvidia/Desktop/class_code/car_ros/build
+CMAKE_BINARY_DIR = /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build
 
 # Utility rule file for roscpp_generate_messages_eus.
 
@@ -63,10 +63,10 @@ drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/build: roscpp_generate
 .PHONY : drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/build
 
 drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/clean:
-	cd /home/nvidia/Desktop/class_code/car_ros/build/drive_control && $(CMAKE_COMMAND) -P CMakeFiles/roscpp_generate_messages_eus.dir/cmake_clean.cmake
+	cd /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build/drive_control && $(CMAKE_COMMAND) -P CMakeFiles/roscpp_generate_messages_eus.dir/cmake_clean.cmake
 .PHONY : drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/clean
 
 drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/depend:
-	cd /home/nvidia/Desktop/class_code/car_ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nvidia/Desktop/class_code/car_ros/src /home/nvidia/Desktop/class_code/car_ros/src/drive_control /home/nvidia/Desktop/class_code/car_ros/build /home/nvidia/Desktop/class_code/car_ros/build/drive_control /home/nvidia/Desktop/class_code/car_ros/build/drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nvidia/Desktop/class_code/self_driving_car/car_ros/src /home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build/drive_control /home/nvidia/Desktop/class_code/self_driving_car/car_ros/build/drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : drive_control/CMakeFiles/roscpp_generate_messages_eus.dir/depend
 
