@@ -8,4 +8,7 @@
 	
 	<node pkg="drive_control" type="drive.py" name="drive" output="screen">
 	</node>
+
+    <node pkg="drive_control" type="gpsPublisher.py" name="gps_publisher" output="screen">
+    </node>
 </launch>
