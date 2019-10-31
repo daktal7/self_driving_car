@@ -49,7 +49,7 @@ def twelve():
 	#Might need to go straight still for a bit, then make a left turn
 
 def noIntersection():
-	#print("Somehow got into this function with a intersectionl lane that is not valid")
+	print("no intersection")
 
 
 def useLaneNumber(num):
