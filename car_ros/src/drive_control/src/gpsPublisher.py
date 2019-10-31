@@ -4,6 +4,8 @@
 #import wpManager as wpm
 #from drive_control.msg import gps
 
+#<node pkg="drive_control" type="gpsPublisher.py" name="gps_publisher" output="screen">
+#</node>
 
 
 #def publishIntersection():
