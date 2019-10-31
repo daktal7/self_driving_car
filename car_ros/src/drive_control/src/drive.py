@@ -36,6 +36,10 @@ def drive(speed):
 
 def drive_control():
     rospy.init_node('drive_control', anonymous=False)
+    #subscribe to whatever is checking our intersections
+    #if intersection != -1
+    	#then we need to do something different, large switch statement based on which value we get
+	#else... keep driving like normal
     rospy.Subscriber("steerAngle", Float32, steer)
     rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.spin()

@@ -65,6 +65,8 @@ class drawWaypoint:
 
 #can't use ~/. Need to use the actual path.
 def setWayPoint(imPath,csvPath):
+    #Set it with Jace's GUI, save to a CSV, rename to the same CSV, push the CSV,
+    #then the car will always pull the right points
     imglob = mpimg.imread(imPath)
     rad = 20
     fig = plt.figure()

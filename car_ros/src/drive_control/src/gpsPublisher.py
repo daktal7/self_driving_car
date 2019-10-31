@@ -1,6 +1,7 @@
 #!/usr/bin/env
  
 import rospy
+import wpManager as wpm
 from drive_control.msg import gps
 
 
