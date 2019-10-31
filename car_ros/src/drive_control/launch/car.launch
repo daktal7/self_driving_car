@@ -9,5 +9,4 @@
 	<node pkg="drive_control" type="drive.py" name="drive" output="screen">
 	</node>
 
-  
 </launch>
