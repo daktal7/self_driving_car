@@ -106,9 +106,9 @@ def reachedWP(curLoc, wp):
 #this function returns the index of the intersection we are in, or returns -1 if we aren't in any intersection
 #An intersection is a 2D array or list with four vertices, so this function needs to be a list of 2D arrays or lists
 #curLoc is a tuple
-def reachedIntersection(curLoc, intersections):
-    for i in range(len(intersections)):
-        path = mpltPath.Path(intersections[i])
+def reachedIntersection(curLoc):
+    for i in range(len(INTERSECTIONS)):
+        path = mpltPath.Path(INTERSECTIONS[i])
         if path.contains_point(curLoc):
             return i+1
     return -1

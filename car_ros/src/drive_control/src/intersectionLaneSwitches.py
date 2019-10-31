@@ -48,8 +48,8 @@ def twelve():
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a left turn
 
-def badLane():
-	print("Somehow got into this function with a intersectionl lane that is not valid")
+def noIntersection():
+	#print("Somehow got into this function with a intersectionl lane that is not valid")
 
 
 def useLaneNumber(num):
@@ -68,6 +68,6 @@ def useLaneNumber(num):
 		12: twelve
 	}
 	#get the funciton that we need to call
-	func = switcher.get(num, lambda: badLane)
+	func = switcher.get(num, lambda: noIntersection)
 	#execute the function
 	func()
