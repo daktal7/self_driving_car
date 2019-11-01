@@ -1,4 +1,30 @@
-#!/usr/bin/env
+#!/usr/bin/env python
+
+import rospy
+from std_msgs.msg import Float32
+from drive_control.msg import gps
+
+def publishIntersection():
+	pub = rospy.Publisher('intersection', Float32, queue_size=10)
+	rospy.init_node('intersection_pub', anonymous=False)
+	rate = rospy.Rate(.1)
+	while not rospy.is_shutdown():
+		# grab the gps point
+        # check to see if we're in the intersection
+        # if we are in an intersection, publish where we should turn
+		pub.publish(speed)
+		#if speed >= 0.25:
+		#	speed = 0.05
+		#else:
+		#	speed = speed + 0.05
+		rate.sleep()
+
+
+if __name__ == '__main__':
+	try:
+		publishIntersection()
+	except rospy.ROSInterruptException:
+		pass
  
 #import rospy
 #import wpManager as wpm
