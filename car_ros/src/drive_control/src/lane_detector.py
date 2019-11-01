@@ -188,7 +188,7 @@ class image_displayer:
 		#rate.sleep()	
 
 FRAMES_TO_AVERAGE = 3
-DRIVING_SPEED = 0.27
+DRIVING_SPEED = 0.05
 Frames_since_last_intersection = 110
 
 number_of_slices = 5
