@@ -35,41 +35,21 @@ class image_displayer:
 			canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
 			right_line, left_line = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
 			if right_line.shape[0] != 0:
-				# print(right_line)
 				line_image_right = RI.display_lines_3D(lane_image, right_line, (0,0,255))
-				# x_right_line, y_right_line = RI.stich_lines_of_slices_together(right_line, lane_image)
 			else:
 				line_image_right = lane_image
-				# print("no_right")
 	
 			if left_line.shape[0] != 0:
 				line_image_left = RI.display_lines_3D(lane_image, left_line, (0,255, 0))
-				# x_left_line, y_left_line = RI.stich_lines_of_slices_together(left_line, lane_image)
-				# print()
+				
 			else:
 				line_image_left = lane_image
-				# print("no_left")
-			# print("RIGHT_LINE")
-			# print(right_line)
-			# print("LEFT_LINE")
-			# print(left_line)
+			
 			lines_to_average_right = right_line
-			# print(lines_to_average)
-			# print("left_line.shape")
-			# print(left_line.shape)
-			# print("right_line.shape")
-			# print(right_line.shape)
-			# print("lines_to_average.shape")
+			
 			lines_to_average_right = np.array(lines_to_average_right)
-			# lines_to_average_right = np.average(lines_to_average)
-			# print(lines_to_average_right)
-			# print(lines_to_average.shape)
 			lines_to_average_left = left_line
 			lines_to_average_left = np.array(lines_to_average_left)
-			# lines_to_average_left = np.concatenate((lines_to_average, left_line), axis = 0)
-			# print(lines_to_average)
-			# lines_to_average = np.array(lines_to_average)
-			left_offset = 100 #Lower this again if the lanes is still too close to the right
 			right_offset = -250
 			offset = 0
 			if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
@@ -126,19 +106,7 @@ class image_displayer:
 						#if Frames_since_last_intersection > 100:
 							#excecute turn or straight through intersection
 						print("Found intersection")
-						#	print("Index is: " + str(turnIndex))
-						#	if turnIndex == 0:
-						#		straight_through_intersection()
-						#	elif turnIndex == 1:
-						#		turn_left_through_intersection()
-						#	elif turnIndex == 2:
-						#		straight_through_intersection()
-						#	elif turnIndex == 3:
-						#		turn_right_through_intersection()
-						#	Frames_since_last_intersection = 0
-						#	turnIndex = turnIndex + 1
-						#	if turnIndex > 3:
-						#		turnIndex = 0
+						
 
 
 
@@ -148,21 +116,6 @@ class image_displayer:
 			combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
 			# lane_image = cv2.cvtColor(lane_image, cv2.COLOR_RGB2GRAY)
 			combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
-				# a1 = averaged_lines[0][0], averaged_lines[0][1]
-				# a2 = averaged_lines[0][2], averaged_lines[0][3]
-				# b1 = averaged_lines[1][0], averaged_lines[1][1]
-				# b2 = averaged_lines[1][2], averaged_lines[1][3]
-				# vanishing_point = RI.intersection_point(a1, a2, b1, b2)
-			# vanishing_point = (int(round(vanishing_point[0])), int(round(vanishing_point[1])))
-			    # cv2.circle(combo_image, vanishing_point, 5, (0,0, 255), 4)
-
-				# combo_image = cropped_image_white_lines
-			# else:
-			# 	print("failed?")
-			# 	combo_image = cropped_image_white_lines
-
-			#plt.imshow(combo_image)
-			#plt.show()
 			self.count = 1
 			        
 			#cv2.imshow("result", combo_image)
@@ -176,16 +129,7 @@ class image_displayer:
 		else:
 			self.count = 0
 
-		# toleranceDeg = 5
-		# prevLine = None
-		# prevLineSearchTolerance = 20
-		# RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
-
-		#print(steering_angle)
-		# speed(DRIVING_SPEED)
-		#steer(steering_angle)
-		#pub.publish(steering_angle)
-		#rate.sleep()	
+		
 
 FRAMES_TO_AVERAGE = 3
 DRIVING_SPEED = 0.27
