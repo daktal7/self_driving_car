@@ -133,9 +133,10 @@ turnIndex=0
 # print("Test3")
 steering_angle = 0
 time.sleep(5)
-speed(DRIVING_SPEED)
+
 while(cap.isOpened()):
 	steering_angle = 0
+	speed(DRIVING_SPEED)
 	for x in range(0,FRAMES_TO_AVERAGE):
 		_, frame = cap.read()
 		if frame is None:
