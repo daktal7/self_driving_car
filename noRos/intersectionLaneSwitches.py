@@ -48,12 +48,16 @@ def twelve():
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a left turn
 
+def error():
+	print("Not in an intersection. Got a -1 as input")
+
 def noIntersection():
 	print("no intersection")
 
 
 def useLaneNumber(num):
 	switcher = {
+		-1: error,
 		1: one,
 		2: two,
 		3: three,

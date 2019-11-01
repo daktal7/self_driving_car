@@ -21,10 +21,7 @@ def getCoor(color):
     return (latitude, longitude)
 
 coor = getCoor("Green")
-print(coor)
 
 interNumber = wpm.reachedIntersection(coor)
-print(interNumber)
 
 ils.useLaneNumber(interNumber)
-
