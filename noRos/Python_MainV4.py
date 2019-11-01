@@ -56,11 +56,11 @@ def speed(value):
     ser.write(command.encode())
 
 def steer(value):
-value = int(value)
-if value != steer.prevAngle:
-	prevAngle = value
-    command="!steering" + str(value) + "\n"
-    ser.write(command.encode())
+	value = int(value)
+	if value != steer.prevAngle:
+		prevAngle = value
+		command="!steering" + str(value) + "\n"
+		ser.write(command.encode())
 	
 # Function to correctly exit program
 def handler(signal_received, frame):
