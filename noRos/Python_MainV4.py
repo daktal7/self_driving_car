@@ -9,10 +9,14 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
 # import serial
-import time
 from signal import signal, SIGINT
 #import rospy
 #from std_msgs.msg import Float32
+import intersectionLaneSwitches as ils
+import wpManager as wpm
+import requests
+import time
+
 
 # print("Test 1")
 
@@ -74,6 +78,22 @@ from signal import signal, SIGINT
 # print('Running. Press CTRL-C to exit')
 
 
+
+#the function (copied from Learning Suite) to get you location 
+def getCoor(color):
+    # api-endpoint
+    URL = "http://192.168.1.8:8080/%s" % color
+ 
+    # sending get request and saving the response as response object
+    r = requests.get(url = URL)
+ 
+    # extracting data
+    coorString = r.text
+    coordinates = coorString.split()
+    latitude = float(coordinates[0])
+    longitude = float(coordinates[1])
+    return (latitude, longitude)
+
 def turn_left_through_intersection():
     steer(-25)
     time.sleep(3)
@@ -101,8 +121,8 @@ for num in range(number_of_slices):
 # yellow_pic
 # frame = cv2.imread('color_wheel.png')
 
-#cap = cv2.VideoCapture("roadTest2.avi")
-cap = cv2.VideoCapture("MOVIE_2.avi")
+cap = cv2.VideoCapture("roadTest2.avi")
+#cap = cv2.VideoCapture("MOVIE_2.avi")
 
 #pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
 #rospy.init_node('angleTalker', anonymous=False)
@@ -261,6 +281,12 @@ while(cap.isOpened()):
 	toleranceDeg = 5
 	prevLine = None
 	prevLineSearchTolerance = 20
+
+	#Added this code to find what intersection we are in - Dylan
+	#ils.useLaneNumber(wpm.reachedIntersection(getCoor("Green")))
+
+
+
 	# RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 
 	# print(steering_angle)
