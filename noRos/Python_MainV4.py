@@ -12,9 +12,9 @@ import serial
 from signal import signal, SIGINT
 import rospy
 from std_msgs.msg import Float32
-import intersectionLaneSwitches as ils
-import wpManager as wpm
-import requests
+# import intersectionLaneSwitches as ils
+# import wpManager as wpm
+# import requests
 import time
 
 
