@@ -108,7 +108,7 @@ def straight_through_intersection():
 
 
 FRAMES_TO_AVERAGE = 5
-DRIVING_SPEED = 0.5
+DRIVING_SPEED = 0.01
 
 number_of_slices = 5
 dynamic_coordinates_right = [[[123,123],[123,123],[123,123],[123,123]]]
