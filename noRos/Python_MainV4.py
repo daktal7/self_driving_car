@@ -8,74 +8,74 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
-# import serial
+import serial
 from signal import signal, SIGINT
-#import rospy
-#from std_msgs.msg import Float32
+import rospy
+from std_msgs.msg import Float32
 import intersectionLaneSwitches as ils
 import wpManager as wpm
 import requests
 import time
 
 
-# print("Test 1")
+print("Test 1")
 
-# #############Serial Stuff Setup#############
-# ser = serial.Serial("/dev/ttyUSB0",115200)
-# print("1")
-# ser.flushInput()
-# print("2")
-# time.sleep(2)
-# print("3")
-# init_command = "!start1750\n"
-# print("4")
-# ser.write(init_command.encode())
-# print("5")
-# init_command = "!inits1.5\n"
-# print("6")
-# ser.write(init_command.encode())
-# print("7")
-# init_command = "!kp0.01\n"
-# print("8")
-# ser.write(init_command.encode())
-# print("9")
-# init_command = "!kd0.01\n"
-# print("10")
-# ser.write(init_command.encode())
-# print("11")
-# init_command = "!pid1\n"
-# print("12")
-# ser.write(init_command.encode())
-# print("13")
+#############Serial Stuff Setup#############
+ser = serial.Serial("/dev/ttyUSB0",115200)
+print("1")
+ser.flushInput()
+print("2")
+time.sleep(2)
+print("3")
+init_command = "!start1750\n"
+print("4")
+ser.write(init_command.encode())
+print("5")
+init_command = "!inits1.5\n"
+print("6")
+ser.write(init_command.encode())
+print("7")
+init_command = "!kp0.01\n"
+print("8")
+ser.write(init_command.encode())
+print("9")
+init_command = "!kd0.01\n"
+print("10")
+ser.write(init_command.encode())
+print("11")
+init_command = "!pid1\n"
+print("12")
+ser.write(init_command.encode())
+print("13")
 
 
-# print("test1.5")
+print("test1.5")
 
-# def speed(value):
-#     command="!speed" + str(value) + "\n"
-#     ser.write(command.encode())
+def speed(value):
+    command="!speed" + str(value) + "\n"
+    ser.write(command.encode())
 
-# def steer(value):
-# value = int(value)
-# if value != steer.prevAngle:
-# 	prevAngle = value
-#     command="!steering" + str(value) + "\n"
-#     ser.write(command.encode())
+def steer(value):
+value = int(value)
+if value != steer.prevAngle:
+	prevAngle = value
+    command="!steering" + str(value) + "\n"
+    ser.write(command.encode())
 	
-# # Function to correctly exit program
-# def handler(signal_received, frame):
-#     command = "!speed0\n"
-#     ser.write(command.encode())
-#     cap.release()
-#     print('CTRL-C detected. Exiting gracefully')
-#     exit(0)
+# Function to correctly exit program
+def handler(signal_received, frame):
+    command = "!speed0\n"
+    ser.write(command.encode())
+    cap.release()
+    print('CTRL-C detected. Exiting gracefully')
+    exit(0)
 
-# steer.prevAngle = 0
+steer.prevAngle = 0
 
-# print("test2")
+print("test2")
 
-# signal(SIGINT, handler)
-# print('Running. Press CTRL-C to exit')
+signal(SIGINT, handler)
+print('Running. Press CTRL-C to exit')
 
 
 
@@ -96,15 +96,15 @@ def getCoor(color):
 
 def turn_left_through_intersection():
     steer(-25)
-    time.sleep(3)
+    time.sleep(1.5)
 
 def turn_right_through_intersection():
     steer(25)
-    time.sleep(2.5)
+    time.sleep(1.5)
 
 def straight_through_intersection():
     steer(0)
-    time.sleep(3)
+    time.sleep(1.5)
 
 
 FRAMES_TO_AVERAGE = 5
@@ -120,8 +120,8 @@ for num in range(number_of_slices):
 # start of the Main
 # yellow_pic
 # frame = cv2.imread('color_wheel.png')
-
-cap = cv2.VideoCapture("roadTest2.avi")
+cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
+# cap = cv2.VideoCapture("roadTest2.avi")
 #cap = cv2.VideoCapture("MOVIE_2.avi")
 
 #pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
@@ -271,12 +271,12 @@ while(cap.isOpened()):
 		#plt.show()
 
                 
-		cv2.imshow("result", combo_image)
-		if cv2.waitKey(1) & 0xFF == ord('q'):
-			cap.release()
-			cv2.destroyAllWindows()
-			print("bar")
-			break
+		# cv2.imshow("result", combo_image)
+		# if cv2.waitKey(1) & 0xFF == ord('q'):
+		# 	cap.release()
+		# 	cv2.destroyAllWindows()
+		# 	print("bar")
+		# 	break
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
 	toleranceDeg = 5
 	prevLine = None
@@ -289,9 +289,9 @@ while(cap.isOpened()):
 
 	# RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 
-	# print(steering_angle)
-	# speed(DRIVING_SPEED)
-	# steer(steering_angle)
+	print(steering_angle)
+	speed(DRIVING_SPEED)
+	steer(steering_angle)
 	#pub.publish(steering_angle)
 	#rate.sleep()
 

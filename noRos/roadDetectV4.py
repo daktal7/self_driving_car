@@ -419,7 +419,7 @@ class road_image:
                 dynamic_coordinates_left[n] = left_roi 
                 # print(dynamic_coordinates_left[n])
                 left_line = np.concatenate((left_line, [left_temp_line]), axis = 0)
-            else:
+            else: 
             	#return to default mask
             	dynamic_coordinates_left[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
             if temp_lin_white is not None: # make sure you detected a line
