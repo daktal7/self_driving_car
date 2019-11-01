@@ -108,7 +108,7 @@ def straight_through_intersection():
 
 
 FRAMES_TO_AVERAGE = 5
-DRIVING_SPEED = 0.1
+DRIVING_SPEED = 0.5
 
 number_of_slices = 5
 dynamic_coordinates_right = [[[123,123],[123,123],[123,123],[123,123]]]
@@ -182,7 +182,7 @@ while(cap.isOpened()):
 		# print(lines_to_average)
 		# lines_to_average = np.array(lines_to_average)
 		left_offset = 250
-		right_offset = -250
+		right_offset = -150
 		offset = 0
 		if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
 			average_line_left = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
