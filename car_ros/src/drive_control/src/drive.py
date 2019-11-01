@@ -32,15 +32,17 @@ def steer(angle):
     ser.write(command.encode())
 
 def drive(speed):
+    print("speed ",speed)
     command = "!speed" + str(speed.data) + "\n"
     ser.write(command.encode())
 
 def drive_control():
+    print("drive_control here")
     rospy.init_node('drive_control', anonymous=False)
     #subscribe to whatever is checking our intersections
     #rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
-    #rospy.Subscriber("driveSpeed", Float32, drive)
+    rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.spin()
 
 
@@ -51,9 +53,9 @@ if __name__ == '__main__':
 	ser.flushInput()
 	time.sleep(2)
 
-
+	print("about to init")
 	#will need to change because of new gear ratios
-	init_command = "!start1750\n"
+	init_command = "!start1750\n"# was 1750
 	ser.write(init_command.encode())
 	init_command = "!inits1.5\n"
 	ser.write(init_command.encode())
@@ -65,7 +67,6 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!speed.4\n"
 	ser.write(init_command.encode())
-
 
 	signal(SIGINT, handler)
 	print('Running. Press CTRL-C to exit')
