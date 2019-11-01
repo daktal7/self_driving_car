@@ -127,37 +127,39 @@ class road_image:
         	y1_yellow  = avg_yellow_line[0,1]
         	x2_yellow  = avg_yellow_line[0,2]
         	y2_yellow  = avg_yellow_line[0,3]
-        	lines_to_average = [[[x1_yellow,y1_yellow,x2_yellow,y2_yellow]]]
-        	parameters_yellow_avg = np.polyfit((x1_yellow, x2_yellow), (y1_yellow, y2_yellow), 1)
-	        slope_yellow_avg = parameters_yellow_avg[0]
-	        intercept_yellow_avg = parameters_yellow_avg[1]
-        	for line in lines:
-	            x1, y1, x2, y2 = line.reshape(4)
-	            parameters = np.polyfit((x1, x2), (y1, y2), 1)
-	            if abs(parameters[0] - slope_yellow_avg) < 7:
-	            	angle_slope = road_image.get_slope(line)
-	            	if angle_slope < 150 and angle_slope > 30:
-		            	# print("slope is similar")
-			            if x1 >= x1_yellow + slice_num*6 and x2 >= x2_yellow + slice_num*6:
-			                # print("white line is to the right of the yellow line")
-			                for a in range(20):
-			                	lines_to_average = np.concatenate((lines_to_average, [[[x1, y1, x2, y2]]]), axis = 0)
-        	lines_to_average = np.array(lines_to_average)
-        	average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
-        	# parameters_avg_white_line = np.polyfit((average_line[0], average_line[2]), (average_line[1], average_line[3]), 1)
-        	# average_line = road_image.make_coordinates(image, parameters_avg_white_line, y_values)
-        else:
+            lines_to_average = [[[x1_yellow,y1_yellow,x2_yellow,y2_yellow]]]
+        	result = numpy.isfinite(lines_to_average)
+            if result.all() == False:
+                parameters_yellow_avg = np.polyfit((x1_yellow, x2_yellow), (y1_yellow, y2_yellow), 1)
+    	        slope_yellow_avg = parameters_yellow_avg[0]
+    	        intercept_yellow_avg = parameters_yellow_avg[1]
+            	for line in lines:
+    	            x1, y1, x2, y2 = line.reshape(4)
+    	            parameters = np.polyfit((x1, x2), (y1, y2), 1)
+    	            if abs(parameters[0] - slope_yellow_avg) < 7:
+    	            	angle_slope = road_image.get_slope(line)
+    	            	if angle_slope < 150 and angle_slope > 30:
+    		            	# print("slope is similar")
+    			            if x1 >= x1_yellow + slice_num*6 and x2 >= x2_yellow + slice_num*6:
+    			                # print("white line is to the right of the yellow line")
+    			                for a in range(20):
+    			                	lines_to_average = np.concatenate((lines_to_average, [[[x1, y1, x2, y2]]]), axis = 0)
+            	lines_to_average = np.array(lines_to_average)
+            	average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+            	# parameters_avg_white_line = np.polyfit((average_line[0], average_line[2]), (average_line[1], average_line[3]), 1)
+            	# average_line = road_image.make_coordinates(image, parameters_avg_white_line, y_values)
+                return np.array([average_line])
         	# average_line = [np.average(lines[:,:,0]), np.average(lines[:,:,1]), np.average(lines[:,:,2]), np.average(lines[:,:,3])] #create an average line
-        	for line in lines:
-	            x1, y1, x2, y2 = line.reshape(4)
-	            lines_to_average = [[[x1, y1, x2, y2]]]
-	            angle_slope = road_image.get_slope(line)
-	            if angle_slope < 150 and angle_slope > 30:
-	            	for a in range(20):
-	            		lines_to_average = np.concatenate((lines_to_average, [[[x1, y1, x2, y2]]]), axis = 0)
-        	lines_to_average = np.array(lines_to_average)
-        	average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
-        
+    	for line in lines:
+            x1, y1, x2, y2 = line.reshape(4)
+            lines_to_average = [[[x1, y1, x2, y2]]]
+            angle_slope = road_image.get_slope(line)
+            if angle_slope < 150 and angle_slope > 30:
+            	for a in range(20):
+            		lines_to_average = np.concatenate((lines_to_average, [[[x1, y1, x2, y2]]]), axis = 0)
+    	lines_to_average = np.array(lines_to_average)
+    	average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+    
 
         # x1_middle = (int(round((left_line[0] + right_line[0])/2))) 
         # y1_middle = (int(round((left_line[1] + right_line[1])/2)))
