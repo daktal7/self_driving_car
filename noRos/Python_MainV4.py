@@ -133,7 +133,7 @@ turnIndex=0
 # print("Test3")
 steering_angle = 0
 time.sleep(5)
-#speed(DRIVING_SPEED)
+speed(DRIVING_SPEED)
 while(cap.isOpened()):
 	steering_angle = 0
 	for x in range(0,FRAMES_TO_AVERAGE):
@@ -290,7 +290,7 @@ while(cap.isOpened()):
 	# RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 
 	print(steering_angle)
-	speed(DRIVING_SPEED)
+	
 	steer(steering_angle)
 	#pub.publish(steering_angle)
 	#rate.sleep()
