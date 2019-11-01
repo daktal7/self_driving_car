@@ -43,7 +43,7 @@ init_command = "!kd0.01\n"
 print("10")
 ser.write(init_command.encode())
 print("11")
-init_command = "!pid1\n"
+init_command = "!pid0\n"
 print("12")
 ser.write(init_command.encode())
 print("13")
@@ -108,7 +108,7 @@ def straight_through_intersection():
 
 
 FRAMES_TO_AVERAGE = 5
-DRIVING_SPEED = 0.05
+DRIVING_SPEED = 0.1
 
 number_of_slices = 5
 dynamic_coordinates_right = [[[123,123],[123,123],[123,123],[123,123]]]
@@ -133,10 +133,9 @@ turnIndex=0
 # print("Test3")
 steering_angle = 0
 time.sleep(5)
-
+speed(DRIVING_SPEED)
 while(cap.isOpened()):
 	steering_angle = 0
-	speed(DRIVING_SPEED)
 	for x in range(0,FRAMES_TO_AVERAGE):
 		_, frame = cap.read()
 		if frame is None:
