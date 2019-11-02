@@ -3,6 +3,12 @@
 import rospy
 from std_msgs.msg import Float32
 from drive_control.msg import gps
+import intersectionLaneSwitches as ils
+import wpManager as wpm
+import requests
+import time
+import numpy as np
+#
 
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Float32, queue_size=10)
@@ -10,9 +16,15 @@ def publishIntersection():
 	rate = rospy.Rate(.1)
 	while not rospy.is_shutdown():
 		# grab the gps point
+		
         # check to see if we're in the intersection
+        inter = wpm.reachedIntersection(getCoor("Blue")) #change this to the right color
         # if we are in an intersection, publish where we should turn
-		pub.publish(speed)
+        # -1 is left 0 is straight, 1 is right
+        if inter != -1:
+        		turn = ils.useLaneNumber(inter)
+        		if turn != None
+					pub.publish(turn)
 		#if speed >= 0.25:
 		#	speed = 0.05
 		#else:
