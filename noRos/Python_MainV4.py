@@ -225,7 +225,7 @@ while(cap.isOpened()):
 		        (frame.shape[1], frame.shape[0]), True)
 
 		# write the output frame to disk
-		writer.write(frame)
+		writer.write(combo_image)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
