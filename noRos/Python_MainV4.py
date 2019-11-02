@@ -16,6 +16,10 @@ from std_msgs.msg import Float32
 # import wpManager as wpm
 # import requests
 import time
+import imutils
+
+writer = None
+(W, H) = (None, None)
 
 
 print("Test 1")
@@ -66,6 +70,7 @@ def steer(value):
 def handler(signal_received, frame):
     command = "!speed0\n"
     ser.write(command.encode())
+    writer.release()
     cap.release()
     print('CTRL-C detected. Exiting gracefully')
     exit(0)
@@ -76,8 +81,6 @@ print("test2")
 
 signal(SIGINT, handler)
 print('Running. Press CTRL-C to exit')
-
-
 
 #the function (copied from Learning Suite) to get you location 
 def getCoor(color):
@@ -137,9 +140,13 @@ speed(DRIVING_SPEED)
 while(cap.isOpened()):
 	steering_angle = 0
 	for x in range(0,FRAMES_TO_AVERAGE):
-		_, frame = cap.read()
+		grabbed, frame = cap.read()
 		if frame is None:
 		    break
+	    # if the frame was not grabbed, then we have reached the end
+	    # of the stream
+	    if not grabbed:
+	        break
 
 		image = cv2.resize(frame, (640, 480))
 
@@ -147,40 +154,17 @@ while(cap.isOpened()):
 		canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
 		right_line, left_line = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
 		if right_line.shape[0] != 0:
-			# print(right_line)
 			line_image_right = RI.display_lines_3D(lane_image, right_line, (0,0,255))
-			# x_right_line, y_right_line = RI.stich_lines_of_slices_together(right_line, lane_image)
 		else:
 			line_image_right = lane_image
-			# print("no_right")
-		
 		if left_line.shape[0] != 0:
 			line_image_left = RI.display_lines_3D(lane_image, left_line, (0,255, 0))
-			# x_left_line, y_left_line = RI.stich_lines_of_slices_together(left_line, lane_image)
-			# print()
 		else:
 			line_image_left = lane_image
-			# print("no_left")
-		# print("RIGHT_LINE")
-		# print(right_line)
-		# print("LEFT_LINE")
-		# print(left_line)
 		lines_to_average_right = right_line
-		# print(lines_to_average)
-		# print("left_line.shape")
-		# print(left_line.shape)
-		# print("right_line.shape")
-		# print(right_line.shape)
-		# print("lines_to_average.shape")
 		lines_to_average_right = np.array(lines_to_average_right)
-		# lines_to_average_right = np.average(lines_to_average)
-		# print(lines_to_average_right)
-		# print(lines_to_average.shape)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		# lines_to_average_left = np.concatenate((lines_to_average, left_line), axis = 0)
-		# print(lines_to_average)
-		# lines_to_average = np.array(lines_to_average)
 		left_offset = 250
 		right_offset = -150
 		offset = 0
@@ -192,18 +176,13 @@ while(cap.isOpened()):
 			else:
 				both_lines_to_average = [[average_line_left]]
 				both_lines_to_average = np.concatenate((both_lines_to_average, [[average_line_right]]), axis = 0)
-				# print(both_lines_to_average)
+
 				average_line = [np.average(both_lines_to_average[:,:,0]), np.average(both_lines_to_average[:,:,1]), np.average(both_lines_to_average[:,:,2]), np.average(both_lines_to_average[:,:,3])]
-				# average_line_left = [np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
-				# average_line_right = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1])]
 				if left_line.shape[0] > right_line.shape[0]: # more left lines so adjust it to the right a little
 					offset = 0
-					# print("LEFT")
 				elif left_line.shape[0] < right_line.shape[0]: # more RIGHT lines so adjust it to the LEFT a little
 					offset = 0
-					# print("RIGHT")
 				steering_point = [int(average_line[2] + offset), int(average_line[3])]
-				# print(average_line)
 		elif left_line.shape[0] != 0 and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
 			steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
@@ -227,70 +206,32 @@ while(cap.isOpened()):
 		prevLineSearchTolerance = 20
 		# closest_line_found = RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 		intersection_theshold = 410
-		# if closest_line_found is not None:
-		# 	if len(closest_line_found) > 1:
-		# 		print(closest_line_found)
-		# 		if closest_line_found.any() > intersection_theshold:
-		# 			#excecute turn or straight through intersection
-		# 			print("Found intersection")
-		# 			if turnIndex == 0:
-		# 				straight_through_intersection()
-		# 			elif turnIndex == 1:
-		# 				turn_left_through_intersection()
-		# 			elif turnIndex == 2:
-		# 				straight_through_intersection()
-		# 			elif turnIndex == 3:
-		# 				turn_right_through_intersection()
-
 		turnIndex = turnIndex+1
 		if turnIndex > 3:
 			turnIndex = 0
 					
-
-
-					 
-		# print(steering_point)
 		cv2.circle(lane_image, (steering_point[0], steering_point[1]), 10, (255,255,255), -1) #the color is organized as (blue, green, red)
 		combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
-		# lane_image = cv2.cvtColor(lane_image, cv2.COLOR_RGB2GRAY)
 		combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
-		    # a1 = averaged_lines[0][0], averaged_lines[0][1]
-		    # a2 = averaged_lines[0][2], averaged_lines[0][3]
-		    # b1 = averaged_lines[1][0], averaged_lines[1][1]
-		    # b2 = averaged_lines[1][2], averaged_lines[1][3]
-		    # vanishing_point = RI.intersection_point(a1, a2, b1, b2)
-	    # vanishing_point = (int(round(vanishing_point[0])), int(round(vanishing_point[1])))
-            # cv2.circle(combo_image, vanishing_point, 5, (0,0, 255), 4)
 
-		    # combo_image = cropped_image_white_lines
-		# else:
-		# 	print("failed?")
-		# 	combo_image = cropped_image_white_lines
+	    if W is None or H is None:
+	        (H, W) = frame.shape[:2]
 
-	#	plt.imshow(combo_image)
-		#plt.show()
+	    # check if the video writer is None
+	    if writer is None:
+	        # initialize our video writer
+	        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+	        writer = cv2.VideoWriter("Zach_Wes_test.avi", fourcc, 30,
+	            (frame.shape[1], frame.shape[0]), True)
+	 
+	    # write the output frame to disk
+	    writer.write(frame)
 
-                
-		# cv2.imshow("result", combo_image)
-		# if cv2.waitKey(1) & 0xFF == ord('q'):
-		# 	cap.release()
-		# 	cv2.destroyAllWindows()
-		# 	print("bar")
-		# 	break
+			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
 	toleranceDeg = 5
 	prevLine = None
 	prevLineSearchTolerance = 20
-
-	#Added this code to find what intersection we are in - Dylan
-	#ils.useLaneNumber(wpm.reachedIntersection(getCoor("Green")))
-
-
-
-	# RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
-
-	print(steering_angle)
-	
 	steer(steering_angle)
 	#pub.publish(steering_angle)
 	#rate.sleep()
