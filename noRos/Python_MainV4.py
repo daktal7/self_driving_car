@@ -152,7 +152,7 @@ while(cap.isOpened()):
 
 		lane_image = np.copy(image)
 		canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
-		right_line, left_line = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
+		right_line, left_line, dynamic_roi_right = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
 		if right_line.shape[0] != 0:
 			line_image_right = RI.display_lines_3D(lane_image, right_line, (0,0,255))
 		else:
@@ -192,7 +192,7 @@ while(cap.isOpened()):
 			steering_point = [int(average_line[2] + right_offset), int(average_line[3])]
 			
 		else: #this is a defualt value
-			steering_point = (500,300)
+			steering_point = (420,300)
 
 		fudge_factor = 50
 		if steering_point[0] > lane_image.shape[1] + fudge_factor:
@@ -225,7 +225,7 @@ while(cap.isOpened()):
 		        (frame.shape[1], frame.shape[0]), True)
 
 		# write the output frame to disk
-		writer.write(combo_image)
+		writer.write(dynamic_roi_right)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
