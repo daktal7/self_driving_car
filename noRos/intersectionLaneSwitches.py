@@ -9,7 +9,7 @@ inter5 = [317, 852]
 inter6 = [567, 903]
 inter7 = [625, 627]
 inter8 = [365, 591]
-wayPoints = np.array([[365, 591]])
+wayPoints = np.array([inter5, inter6])
 
 bacon = 0
 
