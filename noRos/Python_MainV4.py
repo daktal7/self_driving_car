@@ -225,6 +225,7 @@ while(cap.isOpened()):
 		        (640, 480), True)
 
 		# write the output frame to disk
+		dynamic_roi_right = cv2.cvtColor(dynamic_roi_right, cv2.COLOR_GRAY2RGB)
 		dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
 		writer.write(dynamic_roi_right_resized)
 
