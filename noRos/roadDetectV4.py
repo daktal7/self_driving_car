@@ -123,12 +123,12 @@ class road_image:
             return np.array([average_line])
         
         if avg_yellow_line != []: # this means I passsed it a yellow line to compare against which means this is the white line case
-        	x1_yellow  = avg_yellow_line[0,0]
-        	y1_yellow  = avg_yellow_line[0,1]
-        	x2_yellow  = avg_yellow_line[0,2]
-        	y2_yellow  = avg_yellow_line[0,3]
+            x1_yellow  = avg_yellow_line[0,0]
+            y1_yellow  = avg_yellow_line[0,1]
+            x2_yellow  = avg_yellow_line[0,2]
+            y2_yellow  = avg_yellow_line[0,3]
             lines_to_average = [[[x1_yellow,y1_yellow,x2_yellow,y2_yellow]]]
-        	result = numpy.isfinite(lines_to_average)
+            result = numpy.isfinite(lines_to_average)
             if result.all() == False:
                 parameters_yellow_avg = np.polyfit((x1_yellow, x2_yellow), (y1_yellow, y2_yellow), 1)
     	        slope_yellow_avg = parameters_yellow_avg[0]

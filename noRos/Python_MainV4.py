@@ -27,11 +27,11 @@ ser.flushInput()
 print("2")
 time.sleep(2)
 print("3")
-init_command = "!start1750\n"
+init_command = "!start1650\n"
 print("4")
 ser.write(init_command.encode())
 print("5")
-init_command = "!inits1.5\n"
+init_command = "!inits0.2\n"
 print("6")
 ser.write(init_command.encode())
 print("7")
@@ -108,7 +108,7 @@ def straight_through_intersection():
 
 
 FRAMES_TO_AVERAGE = 5
-DRIVING_SPEED = 0.5
+DRIVING_SPEED = 0.2
 
 number_of_slices = 5
 dynamic_coordinates_right = [[[123,123],[123,123],[123,123],[123,123]]]
