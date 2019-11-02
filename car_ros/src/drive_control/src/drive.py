@@ -18,6 +18,14 @@ import os
 import gc
 import intersectionLaneSwitches as inter
 
+DRIVE_LOCK = False
+
+def intersect(turn):
+    command = "!speed0\n"
+    ser.write(command.encode())
+    while True:
+        print("in intersection, turn: ", turn)
+
 # Function to correctly exit program
 def handler(signal_received, frame):
     command = "!speed0\n"
@@ -27,14 +35,16 @@ def handler(signal_received, frame):
     exit(0)
 
 def steer(angle):
-    print(angle.data)
-    command = "!steering" + str(angle.data) + "\n"
-    ser.write(command.encode())
+    if not DRIVE_LOCK:
+        print(angle.data)
+        command = "!steering" + str(angle.data) + "\n"
+        ser.write(command.encode())
 
 def drive(speed):
-    print("speed ",speed)
-    command = "!speed" + str(speed.data) + "\n"
-    ser.write(command.encode())
+    if not DRIVE_LOCK:
+        print("speed ",speed)
+        command = "!speed" + str(speed.data) + "\n"
+        ser.write(command.encode())
 
 def drive_control():
     print("drive_control here")
@@ -43,9 +53,8 @@ def drive_control():
     #rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
     rospy.Subscriber("driveSpeed", Float32, drive)
+    rospy.Subscriber("intersection", Float32, intersect)
     rospy.spin()
-
-
 
 if __name__ == '__main__':
 # initialize communication with the arduino
