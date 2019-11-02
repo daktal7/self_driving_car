@@ -4,6 +4,7 @@ import intersectionLaneSwitches as ils
 import wpManager as wpm
 import requests
 import time
+import numpy as np
 
 #the function (copied from Learning Suite) to get you location 
 def getCoor(color):
@@ -20,8 +21,11 @@ def getCoor(color):
     longitude = float(coordinates[1])
     return (latitude, longitude)
 
-coor = getCoor("Green")
 
-interNumber = wpm.reachedIntersection(coor)
 
-ils.useLaneNumber(interNumber)
+
+
+
+
+
+ils.useLaneNumber(wpm.reachedIntersection(getCoor("Blue")))
