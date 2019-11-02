@@ -23,7 +23,7 @@ def publishIntersection():
         # -1 is left 0 is straight, 1 is right
 		if inter != -1:
 			turn = ils.useLaneNumber(inter)
-			if turn is not None
+			if turn is not None:
 				pub.publish(turn)
 		#if speed >= 0.25:
 		#	speed = 0.05
