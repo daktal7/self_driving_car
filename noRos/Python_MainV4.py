@@ -168,22 +168,22 @@ while(cap.isOpened()):
 		left_offset = 250
 		right_offset = -150
 		offset = 0
-		if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
-			average_line_left = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
-			average_line_right = [np.average(lines_to_average_right[:,:,0]), np.average(lines_to_average_right[:,:,1]), np.average(lines_to_average_right[:,:,2]), np.average(lines_to_average_right[:,:,3])]
-			if average_line_right[0] < average_line_left[0] or average_line_right[2] < average_line_left[2] or average_line_right[1] < average_line_left[2] or average_line_right[2] < average_line_left[1]:
-				steering_point = [int(average_line_left[2] + left_offset), int(average_line_left[3])]
-			else:
-				both_lines_to_average = [[average_line_left]]
-				both_lines_to_average = np.concatenate((both_lines_to_average, [[average_line_right]]), axis = 0)
+		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
+		# 	average_line_left = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
+		# 	average_line_right = [np.average(lines_to_average_right[:,:,0]), np.average(lines_to_average_right[:,:,1]), np.average(lines_to_average_right[:,:,2]), np.average(lines_to_average_right[:,:,3])]
+		# 	if average_line_right[0] < average_line_left[0] or average_line_right[2] < average_line_left[2] or average_line_right[1] < average_line_left[2] or average_line_right[2] < average_line_left[1]:
+		# 		steering_point = [int(average_line_left[2] + left_offset), int(average_line_left[3])]
+		# 	else:
+		# 		both_lines_to_average = [[average_line_left]]
+		# 		both_lines_to_average = np.concatenate((both_lines_to_average, [[average_line_right]]), axis = 0)
 
-				average_line = [np.average(both_lines_to_average[:,:,0]), np.average(both_lines_to_average[:,:,1]), np.average(both_lines_to_average[:,:,2]), np.average(both_lines_to_average[:,:,3])]
-				if left_line.shape[0] > right_line.shape[0]: # more left lines so adjust it to the right a little
-					offset = 0
-				elif left_line.shape[0] < right_line.shape[0]: # more RIGHT lines so adjust it to the LEFT a little
-					offset = 0
-				steering_point = [int(average_line[2] + offset), int(average_line[3])]
-		elif left_line.shape[0] != 0 and right_line.shape[0] == 0: # I only have the left line
+		# 		average_line = [np.average(both_lines_to_average[:,:,0]), np.average(both_lines_to_average[:,:,1]), np.average(both_lines_to_average[:,:,2]), np.average(both_lines_to_average[:,:,3])]
+		# 		if left_line.shape[0] > right_line.shape[0]: # more left lines so adjust it to the right a little
+		# 			offset = 0
+		# 		elif left_line.shape[0] < right_line.shape[0]: # more RIGHT lines so adjust it to the LEFT a little
+		# 			offset = 0
+		# 		steering_point = [int(average_line[2] + offset), int(average_line[3])]
+		if left_line.shape[0] != 0:# and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
 			steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
 
@@ -225,9 +225,9 @@ while(cap.isOpened()):
 		        (640, 480), True)
 
 		# write the output frame to disk
-		dynamic_roi_right = cv2.cvtColor(dynamic_roi_right, cv2.COLOR_GRAY2RGB)
-		dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
-		writer.write(dynamic_roi_right_resized)
+		# dynamic_roi_right = cv2.cvtColor(dynamic_roi_right, cv2.COLOR_GRAY2RGB)
+		# dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
+		writer.write(combo_image)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
