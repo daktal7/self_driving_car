@@ -10,6 +10,7 @@ def publishSpeed():
 	speed = 0.0
 	while not rospy.is_shutdown():
 		#print("publishing speed")
+		rospy.loginfo(speed)
 		pub.publish(speed)
 		#if speed >= 0.25:
 		#	speed = 0.05

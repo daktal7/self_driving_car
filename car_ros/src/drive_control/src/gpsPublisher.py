@@ -27,6 +27,7 @@ def publishIntersection():
 			#if turn is not None:
 			#	pub.publish(turn)
 			print("reached intersection ", inter)
+			rospy.loginfo(inter)
 			pub.publish(inter)
 		#if speed >= 0.25:
 		#	speed = 0.05
