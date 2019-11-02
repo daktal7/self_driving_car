@@ -31,7 +31,7 @@ init_command = "!start1650\n"
 print("4")
 ser.write(init_command.encode())
 print("5")
-init_command = "!inits1\n"
+init_command = "!inits0.6\n"
 print("6")
 ser.write(init_command.encode())
 print("7")
