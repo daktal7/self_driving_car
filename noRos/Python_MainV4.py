@@ -31,7 +31,7 @@ ser.flushInput()
 print("2")
 time.sleep(2)
 print("3")
-init_command = "!start1625\n"
+init_command = "!start1615\n"
 print("4")
 ser.write(init_command.encode())
 print("5")

@@ -128,7 +128,7 @@ class road_image:
             x2_yellow  = avg_yellow_line[0,2]
             y2_yellow  = avg_yellow_line[0,3]
             lines_to_average = [[[x1_yellow,y1_yellow,x2_yellow,y2_yellow]]]
-            result = numpy.isfinite(lines_to_average)
+            result = np.isfinite(lines_to_average)
             if result.all() == False:
                 parameters_yellow_avg = np.polyfit((x1_yellow, x2_yellow), (y1_yellow, y2_yellow), 1)
     	        slope_yellow_avg = parameters_yellow_avg[0]
