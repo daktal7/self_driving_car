@@ -110,7 +110,7 @@ def straight_through_intersection():
     time.sleep(1.5)
 
 
-FRAMES_TO_AVERAGE = 5
+FRAMES_TO_AVERAGE = 1
 DRIVING_SPEED = 0.2
 
 number_of_slices = 5
