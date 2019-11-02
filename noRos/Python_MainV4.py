@@ -222,10 +222,11 @@ while(cap.isOpened()):
 		    # initialize our video writer
 		    fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 		    writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
-		        (frame.shape[1], frame.shape[0]), True)
+		        (640, 480), True)
 
 		# write the output frame to disk
-		writer.write(dynamic_roi_right)
+		dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
+		writer.write(dynamic_roi_right_resized)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
