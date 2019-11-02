@@ -214,18 +214,18 @@ while(cap.isOpened()):
 		combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
 		combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
 
-	    if W is None or H is None:
-	        (H, W) = frame.shape[:2]
+		if W is None or H is None:
+		    (H, W) = frame.shape[:2]
 
-	    # check if the video writer is None
-	    if writer is None:
-	        # initialize our video writer
-	        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-	        writer = cv2.VideoWriter("Zach_Wes_test.avi", fourcc, 30,
-	            (frame.shape[1], frame.shape[0]), True)
-	 
-	    # write the output frame to disk
-	    writer.write(frame)
+		# check if the video writer is None
+		if writer is None:
+		    # initialize our video writer
+		    fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+		    writer = cv2.VideoWriter("Zach_Wes_test.avi", fourcc, 30,
+		        (frame.shape[1], frame.shape[0]), True)
+
+		# write the output frame to disk
+		writer.write(frame)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
