@@ -214,8 +214,8 @@ while(cap.isOpened()):
 		combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
 		combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
 
-		if W is None or H is None:
-		    (H, W) = frame.shape[:2]
+		# if W is None or H is None:
+		#     (H, W) = frame.shape[:2]
 
 		# check if the video writer is None
 		if writer is None:
@@ -226,7 +226,7 @@ while(cap.isOpened()):
 
 		# write the output frame to disk
 		dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
-		writer.write(dynamic_roi_right_resized)
+		writer.write(image)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
