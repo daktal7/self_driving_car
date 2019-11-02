@@ -321,7 +321,7 @@ class road_image:
         width = image.shape[1]
         white = np.array([[(500, 460), (640, 460), (640, 190), (300, 190)]])
         yellow = np.array([[(0, 460), (640-350, 460), (640-350, 190), (0, 190)]])
-        sky = np.array([[(0, 190), (0, 470), (640, 470), (640, 190)]])
+        sky = np.array([[(0, 190), (0, 450), (640, 450), (640, 190)]])
         mask = np.zeros_like(image)
         if color == "SKY":
         	cv2.fillPoly(mask, sky, 255)
@@ -387,6 +387,8 @@ class road_image:
             temp_im_white_lines = road_image.image_slices(canny_white, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
             temp_im_yellow_lines = road_image.image_slices(canny_yellow, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
             original_image_slice_image = road_image.image_slices(original_image, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'),"RGB")
+            temp_im_yellow_lines = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
+            temp_im_white_lines = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
             dynamic_roi_left = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "YELLOW")
             dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "WHITE")
 
