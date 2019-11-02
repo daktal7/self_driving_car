@@ -143,10 +143,10 @@ while(cap.isOpened()):
 		grabbed, frame = cap.read()
 		if frame is None:
 		    break
-	    # if the frame was not grabbed, then we have reached the end
-	    # of the stream
-	    if not grabbed:
-	        break
+		# if the frame was not grabbed, then we have reached the end
+		# of the stream
+		if not grabbed:
+		    break
 
 		image = cv2.resize(frame, (640, 480))
 
