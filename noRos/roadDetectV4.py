@@ -321,7 +321,7 @@ class road_image:
         width = image.shape[1]
         white = np.array([[(500, 460), (640, 460), (640, 190), (300, 190)]])
         yellow = np.array([[(0, 460), (640-350, 460), (640-350, 190), (0, 190)]])
-        sky = np.array([[(0, 190), (0, 450), (640, 450), (640, 190)]])
+        sky = np.array([[(0, 190), (0, 430), (640, 430), (640, 190)]])
         mask = np.zeros_like(image)
         if color == "SKY":
         	cv2.fillPoly(mask, sky, 255)
