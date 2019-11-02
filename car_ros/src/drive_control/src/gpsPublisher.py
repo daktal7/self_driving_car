@@ -8,6 +8,7 @@ import wpManager as wpm
 import requests
 import time
 import numpy as np
+import testIntersections as ti
 #
 
 def publishIntersection():
@@ -18,13 +19,15 @@ def publishIntersection():
 		# grab the gps point
 		
         # check to see if we're in the intersection
-		inter = wpm.reachedIntersection(getCoor("Blue")) #change this to the right color
+		inter = wpm.reachedIntersection(ti.getCoor("Green")) #change this to the right color
         # if we are in an intersection, publish where we should turn
         # -1 is left 0 is straight, 1 is right
 		if inter != -1:
-			turn = ils.useLaneNumber(inter)
-			if turn is not None:
-				pub.publish(turn)
+			#turn = ils.useLaneNumber(inter)
+			#if turn is not None:
+			#	pub.publish(turn)
+			print("reached intersection ", inter)
+			pub.publish(inter)
 		#if speed >= 0.25:
 		#	speed = 0.05
 		#else:

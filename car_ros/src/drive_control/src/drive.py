@@ -39,7 +39,7 @@ def handler(signal_received, frame):
 def steer(angle):
     global DRIVE_LOCK
     if not DRIVE_LOCK:
-        print(angle.data)
+        #print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
