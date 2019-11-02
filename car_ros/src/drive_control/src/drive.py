@@ -23,6 +23,8 @@ DRIVE_LOCK = False
 def intersect(turn):
     command = "!speed0\n"
     ser.write(command.encode())
+    global DRIVE_LOCK
+    DRIVE_LOCK = True
     while True:
         print("in intersection, turn: ", turn)
 
@@ -35,12 +37,14 @@ def handler(signal_received, frame):
     exit(0)
 
 def steer(angle):
+    global DRIVE_LOCK
     if not DRIVE_LOCK:
         print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
 def drive(speed):
+    global DRIVE_LOCK
     if not DRIVE_LOCK:
         print("speed ",speed)
         command = "!speed" + str(speed.data) + "\n"
