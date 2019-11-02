@@ -8,6 +8,7 @@ import wpManager as wpm
 import requests
 import time
 import numpy as np
+#
 
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Float32, queue_size=10)
