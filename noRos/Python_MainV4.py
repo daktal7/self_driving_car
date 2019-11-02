@@ -226,7 +226,7 @@ while(cap.isOpened()):
 
 		# write the output frame to disk
 		dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
-		writer.write(image)
+		writer.write(dynamic_roi_right_resized)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
