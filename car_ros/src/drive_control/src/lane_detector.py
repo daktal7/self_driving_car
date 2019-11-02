@@ -103,10 +103,10 @@ class image_displayer:
 				# print(closest_line_found)
 				if closest_line_found[0][0][1] > intersection_theshold:
 					avg_thing = (closest_line_found[0][0][0] + closest_line_found[0][0][2])/ 2
-					if avg_thing - 50 < intersection_theshold_x and avg_thing + 50 > intersection_theshold_x:
+					if avg_thing - 50 < intersection_theshold_x and avg_thing + 50 > intersection_theshold_x:						
 						#if Frames_since_last_intersection > 100:
 							#excecute turn or straight through intersection
-						print("Found intersection")
+						print("lD")
 						
 
 

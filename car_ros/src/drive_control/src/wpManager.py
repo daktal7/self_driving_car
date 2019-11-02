@@ -55,7 +55,7 @@ class drawWaypoint:
                 self.wayPoints = np.append(self.wayPoints,[(len(self.im[0,:])-ix,iy)],axis=0)
             self.fig.canvas.draw()
 
-    def print(self):
+    def __print__(self):
         print(self.wayPoints)
 
     def writeCSV(self,path):
@@ -76,7 +76,7 @@ def setWayPoint(imPath,csvPath):
     plt.imshow(imglob)
     plt.show()
 
-    wp.print()
+    wp.__print__()
 
     wp.writeCSV(csvPath)
 

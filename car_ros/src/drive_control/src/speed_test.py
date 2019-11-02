@@ -7,7 +7,7 @@ def publishSpeed():
 	pub = rospy.Publisher('driveSpeed', Float32, queue_size=10)
 	rospy.init_node('speedTalker', anonymous=False)
 	rate = rospy.Rate(.1)
-	speed = 0.2
+	speed = 0.0
 	while not rospy.is_shutdown():
 		#print("publishing speed")
 		pub.publish(speed)
