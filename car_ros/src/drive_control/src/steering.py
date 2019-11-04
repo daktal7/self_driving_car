@@ -20,14 +20,15 @@ p2_world = [-19.7, 39.5]
 p3_world = [19.7, 39.5]
 p4_world = [19.7, 78.9]
 
-p1_im = np.array([131/640, 276/480])*np.array([IMWIDTH,IMHEIGHT])
-p2_im = np.array([112/640, 387/480])*np.array([IMWIDTH,IMHEIGHT])
-p3_im = np.array([592/640, 392/480])*np.array([IMWIDTH,IMHEIGHT])
-p4_im = np.array([471/640, 281/480])*np.array([IMWIDTH,IMHEIGHT])
+p1_im = np.array([131.0/640, 276.0/480])*np.array([IMWIDTH,IMHEIGHT])
+p2_im = np.array([112.0/640, 387.0/480])*np.array([IMWIDTH,IMHEIGHT])
+p3_im = np.array([592.0/640, 392.0/480])*np.array([IMWIDTH,IMHEIGHT])
+p4_im = np.array([471.0/640, 281.0/480])*np.array([IMWIDTH,IMHEIGHT])
 
 src = np.array([p1_im, p2_im, p3_im, p4_im])
 dst = np.array([p1_world, p2_world, p3_world, p4_world])
-
+print("src", src)
+print("dst", dst)
 homMat,_ = cv2.findHomography(src,dst,method=0)
 
     # pt is just an array of size 2, [x,y]
@@ -56,6 +57,7 @@ def getDriveAngle(pt):
     return getDriveAngleHom(pt)
 
 def testHom():
+    print("hom Mat", homMat)
     tp1 = [343,320]
     tp2 = [62, 446]
     tp3 = [616, 443]
