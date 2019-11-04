@@ -380,14 +380,15 @@ class road_image:
         right_line = np.array([[[0,0,0,0]]])
         left_line = np.array([[[0,0,0,0]]])
         left_temp_line = []
-        canny_yellow = road_image.region_of_interest(canny_yellow, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
-        canny_white = road_image.region_of_interest(canny_white, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
+
         for n in range(resolution, int(resolution - resolution*.9), -1):
             y_beg = n*dy
             y_end = n*dy+dy
             temp_im_white_lines = road_image.image_slices(canny_white, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
             temp_im_yellow_lines = road_image.image_slices(canny_yellow, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
             original_image_slice_image = road_image.image_slices(original_image, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'),"RGB")
+            temp_im_yellow_lines = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
+            temp_im_white_lines = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
             dynamic_roi_left = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "YELLOW")
             dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "WHITE")
 
