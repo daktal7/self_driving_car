@@ -71,6 +71,7 @@ def handler(signal_received, frame):
     command = "!speed0\n"
     ser.write(command.encode())
     writer.release()
+    writer_2.release()
     cap.release()
     print('CTRL-C detected. Exiting gracefully')
     exit(0)
@@ -130,7 +131,7 @@ cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
 #pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
 #rospy.init_node('angleTalker', anonymous=False)
 #rate = rospy.Rate(10)
-for x in range(1000):
+for x in range(100):
 	speed(0)
 	x = 1+x
 
@@ -168,7 +169,7 @@ while(cap.isOpened()):
 		lines_to_average_right = np.array(lines_to_average_right)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		left_offset = 80
+		left_offset = 100
 		right_offset = -150
 		offset = 0
 		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
@@ -227,11 +228,18 @@ while(cap.isOpened()):
 		    fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 		    writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
 		        (640, 480), True)
+		if writer_2 is None:
+		    # initialize our video writer
+		    fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+		    writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
+		        (640, 480), True)
 
 		# write the output frame to disk
 		test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
 		test_image_resized = cv2.resize(test_image, (640, 480))
 		writer.write(test_image_resized)
+
+		writer_2.write(combo_image)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
