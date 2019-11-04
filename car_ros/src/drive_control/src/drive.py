@@ -69,6 +69,7 @@ def intersect(turn):
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
+	DRIVE_LOCK = False
 
 def drive_control():
     print("drive_control here")
