@@ -228,9 +228,9 @@ while(cap.isOpened()):
 		        (640, 480), True)
 
 		# write the output frame to disk
-		# dynamic_roi_right = cv2.cvtColor(dynamic_roi_right, cv2.COLOR_GRAY2RGB)
-		# dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
-		writer.write(test_image)
+		test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
+		test_image_resized = cv2.resize(test_image, (640, 480))
+		writer.write(test_image_resized)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
