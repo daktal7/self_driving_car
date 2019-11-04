@@ -167,7 +167,7 @@ while(cap.isOpened()):
 		lines_to_average_right = np.array(lines_to_average_right)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		left_offset = 150
+		left_offset = 80
 		right_offset = -150
 		offset = 0
 		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
@@ -187,7 +187,7 @@ while(cap.isOpened()):
 		# 		steering_point = [int(average_line[2] + offset), int(average_line[3])]
 		if left_line.shape[0] != 0:# and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
-			steering_point = [int(average_line[2] + left_offset), int(average_line[3] + left_offset)]
+			steering_point = [int(average_line[2] + left_offset), int(average_line[3] + 50)]
 			
 
 		elif left_line.shape[0] == 0 and right_line.shape[0] != 0: # I only have the right line
