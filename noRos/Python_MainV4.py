@@ -170,7 +170,7 @@ while(cap.isOpened()):
 		lines_to_average_right = np.array(lines_to_average_right)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		left_offset = 105
+		left_offset = 95
 		right_offset = -150
 		offset = 0
 		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
@@ -238,9 +238,9 @@ while(cap.isOpened()):
 		# write the output frame to disk
 		test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
 		test_image_resized = cv2.resize(test_image, (640, 480))
-		writer.write(test_image_resized)
+		writer.write(combo_image)
 
-		writer_2.write(combo_image)
+		writer_2.write(test_image_resized)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE
