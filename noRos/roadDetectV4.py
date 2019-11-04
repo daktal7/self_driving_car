@@ -380,8 +380,8 @@ class road_image:
         right_line = np.array([[[0,0,0,0]]])
         left_line = np.array([[[0,0,0,0]]])
         left_temp_line = []
-        canny_yellow = road_image.region_of_interest(canny_yellow, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
-        canny_white = road_image.region_of_interest(canny_white, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
+        canny_yellow = road_image.region_of_interest(canny_yellow, original_image, n, dynamic_coordinates_left, "SKY")
+        canny_white = road_image.region_of_interest(canny_white, original_image, n, dynamic_coordinates_left, "SKY")
         for n in range(resolution, int(resolution - resolution*.9), -1):
             y_beg = n*dy
             y_end = n*dy+dy
