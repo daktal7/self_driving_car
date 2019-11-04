@@ -55,8 +55,6 @@ def go_straight():
 
 def intersect(turn):
     print("in drive intersection")
-    command = "!speed0\n"
-    ser.write(command.encode())
     global DRIVE_LOCK
     DRIVE_LOCK = True
     if turn.data == -1:

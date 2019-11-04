@@ -181,7 +181,7 @@ def noIntersection():
 
 
 def useLaneNumber(num):
-	print("using lane number" + str(num))
+	print("using lane number")
 	switcher = {
 		1: one,
 		2: two,
