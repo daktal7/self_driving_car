@@ -256,18 +256,18 @@ class road_image:
         saturation = im[:, :, 1] #this is the saturation
         value = im[:, :, 2] #this is the value
 
-        lower_hue_bound = 21
-        upper_hue_bound = 27
+        lower_hue_bound = 20
+        upper_hue_bound = 28
         ret1, thresh1 = cv2.threshold(hue,lower_hue_bound,255,cv2.THRESH_BINARY)
         ret2, thresh2 = cv2.threshold(hue,upper_hue_bound,255,cv2.THRESH_BINARY_INV)
         hueCombine = cv2.bitwise_and(thresh1,thresh2)
-        lower_sat_bound = 165
+        lower_sat_bound = 160
         upper_sat_bound = 255
         ret1, sat_thresh1 = cv2.threshold(saturation,lower_sat_bound,255,cv2.THRESH_BINARY)
         ret2, sat_thresh2 = cv2.threshold(saturation,upper_sat_bound,255,cv2.THRESH_BINARY_INV)
         satCombine = cv2.bitwise_and(sat_thresh1,sat_thresh2)
-        lower_val_bound = 130
-        upper_val_bound = 220
+        lower_val_bound = 125
+        upper_val_bound = 225
         ret1, val_thresh1 = cv2.threshold(value,lower_val_bound,255,cv2.THRESH_BINARY)
         ret2, val_thresh2 = cv2.threshold(value,upper_val_bound,255,cv2.THRESH_BINARY_INV)
         valCombine = cv2.bitwise_and(val_thresh1,val_thresh2)
@@ -391,8 +391,8 @@ class road_image:
             dynamic_roi_left = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
             dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "SKY")
 
-            temp_lin_white = cv2.HoughLinesP(temp_im_white_lines, rho=1, theta=np.pi/180, threshold=int(180/n), lines=np.array([]), minLineLength=int(n*8), maxLineGap=n*3)
-            temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=1, theta=np.pi/180, threshold=int(50/n), lines=np.array([]), minLineLength=int(n*5), maxLineGap=n*4)
+            temp_lin_white = cv2.HoughLinesP(temp_im_white_lines, rho=1, theta=np.pi/180, threshold=int(180/n), lines=np.array([]), minLineLength=int(n*7), maxLineGap=n*3)
+            temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=1, theta=np.pi/180, threshold=int(50/n), lines=np.array([]), minLineLength=int(n*5), maxLineGap=n*5)
             y_values = [y_beg, y_end]
             if temp_lin_yellow is not None: # make sure you detected a line
                 # print("Here")
