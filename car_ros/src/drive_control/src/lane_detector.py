@@ -85,7 +85,7 @@ class image_displayer:
 				steering_point[0] = lane_image.shape[1] + fudge_factor
 			if steering_point[1] > lane_image.shape[0] + fudge_factor:
 				steering_point[1] = lane_image.shape[0] + fudge_factor
-			steering_angle = steering_angle + RI.getDriveAngle(steering_point)
+			steering_angle = RI.getDriveAngle(steering_point)
 			# Check for intersection
 			toleranceDeg = 5
 			prevLine = None
