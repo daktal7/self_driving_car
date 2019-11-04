@@ -170,8 +170,8 @@ while(cap.isOpened()):
 		lines_to_average_right = np.array(lines_to_average_right)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		left_offset = 125
-		right_offset = -150
+		left_offset = 135
+		right_offset = -175
 		offset = 0
 		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
 		# 	average_line_left = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]

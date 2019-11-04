@@ -1,0 +1,548 @@
+# roadDetectV2.py
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import math
+import warnings
+warnings.simplefilter('ignore', np.RankWarning)
+
+class road_image:
+
+    CARNOSE = [.6018,2.183] # this coordinate is normalized by the image width and height. In order to get the actual point,
+                      # you need to multiply by image width and height
+
+    IMWIDTH = 640 #CHANGE THIS TO WHATEVER YOUR IMAGE SIZE IS
+    IMHEIGHT = 480 #CHANGE THIS TO WHATEVER YOUR IMAGE SIZE IS
+
+    ANGOFFSET = 8.85
+
+    LX1 = 0
+    LY1 = 1
+    LX2 = 2
+    LY2 = 3
+
+    def __init__(self, val):
+        self.isit = val
+    # pt is just an array of size 2, [x,y]
+    # negative is turn left, positive is turn right
+    @staticmethod
+    def getDriveAngle(pt):
+        dx = (road_image.CARNOSE[0]*road_image.IMWIDTH)-pt[0]
+       # print("X is: " + str(dx))
+        dy = (road_image.CARNOSE[1]*road_image.IMHEIGHT)-pt[1]
+       # print("Y is: " + str(dy))
+        angle = (-1*math.degrees(math.atan2(dx,dy))+road_image.ANGOFFSET)
+        if angle > 40:
+            angle = 40
+        if angle < -40:
+            angle = -40
+       # print("Degree is: "+ str(-1*math.degrees(math.atan2(dx,dy))+road_image.ANGOFFSET)))
+        return angle# + 25 Dylan: switch to be atan2(dy,dx)
+
+    @staticmethod
+    def make_coordinates(image, line_parameters, y_values):
+        slope, intercept = line_parameters
+        y1 = y_values[0]
+        y2 = y_values[1]
+        x1 = int((y1 - intercept)/slope)
+        x2 = int((y2 - intercept)/slope)
+        x3 = (x2-x1)/2
+        y3 = (y2-y1)/2
+        if x1 < 0:
+            x1 = 0
+        if x2 < 0:
+            x2 = 0
+        if y1 < 0:
+            y1 = 0
+        if y2 < 0:
+            y2 = 0
+        if x1 > image.shape[0]:
+            x1 = image.shape[0]
+        if x2 > image.shape[0]:
+            x2 = image.shape[0]
+        if y1 > image.shape[1]:
+            y1 = image.shape[1]
+        if y2 > image.shape[1]:
+            y2 = image.shape[1]
+        return np.array([x1, y1, x2, y2])
+
+    @staticmethod
+    def stich_lines_of_slices_together(lines, image):
+    	# This function takes in an unknown number of lines and combine them into what will hopefully be the entire line in the image
+    	x_array = []
+    	y_array = []
+    	if lines is not None:
+            for c in range(lines.shape[0]):
+                for x1, y1, x2, y2 in lines[c]:
+                	x_array.append(x1)
+                	x_array.append(x2)
+                	y_array.append(y1)
+                	y_array.append(y2)
+    	coefficients = np.polyfit(x_array, y_array, 3)
+    	x = np.linspace(min(x_array), max(x_array), image.shape[1])
+    	# f_lane_line = lambda t: coefficients[0] * t**5 + coefficients[1] * t**4 + coefficients[2] * t**3 + coefficients[3] * t**2 + coefficients[4] * t
+    	f_lane_line = lambda t: coefficients[0] * t**3 + coefficients[1] * t**2 + coefficients[2] * t
+    	y_lane_line = f_lane_line(x)
+    	y_desired_height = 300
+    	x_at_height = 0
+    	for num in x-1:
+            num = int(num)
+            cv2.circle(image, (int(x[num]), int(y_lane_line[num])), 4, (255,0,0), -1) #the color is organized as (blue, green, red)
+            if y_lane_line[num] + 20 > y_desired_height and y_lane_line[num] - 20 < y_desired_height:
+            	x_at_height = num
+    	return x_at_height, y_desired_height
+
+    @staticmethod
+    def display_lines(image, lines, RGB_val):
+        line_image = np.zeros_like(image)
+        if lines is not None:
+            for x1, y1, x2, y2 in lines: 
+                cv2.line(line_image, (x1, y1), (x2, y2), RGB_val, 5)
+        return line_image
+
+    @staticmethod
+    def display_lines_3D(image, lines, RGB_val):
+        line_image = np.zeros_like(image)
+        if lines is not None:
+            for c in range(lines.shape[0]):
+                for x1, y1, x2, y2 in lines[c]:
+                    x1 = int(round(x1))
+                    y1 = int(round(y1))
+                    x2 = int(round(x2))
+                    y2 = int(round(y2))
+                    cv2.line(line_image, (x1, y1), (x2, y2), RGB_val, 5)
+        return line_image
+
+
+    @staticmethod
+    def average_slope_intercept(image, lines, y_values, slice_num = 1, avg_yellow_line = []):
+        if lines is None:
+            # print("no lines found")
+            average_line = [0,0,0,0]
+            return np.array([average_line])
+        
+        if avg_yellow_line != []: # this means I passsed it a yellow line to compare against which means this is the white line case
+            x1_yellow  = avg_yellow_line[0,0]
+            y1_yellow  = avg_yellow_line[0,1]
+            x2_yellow  = avg_yellow_line[0,2]
+            y2_yellow  = avg_yellow_line[0,3]
+            lines_to_average = [[[x1_yellow,y1_yellow,x2_yellow,y2_yellow]]]
+            result = np.isfinite(lines_to_average)
+            if result.all() == False:
+                parameters_yellow_avg = np.polyfit((x1_yellow, x2_yellow), (y1_yellow, y2_yellow), 1)
+                slope_yellow_avg = parameters_yellow_avg[0]
+                intercept_yellow_avg = parameters_yellow_avg[1]
+                for line in lines:
+    	            x1, y1, x2, y2 = line.reshape(4)
+    	            parameters = np.polyfit((x1, x2), (y1, y2), 1)
+    	            if abs(parameters[0] - slope_yellow_avg) < 7:
+    	            	angle_slope = road_image.get_slope(line)
+    	            	if angle_slope < 150 and angle_slope > 30:
+    		            	# print("slope is similar")
+    			            if x1 >= x1_yellow + slice_num*6 and x2 >= x2_yellow + slice_num*6:
+    			                # print("white line is to the right of the yellow line")
+    			                for a in range(20):
+    			                	lines_to_average = np.concatenate((lines_to_average, [[[x1, y1, x2, y2]]]), axis = 0)
+                lines_to_average = np.array(lines_to_average)
+                average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+                # parameters_avg_white_line = np.polyfit((average_line[0], average_line[2]), (average_line[1], average_line[3]), 1)
+                # average_line = road_image.make_coordinates(image, parameters_avg_white_line, y_values)
+                return np.array([average_line])
+        	# average_line = [np.average(lines[:,:,0]), np.average(lines[:,:,1]), np.average(lines[:,:,2]), np.average(lines[:,:,3])] #create an average line
+        for line in lines:
+            x1, y1, x2, y2 = line.reshape(4)
+            lines_to_average = [[[x1, y1, x2, y2]]]
+            angle_slope = road_image.get_slope(line)
+            if angle_slope < 150 and angle_slope > 30:
+            	for a in range(20):
+            		lines_to_average = np.concatenate((lines_to_average, [[[x1, y1, x2, y2]]]), axis = 0)
+        lines_to_average = np.array(lines_to_average)
+        average_line = [np.average(lines_to_average[:,:,0]), np.average(lines_to_average[:,:,1]), np.average(lines_to_average[:,:,2]), np.average(lines_to_average[:,:,3])]
+    
+
+        # x1_middle = (int(round((left_line[0] + right_line[0])/2))) 
+        # y1_middle = (int(round((left_line[1] + right_line[1])/2)))
+        # x2_middle = (int(round((left_line[2] + right_line[2])/2)))
+        # y2_middle = (int(round((left_line[3] + right_line[3])/2)))
+        # if x1_middle > 640 or x1_middle < 0:
+        #     x1_middle = 0
+        # if y1_middle > 480 or y1_middle < 0:
+        #     y1_middle = 0
+        # if x2_middle > 640 or x2_middle < 0:
+        #     x2_middle = 0
+        # if y2_middle > 480 or y2_middle < 0:
+        #     y2_middle = 0
+        # center_line = np.array([x1_middle, y1_middle, x2_middle, y2_middle])
+        # center_line = make_coordinates(image, center_fit_average)
+        # cv2.line(image, (x1_middle, y1_middle), (x2_middle, y2_middle), (0, 255, 0), 10)
+        return np.array([average_line])
+
+    
+
+    #creates a slice of the given image
+    @staticmethod
+    def image_slices(img, vertices, rgb = "NONE"):
+        mask = np.zeros_like(img)
+        if rgb != "NONE":
+	        #Used for if you're masking an rgb image
+            channel_count = img.shape[2]
+            match_mask_color = (255,255,255)
+        else:
+	        #used for anding our image with the mask
+	        match_mask_color = 255 #(255,) * channel_count #one is for grayscale, the other for color
+
+        # Fill inside the polygon
+        cv2.fillConvexPoly(mask, vertices, match_mask_color)
+
+        # Returning the image only where mask pixels match
+        masked_image = cv2.bitwise_and(img, mask)
+        return masked_image
+
+    @staticmethod
+    def binarize(im, thresh):
+        conBlur = cv2.GaussianBlur(im, (5,5), 0)
+        ret1, thresh1 = cv2.threshold(im,180,255,0)
+        ret2, thresh2 = cv2.threshold(conBlur,180,255,0)
+        conCombine = cv2.bitwise_or(thresh1,thresh2)
+        return conCombine
+
+    #takes in an image and returns canny. you will need to mask it once it's done.
+    @staticmethod
+    def getCanny(im):
+        im_hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
+        bin_im = road_image.binarize(im_hsv[:,:,2], 200) #value = white lines
+        im_white_lines_pre_canny = road_image.filter_white(im_hsv)
+        im_canGr = cv2.Canny(im_white_lines_pre_canny, 40, 150)
+        # im_canGr = cv2.Canny(bin_im,100,150) #good white lines image
+        im_yellow_lines_pre_canny = road_image.filter_yellow(im_hsv)
+        im_canHSV = cv2.Canny(im_yellow_lines_pre_canny, 40, 150)
+        # im_canHSV = cv2.Canny(im_hsv[:, :, 1], 100, 150) #hue = yellow lines, good yellow lines image
+        im_white_lines = im_canGr
+        im_yellow_lines = im_canHSV
+        return im_white_lines, im_yellow_lines #np.add(im_canGr, im_canHSV)
+
+    @staticmethod
+    def filter_white(im):
+        #brings in the hsv image as im
+        hue = im[:, :, 0] #this is the hue
+        saturation = im[:, :, 1] #this is the saturation
+        value = im[:, :, 2] #this is the value
+
+        lower_hue_bound = 30
+        upper_hue_bound = 200
+        ret1, thresh1 = cv2.threshold(hue,lower_hue_bound,255,cv2.THRESH_BINARY)
+        ret2, thresh2 = cv2.threshold(hue,upper_hue_bound,255,cv2.THRESH_BINARY_INV)
+        hueCombine = cv2.bitwise_and(thresh1,thresh2)
+        lower_sat_bound = -20
+        upper_sat_bound = 150
+        ret1, sat_thresh1 = cv2.threshold(saturation,lower_sat_bound,255,cv2.THRESH_BINARY)
+        ret2, sat_thresh2 = cv2.threshold(saturation,upper_sat_bound,255,cv2.THRESH_BINARY_INV)
+        satCombine = cv2.bitwise_and(sat_thresh1,sat_thresh2)
+        lower_val_bound = 165
+        upper_val_bound = 255
+        ret1, val_thresh1 = cv2.threshold(value,lower_val_bound,255,cv2.THRESH_BINARY)
+        # ret2, val_thresh2 = cv2.threshold(value,upper_val_bound,255,cv2.THRESH_BINARY_INV)
+        valCombine = val_thresh1 #cv2.bitwise_and(val_thresh1,val_thresh2)
+
+        conCombine_1 = cv2.bitwise_and(satCombine,hueCombine)
+        conCombine = cv2.bitwise_and(conCombine_1,valCombine)
+        return conCombine
+
+    @staticmethod
+    def filter_yellow(im):
+        #brings in the hsv image as im
+        hue = im[:, :, 0] #this is the hue
+        saturation = im[:, :, 1] #this is the saturation
+        value = im[:, :, 2] #this is the value
+
+        lower_hue_bound = 21
+        upper_hue_bound = 27
+        ret1, thresh1 = cv2.threshold(hue,lower_hue_bound,255,cv2.THRESH_BINARY)
+        ret2, thresh2 = cv2.threshold(hue,upper_hue_bound,255,cv2.THRESH_BINARY_INV)
+        hueCombine = cv2.bitwise_and(thresh1,thresh2)
+        lower_sat_bound = 165
+        upper_sat_bound = 255
+        ret1, sat_thresh1 = cv2.threshold(saturation,lower_sat_bound,255,cv2.THRESH_BINARY)
+        ret2, sat_thresh2 = cv2.threshold(saturation,upper_sat_bound,255,cv2.THRESH_BINARY_INV)
+        satCombine = cv2.bitwise_and(sat_thresh1,sat_thresh2)
+        lower_val_bound = 130
+        upper_val_bound = 220
+        ret1, val_thresh1 = cv2.threshold(value,lower_val_bound,255,cv2.THRESH_BINARY)
+        ret2, val_thresh2 = cv2.threshold(value,upper_val_bound,255,cv2.THRESH_BINARY_INV)
+        valCombine = cv2.bitwise_and(val_thresh1,val_thresh2)
+
+        conCombine_1 = cv2.bitwise_and(satCombine,hueCombine)
+        conCombine = cv2.bitwise_and(conCombine_1,valCombine)
+        return conCombine
+
+    @staticmethod
+    # This will return the slope as an angle with respect to the x axis. From 0 to 179.9999999 in degrees
+    def get_slope(line):
+        angle = math.degrees(math.atan2(line[0, road_image.LY2] - line[0, road_image.LY1], line[0, road_image.LX2] - line[0, road_image.LX1]))
+        if angle < 0:
+            return angle + 180
+        elif angle == 180:
+            return 0
+        return angle
+
+    @staticmethod
+    def isGoodLine(line, toleranceDeg):
+        lineAng = road_image.get_slope(line)
+        if lineAng < 90:
+            return lineAng < toleranceDeg
+        return (180 - lineAng) < toleranceDeg
+
+    @staticmethod
+    def getGoodLines(lines, toleranceDeg):
+        if lines is not None:
+            resLines = []
+            for i in range(len(lines)):
+                if road_image.isGoodLine(lines[i], toleranceDeg):
+                    resLines.append(lines[i])
+            if len(resLines) > 0:
+                return resLines
+        return None
+
+    @staticmethod
+    def intersection_point(x1, x2, y1, y2):
+        a = np.vstack([x1, x2, y1, y2])
+        b = np.hstack((a, np.ones((4, 1))))
+        line1 = np.cross(b[0], b[1])
+        line2 = np.cross(b[2], b[3])
+        x, y, z = np.cross(line1, line2)
+        if z == 0:
+            return (float('inf'), float('inf'))
+        return (x/z, y/z)
+
+    @staticmethod
+    def region_of_interest(image, original_image, sliceNumber, dynamicCoordinates=[], color = "NONE"):
+        height = image.shape[0]
+        width = image.shape[1]
+        white = np.array([[(500, 460), (640, 460), (640, 190), (300, 190)]])
+        yellow = np.array([[(0, 460), (640-350, 460), (640-350, 190), (0, 190)]])
+        sky = np.array([[(0, 275), (0, 435), (640, 435), (640, 275)]])
+        mask = np.zeros_like(image)
+        if color == "SKY":
+        	cv2.fillPoly(mask, sky, 255)
+        	masked_image = cv2.bitwise_and(image, mask)
+	        return masked_image
+        check = dynamicCoordinates[sliceNumber] == np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
+        if check.any():
+            # print("defualt mask")
+            if color == "WHITE":
+                cv2.fillPoly(mask, white, 255)
+            elif color == "YELLOW":
+                cv2.fillPoly(mask, yellow, 255)
+            # mask_rgb = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
+            # image_rgb = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+            # if color == "YELLOW":
+            # 	mask_rgb[:,:,0] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,0])  
+            # 	mask_rgb[:,:,1] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,1])  
+            # 	image_and_mask = cv2.addWeighted(mask_rgb, 0.6, image_rgb, 1, 1)
+            # 	# image_and_mask = cv2.addWeighted(original_image, 1, image_and_mask, 1, 1)
+            # if color == "WHITE":
+            # 	mask_rgb[:,:,1] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,1])  
+            # 	mask_rgb[:,:,2] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,2])  
+            # 	image_and_mask = cv2.addWeighted(mask_rgb, 0.6, image_rgb, 1, 1)
+            # 	# image_and_mask = cv2.addWeighted(original_image, 1, image_and_mask, 1, 1)
+        else:      
+            # print("custom mask")
+            dynam_array = np.array([[dynamicCoordinates[sliceNumber]]])
+            cv2.fillPoly(mask, dynam_array, 255)
+
+            # mask_rgb = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
+            # image_rgb = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+            # if color == "YELLOW":
+            # 	mask_rgb[:,:,0] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,0])
+            # 	mask_rgb[:,:,1] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,1])
+            # 	image_and_mask = cv2.addWeighted(mask_rgb, 0.6, image_rgb, 1, 1)
+            # 	# image_and_mask = cv2.addWeighted(original_image, 1, image_and_mask, 1, 1)
+            # if color == "WHITE":
+            # 	mask_rgb[:,:,1] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,1])
+            # 	mask_rgb[:,:,2] = cv2.bitwise_and(np.zeros_like(mask), mask_rgb[:,:,2])
+            # 	image_and_mask = cv2.addWeighted(mask_rgb, 0.6, image_rgb, 1, 1)
+            # image_and_mask = cv2.addWeighted(original_image, 1, image_and_mask, 1, 1)
+            
+        masked_image = cv2.bitwise_and(image, mask) 
+        # cv2.imshow("image", image_and_mask)
+        # # cv2.moveWindow("image", 500,0);
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     cap.release()
+        #     cv2.destroyAllWindows()
+        return masked_image
+
+	# This function splits the image into slices and then runs houghlines on each slice. If you want to change the parameters
+    # of houghlines you'll have to do it within this function.
+    @staticmethod
+    def split_detect(canny_white, canny_yellow, resolution, x_beg, x_fin, original_image, dynamic_coordinates_left, dynamic_coordinates_right):
+        dy = round(len(original_image[:,0])/resolution)
+        right_line = np.array([[[0,0,0,0]]])
+        left_line = np.array([[[0,0,0,0]]])
+        left_temp_line = []
+        canny_yellow = road_image.region_of_interest(canny_yellow, original_image, 1, dynamic_coordinates_left, "SKY")
+        canny_white = road_image.region_of_interest(canny_white, original_image, 1, dynamic_coordinates_left, "SKY")
+        for n in range(resolution, int(resolution - resolution*.9), -1):
+            y_beg = n*dy
+            y_end = n*dy+dy
+            temp_im_white_lines = road_image.image_slices(canny_white, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
+            temp_im_yellow_lines = road_image.image_slices(canny_yellow, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
+            original_image_slice_image = road_image.image_slices(original_image, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'),"RGB")
+            dynamic_roi_left = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
+            dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "SKY")
+
+            temp_lin_white = cv2.HoughLinesP(temp_im_white_lines, rho=1, theta=np.pi/180, threshold=int(180/n), lines=np.array([]), minLineLength=int(n*8), maxLineGap=n*3)
+            temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=1, theta=np.pi/180, threshold=int(50/n), lines=np.array([]), minLineLength=int(n*5), maxLineGap=n*4)
+            y_values = [y_beg, y_end]
+            if temp_lin_yellow is not None: # make sure you detected a line
+                # print("Here")
+                # for line in temp_lin_yellow:
+                #     # print(line)
+                #     cv2.line(canny_yellow, (line[0,0], line[0,1]), (line[0,2], line[0,3]), (255, 0, 0), 10)
+                # cv2.imshow("canny_yellow", canny_yellow)
+                # cv2.moveWindow("canny_yellow", 650,0);
+                # if cv2.waitKey(1) & 0xFF == ord('q'):
+                #     cap.release()
+                #     cv2.destroyAllWindows()
+                left_temp_line = (road_image.average_slope_intercept(canny_yellow, temp_lin_yellow, y_values, n))
+                #make sure min gets smaller max gets bigger
+                low_x = min(left_temp_line[:,0],left_temp_line[:,2])
+                low_y = min(left_temp_line[:,1],left_temp_line[:,3])
+                high_x = max(left_temp_line[:,0],left_temp_line[:,2])
+                high_y = max(left_temp_line[:,1],left_temp_line[:,3])
+                fudge_factor = n * 7
+                if (low_y - fudge_factor) < (280):
+                	low_y = 280 # this prevents going into the sky region
+                left_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
+                left_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
+                left_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
+                left_roi_pt_4 = (int(high_x + fudge_factor), int(low_y - fudge_factor))
+                left_roi = np.array([[(left_roi_pt_1), (left_roi_pt_2), (left_roi_pt_3), (left_roi_pt_4)]])
+                # print(dynamic_coordinates_left[n])
+                dynamic_coordinates_left[n] = left_roi 
+                # print(dynamic_coordinates_left[n])
+                left_line = np.concatenate((left_line, [left_temp_line]), axis = 0)
+            else: 
+            	#return to default mask
+            	dynamic_coordinates_left[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
+            if temp_lin_white is not None: # make sure you detected a line
+                # print("there")
+                # for line in temp_lin_white:
+                #     # print(line)
+                #     cv2.line(canny_white, (line[0,0], line[0,1]), (line[0,2], line[0,3]), (255, 0, 0), 10)
+                # cv2.imshow("canny_white", canny_white)
+                # cv2.moveWindow("canny_white", 0,0);
+                # if cv2.waitKey(1) & 0xFF == ord('q'):
+                #     cap.release()
+                #     cv2.destroyAllWindows()
+                right_temp_line = road_image.average_slope_intercept(canny_white, temp_lin_white, y_values, n, left_temp_line)
+                low_x = min(right_temp_line[:,0],right_temp_line[:,2])
+                low_y = min(right_temp_line[:,1],right_temp_line[:,3])
+                high_x = max(right_temp_line[:,0],right_temp_line[:,2])
+                high_y = max(right_temp_line[:,1],right_temp_line[:,3])
+                fudge_factor = n * 5
+                if (low_y - fudge_factor) < (190):
+                	low_y = 190 + fudge_factor # this prevents going into the sky region
+                right_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
+                right_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
+                right_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
+                right_roi_pt_4 = (int(high_x + fudge_factor), int(low_y - fudge_factor))
+                right_roi = np.array([[(right_roi_pt_1), (right_roi_pt_2), (right_roi_pt_3), (right_roi_pt_4)]])
+                # print(right_roi)
+                dynamic_coordinates_right[n] = right_roi 
+                right_line = np.concatenate((right_line, [right_temp_line]), axis = 0)
+            else:
+            	#return to default mask
+            	dynamic_coordinates_right[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
+
+        return right_line[1:], left_line[1:], canny_yellow
+
+    @staticmethod
+    def homography(point):
+        angleToPoint = 0
+        return angleToPoint
+
+    # takes in an array of lines and selects the closest line
+    # that line will be an array
+    @staticmethod
+    def getClosestLine(lines):
+        if lines is None:
+            return None
+        curMax = 0
+        curInd = 0
+        for i in range(len(lines)):
+            cur = lines[i]
+            if max(cur[0,roadDetect.LY1],cur[0,roadDetect.LY2])>curMax:
+                curInd = i
+                curMax = max(cur[0,roadDetect.LY1],cur[0,roadDetect.LY2])
+        return [lines[curInd]]
+
+    #selects the line that you will choose as your intersection
+    @staticmethod
+    def selectLine(lines):
+        #return lines
+        return roadDetect.getClosestLine(lines)
+
+    #image should already be canny
+    #tolerance is how flat must the intersection be
+    #prevlinetolerance defines how big your region is if you have a previous intersection.
+    @staticmethod
+    def detectIntersection(im, toleranceDeg, prevLine, prevLineSearchTolerance):
+        # detect around a slice created by prevLine
+        if prevLine is not None:
+            boxL = max(min(prevLine[0,roadDetect.LY1], prevLine[0,roadDetect.LY2]) - prevLineSearchTolerance, 0)
+            boxU = min(max(prevLine[0,roadDetect.LY1], prevLine[0,roadDetect.LY2]) + prevLineSearchTolerance, len(im[:, 0]))
+            verts = np.array([[0, boxL], [0, boxU], [len(im[0, :]), boxU], [len(im[0, :]), boxL]])
+            im_masked = roadDetect.region_of_interest(im, verts)
+
+            lines = cv2.HoughLinesP(im_masked, rho=6, theta=np.pi / 60, threshold=300, lines=np.array([]),
+                                    minLineLength=100,
+                                    maxLineGap=400)
+            resLines = roadDetect.getGoodLines(lines, toleranceDeg)
+            if resLines is not None:
+                return roadDetect.selectLine(resLines)
+
+        # if we didn't find any qualifying lines above or if we don't have a prevline
+        lines = cv2.HoughLinesP(im, rho=6, theta=np.pi / 60, threshold=300, lines=np.array([]), minLineLength=100,
+                                maxLineGap=400)
+        return roadDetect.selectLine(roadDetect.getGoodLines(lines, toleranceDeg))
+
+
+
+    @staticmethod
+    def turn_left_through_intersection(turn_flag):
+        steering_point = [200,200]
+        if turn_finished == False:
+            turn_flag = True
+        return steering_point, turn_flag
+
+
+    @staticmethod
+    def turn_right_through_intersection(turn_flag):
+        steering_point = [200,200]
+        if turn_finished == False:
+            turn_flag = True
+        return steering_point, turn_flag
+
+
+    # @staticmethod
+    # def straight_through_intersection(turn_flag):
+    #     steering_point = [200,200]
+    #     if turn_finished == False:
+    #         turn_flag = True
+    #     return steering_point, turn_flag
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+

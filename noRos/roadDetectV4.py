@@ -392,7 +392,7 @@ class road_image:
             dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "SKY")
 
             temp_lin_white = cv2.HoughLinesP(temp_im_white_lines, rho=1, theta=np.pi/180, threshold=int(180/n), lines=np.array([]), minLineLength=int(n*8), maxLineGap=n*3)
-            temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=1, theta=np.pi/180, threshold=int(50/n), lines=np.array([]), minLineLength=int(n*10), maxLineGap=n*4)
+            temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=1, theta=np.pi/180, threshold=int(50/n), lines=np.array([]), minLineLength=int(n*5), maxLineGap=n*4)
             y_values = [y_beg, y_end]
             if temp_lin_yellow is not None: # make sure you detected a line
                 # print("Here")
