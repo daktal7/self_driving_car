@@ -100,7 +100,7 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!pid0\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.004\n"
+	init_command = "!speed.04\n"
 	ser.write(init_command.encode())
 
 	signal(SIGINT, handler)
