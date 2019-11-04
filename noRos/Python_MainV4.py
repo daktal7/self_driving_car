@@ -191,17 +191,14 @@ while(cap.isOpened()):
 		if left_line.shape[0] != 0:# and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
 			steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
-			speed(DRIVING_SPEED)
 			
 
 		elif left_line.shape[0] == 0 and right_line.shape[0] != 0: # I only have the right line
 			average_line = [np.average(lines_to_average_right[:,:,0]), np.average(lines_to_average_right[:,:,1]), np.average(lines_to_average_right[:,:,2]), np.average(lines_to_average_right[:,:,3])]
 			steering_point = [int(average_line[2] + right_offset), int(average_line[3])]
-			speed(DRIVING_SPEED)
 			
 		else: #this is a defualt value
-			speed(0)
-			steering_point = (420,300)
+			steering_point = (370,300)
 
 		fudge_factor = 50
 		if steering_point[0] > lane_image.shape[1] + fudge_factor:
