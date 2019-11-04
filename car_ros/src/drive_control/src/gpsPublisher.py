@@ -35,6 +35,8 @@ def publishIntersection():
 			turn = ils.useLaneNumber(inter)
 			if turn is not None:
 				pub.publish(turn)
+				time.sleep(2)
+				pub.publish(3)
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05

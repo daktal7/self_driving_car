@@ -42,15 +42,12 @@ def drive(speed):
 
 def turn_right():
 	steer(30)
-	time.sleep(1)
 
 def turn_left():
 	steer(-20)
-	time.sleep(0.75)
 
 def go_straight():
 	steer(0)
-	time.sleep(1)
 
 
 def intersect(turn):
@@ -69,7 +66,8 @@ def intersect(turn):
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
-	DRIVE_LOCK = False
+	if turn.data == 3:
+		DRIVE_LOCK = False
 
 def drive_control():
     print("drive_control here")
