@@ -98,6 +98,7 @@ def four():
 def five():
 	print("Drove into intersection lane 5")
 	global wps
+	#if we hit the waypoint ,and it is the next wapyout, now we can delete it
 	if(wpm.reachedIntersection(wps[0]) == 5):
 		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
