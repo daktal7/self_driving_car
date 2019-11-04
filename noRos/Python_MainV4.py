@@ -130,6 +130,8 @@ cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
 #pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
 #rospy.init_node('angleTalker', anonymous=False)
 #rate = rospy.Rate(10)
+for x in range(10000):
+	x = 1+x
 
 turnIndex=0
 
@@ -165,7 +167,7 @@ while(cap.isOpened()):
 		lines_to_average_right = np.array(lines_to_average_right)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		left_offset = 250
+		left_offset = 150
 		right_offset = -150
 		offset = 0
 		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
