@@ -21,12 +21,11 @@ import intersectionLaneSwitches as inter
 DRIVE_LOCK = False
 
 def intersect(turn):
+    print("in drive intersection")
     command = "!speed0\n"
     ser.write(command.encode())
     global DRIVE_LOCK
     DRIVE_LOCK = True
-    while True:
-        print("in intersection, turn: ", turn)
 
 # Function to correctly exit program
 def handler(signal_received, frame):
@@ -37,14 +36,12 @@ def handler(signal_received, frame):
     exit(0)
 
 def steer(angle):
-    global DRIVE_LOCK
     if not DRIVE_LOCK:
         #print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
 def drive(speed):
-    global DRIVE_LOCK
     if not DRIVE_LOCK:
         print("speed ",speed)
         command = "!speed" + str(speed.data) + "\n"
@@ -68,17 +65,17 @@ if __name__ == '__main__':
 
 	print("about to init")
 	#will need to change because of new gear ratios
-	init_command = "!start1750\n"# was 1750
+	init_command = "!start1615\n"# was 1750
 	ser.write(init_command.encode())
-	init_command = "!inits1.5\n"
+	init_command = "!inits.002\n"
 	ser.write(init_command.encode())
 	init_command = "!kp0.01\n"
 	ser.write(init_command.encode())
 	init_command = "!kd0.01\n"
 	ser.write(init_command.encode())
-	init_command = "!pid1\n"
+	init_command = "!pid0\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.4\n"
+	init_command = "!speed.004\n"
 	ser.write(init_command.encode())
 
 	signal(SIGINT, handler)

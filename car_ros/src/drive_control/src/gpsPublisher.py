@@ -26,7 +26,7 @@ def publishIntersection():
 			#turn = ils.useLaneNumber(inter)
 			#if turn is not None:
 			#	pub.publish(turn)
-			print("reached intersection ", inter)
+			print("found intersection. Intersection value: ", inter)
 			rospy.loginfo(inter)
 			pub.publish(inter)
 		#if speed >= 0.25:
