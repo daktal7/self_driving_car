@@ -130,7 +130,7 @@ cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
 #pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
 #rospy.init_node('angleTalker', anonymous=False)
 #rate = rospy.Rate(10)
-for x in range(10000):
+for x in range(100000000):
 	x = 1+x
 
 turnIndex=0
@@ -154,7 +154,7 @@ while(cap.isOpened()):
 
 		lane_image = np.copy(image)
 		canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
-		right_line, left_line, dynamic_roi_right = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
+		right_line, left_line, test_image = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image,  dynamic_coordinates_left, dynamic_coordinates_right)
 		if right_line.shape[0] != 0:
 			line_image_right = RI.display_lines_3D(lane_image, right_line, (0,0,255))
 		else:
@@ -187,7 +187,7 @@ while(cap.isOpened()):
 		# 		steering_point = [int(average_line[2] + offset), int(average_line[3])]
 		if left_line.shape[0] != 0:# and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
-			steering_point = [int(average_line[2] + left_offset), int(average_line[3] + 50)]
+			steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
 			
 
 		elif left_line.shape[0] == 0 and right_line.shape[0] != 0: # I only have the right line
@@ -230,7 +230,7 @@ while(cap.isOpened()):
 		# write the output frame to disk
 		# dynamic_roi_right = cv2.cvtColor(dynamic_roi_right, cv2.COLOR_GRAY2RGB)
 		# dynamic_roi_right_resized = cv2.resize(dynamic_roi_right, (640, 480))
-		writer.write(combo_image)
+		writer.write(test_image)
 
 			
 	steering_angle = steering_angle / FRAMES_TO_AVERAGE

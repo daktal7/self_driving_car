@@ -455,7 +455,7 @@ class road_image:
             	#return to default mask
             	dynamic_coordinates_right[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
 
-        return right_line[1:], left_line[1:], dynamic_roi_right
+        return right_line[1:], left_line[1:], canny_yellow
 
     @staticmethod
     def homography(point):
