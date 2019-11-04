@@ -3,7 +3,7 @@ import wpManager as wpm
 import numpy as np
 
 
-csvPath = "waypoints/course_1.csv"
+csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/course_1.csv"
 wps = wpm.csv2WayPoint(csvPath) # the waypoints are loaded
 
 def one():
@@ -11,7 +11,7 @@ def one():
 	print("Intersection lane 1")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 6:
 			print("turn right")
 			return 1
@@ -30,10 +30,11 @@ def one():
 	#direction to go depends on the location of our next waypoint
 
 def two():
+	global wps
 	print("Intersection lane 2")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 7:
 			print("turn right")
 			return 1
@@ -51,10 +52,11 @@ def two():
 	#direction to go depends on the location of our next waypoint
 
 def three():
+	global wps
 	print("Intersection lane 3")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 8:
 			print("turn right")
 			return 1
@@ -72,10 +74,11 @@ def three():
 	#direction to go depends on the location of our next waypoint
 
 def four():
+	global wps
 	print("Intersection lane 4")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 5:
 			print("turn right")
 			return 1
@@ -95,6 +98,9 @@ def four():
 def five():
 	print("Drove into intersection lane 5")
 	global wps
+	#if we hit the waypoint ,and it is the next wapyout, now we can delete it
+	if(wpm.reachedIntersection(wps[0]) == 5):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -102,6 +108,8 @@ def five():
 def six():
 	print("Drove into intersection lane 6")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 6):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -109,6 +117,8 @@ def six():
 def seven():
 	print("Drove into intersection lane 7")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 7):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -116,6 +126,8 @@ def seven():
 def eight():
 	print("Drove into intersection lane 8")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 8):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -178,6 +190,7 @@ def noIntersection():
 
 
 def useLaneNumber(num):
+	print("using lane number")
 	switcher = {
 		1: one,
 		2: two,

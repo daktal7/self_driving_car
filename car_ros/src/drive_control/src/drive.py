@@ -18,22 +18,7 @@ import os
 import gc
 import intersectionLaneSwitches as inter
 
-DRIVE_LOCK = False
-
-def intersect(turn):
-    print("in drive intersection")
-    command = "!speed0\n"
-    ser.write(command.encode())
-    global DRIVE_LOCK
-    DRIVE_LOCK = True
-    if turn.data == -1:
-        print("Drive: turn left")
-    if turn.data == 0:
-        print("Drive: go straight")
-    if turn.data == 1:
-        print("Drive: turn right")
-    if turn.data == 2:
-        print("Drive: stop")
+DRIVE_LOCK = False	
 
 # Function to correctly exit program
 def handler(signal_received, frame):
@@ -54,6 +39,37 @@ def drive(speed):
         print("speed ",speed)
         command = "!speed" + str(speed.data) + "\n"
         ser.write(command.encode())
+
+def turn_right():
+	steer(30)
+	time.sleep(1)
+
+def turn_left():
+	steer(-20)
+	time.sleep(0.75)
+
+def go_straight():
+	steer(0)
+	time.sleep(1)
+
+
+def intersect(turn):
+    print("in drive intersection")
+    global DRIVE_LOCK
+    DRIVE_LOCK = True
+    if turn.data == -1:
+        print("Drive: turn left")
+        turn_left()
+    if turn.data == 0:
+        print("Drive: go straight")
+        go_straight()
+    if turn.data == 1:
+        print("Drive: turn right")
+        turn_right()
+    if turn.data == 2:
+        print("Drive: stop")
+        drive(0)
+	DRIVE_LOCK = False
 
 def drive_control():
     print("drive_control here")
@@ -83,7 +99,7 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!pid0\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.004\n"
+	init_command = "!speed.3\n"
 	ser.write(init_command.encode())
 
 	signal(SIGINT, handler)

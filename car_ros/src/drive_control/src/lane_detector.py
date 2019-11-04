@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #Python_MainV5
 # Python Main
-import roadDetectV5
-from roadDetectV5 import road_image as RI
+import roadDetectV4
+from roadDetectV4 import road_image as RI
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,9 +33,7 @@ class image_displayer:
 
 			lane_image = np.copy(image)
 			canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
-			right_line, left_line, test_image = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices,
-																0, canny_white_lines.shape[1], lane_image,
-																dynamic_coordinates_left, dynamic_coordinates_right)
+			right_line, left_line, test_image = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image, dynamic_coordinates_left, dynamic_coordinates_right)
 			if right_line.shape[0] != 0:
 				line_image_right = RI.display_lines_3D(lane_image, right_line, (0, 0, 255))
 			else:
@@ -87,16 +85,13 @@ class image_displayer:
 				steering_point[0] = lane_image.shape[1] + fudge_factor
 			if steering_point[1] > lane_image.shape[0] + fudge_factor:
 				steering_point[1] = lane_image.shape[0] + fudge_factor
-			steering_angle = steering_angle + RI.getDriveAngle(steering_point)
+			steering_angle = RI.getDriveAngle(steering_point)
 			# Check for intersection
 			toleranceDeg = 5
 			prevLine = None
 			prevLineSearchTolerance = 20
 			# closest_line_found = RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 			intersection_theshold = 410
-			turnIndex = turnIndex + 1
-			if turnIndex > 3:
-				turnIndex = 0
 
 			cv2.circle(lane_image, (steering_point[0], steering_point[1]), 10, (255, 255, 255),
 					   -1)  # the color is organized as (blue, green, red)
@@ -107,23 +102,23 @@ class image_displayer:
 			#     (H, W) = frame.shape[:2]
 
 			# check if the video writer is None
-			if writer is None:
+			#if writer is None:
 				# initialize our video writer
-				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-				writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
-										 (640, 480), True)
-			if writer_2 is None:
+			#	fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+			#	writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
+			#							 (640, 480), True)
+			#if writer_2 is None:
 				# initialize our video writer
-				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-				writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
-										   (640, 480), True)
+			#	fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+			#	writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
+			#							   (640, 480), True)
 
 			# write the output frame to disk
-			test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
-			test_image_resized = cv2.resize(test_image, (640, 480))
-			writer.write(frame)
+			#test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
+			#test_image_resized = cv2.resize(test_image, (640, 480))
+			#writer.write(frame)
 
-			writer_2.write(test_image_resized)
+			#writer_2.write(test_image_resized)
 
 			self.angle_pub.publish(steering_angle)
 
