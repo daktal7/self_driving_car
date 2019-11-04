@@ -19,7 +19,7 @@ import testIntersections as ti
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Float32, queue_size=10)
 	rospy.init_node('intersection_pub', anonymous=False)
-	rate = rospy.Rate(.1)
+	rate = rospy.Rate(1)
 	while not rospy.is_shutdown():
 		# grab the gps point
 		
