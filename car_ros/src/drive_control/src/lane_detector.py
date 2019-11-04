@@ -47,7 +47,7 @@ class image_displayer:
 			lines_to_average_left = left_line
 			lines_to_average_left = np.array(lines_to_average_left)
 			left_offset = 135
-			right_offset = -175
+			right_offset = -225
 			offset = 0
 			# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
 			# 	average_line_left = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
@@ -67,7 +67,7 @@ class image_displayer:
 			if left_line.shape[0] != 0:  # and right_line.shape[0] == 0: # I only have the left line
 				average_line = [np.average(lines_to_average_left[:, :, 0]), np.average(lines_to_average_left[:, :, 1]),
 								np.average(lines_to_average_left[:, :, 2]), np.average(lines_to_average_left[:, :, 3])]
-				steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
+				steering_point = [int(average_line[2] + left_offset), int(average_line[3] + 15)]
 
 
 			elif left_line.shape[0] == 0 and right_line.shape[0] != 0:  # I only have the right line
