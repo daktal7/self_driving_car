@@ -11,6 +11,11 @@ import numpy as np
 import testIntersections as ti
 #
 
+#This publisher will publish the following:
+# 1: turn right
+# -1: turn left
+# 0: go straight
+# 2: stop
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Float32, queue_size=10)
 	rospy.init_node('intersection_pub', anonymous=False)
@@ -19,16 +24,18 @@ def publishIntersection():
 		# grab the gps point
 		
         # check to see if we're in the intersection
-		inter = wpm.reachedIntersection(ti.getCoor("Green")) #change this to the right color
+		coor = ti.getCoor("Green")
+		if coor[0] < 0:
+			coor = (-1*coor[0],-1*coor[1])
+		inter = wpm.reachedIntersection(coor) #change this to the right color
         # if we are in an intersection, publish where we should turn
         # -1 is left 0 is straight, 1 is right
 		if inter != -1:
-			#turn = ils.useLaneNumber(inter)
-			#if turn is not None:
-			#	pub.publish(turn)
-			print("found intersection. Intersection value: ", inter)
 			rospy.loginfo(inter)
-			pub.publish(inter)
+			turn = ils.useLaneNumber(inter)
+			if turn is not None:
+				pub.publish(turn)
+			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05
 		#else:

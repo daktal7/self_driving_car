@@ -26,6 +26,14 @@ def intersect(turn):
     ser.write(command.encode())
     global DRIVE_LOCK
     DRIVE_LOCK = True
+    if turn.data == -1:
+        print("Drive: turn left")
+    if turn.data == 0:
+        print("Drive: go straight")
+    if turn.data == 1:
+        print("Drive: turn right")
+    if turn.data == 2:
+        print("Drive: stop")
 
 # Function to correctly exit program
 def handler(signal_received, frame):
