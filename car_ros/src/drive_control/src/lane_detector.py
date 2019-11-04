@@ -92,9 +92,6 @@ class image_displayer:
 			prevLineSearchTolerance = 20
 			# closest_line_found = RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 			intersection_theshold = 410
-			turnIndex = turnIndex + 1
-			if turnIndex > 3:
-				turnIndex = 0
 
 			cv2.circle(lane_image, (steering_point[0], steering_point[1]), 10, (255, 255, 255),
 					   -1)  # the color is organized as (blue, green, red)
