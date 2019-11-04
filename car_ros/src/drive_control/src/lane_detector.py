@@ -90,7 +90,7 @@ class image_displayer:
 			if steering_point[1] > lane_image.shape[0]:
 				steering_point[1] = lane_image.shape[0]
 			steering_angle = RI.getDriveAngle(steering_point)
-			rospy.loginfo(steering_angle)
+			#rospy.loginfo(steering_angle)
 			self.angle_pub.publish(steering_angle)
 			# Check for intersection
 			toleranceDeg = 6

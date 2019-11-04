@@ -6,8 +6,8 @@ from std_msgs.msg import Float32
 def publishSpeed():
 	pub = rospy.Publisher('driveSpeed', Float32, queue_size=10)
 	rospy.init_node('speedTalker', anonymous=False)
-	rate = rospy.Rate(.1)
-	speed = 0.0
+	rate = rospy.Rate(.2)
+	speed = 0.004
 	while not rospy.is_shutdown():
 		#print("publishing speed")
 		rospy.loginfo(speed)
