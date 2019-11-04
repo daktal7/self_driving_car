@@ -256,18 +256,18 @@ class road_image:
         saturation = im[:, :, 1] #this is the saturation
         value = im[:, :, 2] #this is the value
 
-        lower_hue_bound = 21
-        upper_hue_bound = 27
+        lower_hue_bound = 20
+        upper_hue_bound = 28
         ret1, thresh1 = cv2.threshold(hue,lower_hue_bound,255,cv2.THRESH_BINARY)
         ret2, thresh2 = cv2.threshold(hue,upper_hue_bound,255,cv2.THRESH_BINARY_INV)
         hueCombine = cv2.bitwise_and(thresh1,thresh2)
-        lower_sat_bound = 165
+        lower_sat_bound = 160
         upper_sat_bound = 255
         ret1, sat_thresh1 = cv2.threshold(saturation,lower_sat_bound,255,cv2.THRESH_BINARY)
         ret2, sat_thresh2 = cv2.threshold(saturation,upper_sat_bound,255,cv2.THRESH_BINARY_INV)
         satCombine = cv2.bitwise_and(sat_thresh1,sat_thresh2)
-        lower_val_bound = 130
-        upper_val_bound = 220
+        lower_val_bound = 125
+        upper_val_bound = 225
         ret1, val_thresh1 = cv2.threshold(value,lower_val_bound,255,cv2.THRESH_BINARY)
         ret2, val_thresh2 = cv2.threshold(value,upper_val_bound,255,cv2.THRESH_BINARY_INV)
         valCombine = cv2.bitwise_and(val_thresh1,val_thresh2)
