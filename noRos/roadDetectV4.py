@@ -388,72 +388,72 @@ class road_image:
             temp_im_white_lines = road_image.image_slices(canny_white, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
             temp_im_yellow_lines = road_image.image_slices(canny_yellow, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'))
             original_image_slice_image = road_image.image_slices(original_image, np.array([[x_beg,y_beg],[x_beg,y_end],[x_fin,y_end],[x_fin,y_beg]], 'int32'),"RGB")
-            # dynamic_roi_left = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "YELLOW")
-            # dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "WHITE")
+            dynamic_roi_left = road_image.region_of_interest(temp_im_yellow_lines, original_image_slice_image, n, dynamic_coordinates_left, "SKY")
+            dynamic_roi_right = road_image.region_of_interest(temp_im_white_lines, original_image_slice_image, n, dynamic_coordinates_right, "SKY")
 
             temp_lin_white = cv2.HoughLinesP(temp_im_white_lines, rho=1, theta=np.pi/180, threshold=int(180/n), lines=np.array([]), minLineLength=int(n*8), maxLineGap=n*3)
             temp_lin_yellow = cv2.HoughLinesP(temp_im_yellow_lines, rho=1, theta=np.pi/180, threshold=int(50/n), lines=np.array([]), minLineLength=int(n*10), maxLineGap=n*4)
             y_values = [y_beg, y_end]
-            # if temp_lin_yellow is not None: # make sure you detected a line
-            #     # print("Here")
-            #     # for line in temp_lin_yellow:
-            #     #     # print(line)
-            #     #     cv2.line(canny_yellow, (line[0,0], line[0,1]), (line[0,2], line[0,3]), (255, 0, 0), 10)
-            #     # cv2.imshow("canny_yellow", canny_yellow)
-            #     # cv2.moveWindow("canny_yellow", 650,0);
-            #     # if cv2.waitKey(1) & 0xFF == ord('q'):
-            #     #     cap.release()
-            #     #     cv2.destroyAllWindows()
-            #     left_temp_line = (road_image.average_slope_intercept(canny_yellow, temp_lin_yellow, y_values, n))
-            #     #make sure min gets smaller max gets bigger
-            #     low_x = min(left_temp_line[:,0],left_temp_line[:,2])
-            #     low_y = min(left_temp_line[:,1],left_temp_line[:,3])
-            #     high_x = max(left_temp_line[:,0],left_temp_line[:,2])
-            #     high_y = max(left_temp_line[:,1],left_temp_line[:,3])
-            #     fudge_factor = n * 7
-            #     if (low_y - fudge_factor) < (280):
-            #     	low_y = 280 # this prevents going into the sky region
-            #     left_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
-            #     left_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
-            #     left_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
-            #     left_roi_pt_4 = (int(high_x + fudge_factor), int(low_y - fudge_factor))
-            #     left_roi = np.array([[(left_roi_pt_1), (left_roi_pt_2), (left_roi_pt_3), (left_roi_pt_4)]])
-            #     # print(dynamic_coordinates_left[n])
-            #     dynamic_coordinates_left[n] = left_roi 
-            #     # print(dynamic_coordinates_left[n])
-            #     left_line = np.concatenate((left_line, [left_temp_line]), axis = 0)
-            # else: 
-            # 	#return to default mask
-            # 	dynamic_coordinates_left[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
-            # if temp_lin_white is not None: # make sure you detected a line
-            #     # print("there")
-            #     # for line in temp_lin_white:
-            #     #     # print(line)
-            #     #     cv2.line(canny_white, (line[0,0], line[0,1]), (line[0,2], line[0,3]), (255, 0, 0), 10)
-            #     # cv2.imshow("canny_white", canny_white)
-            #     # cv2.moveWindow("canny_white", 0,0);
-            #     # if cv2.waitKey(1) & 0xFF == ord('q'):
-            #     #     cap.release()
-            #     #     cv2.destroyAllWindows()
-            #     right_temp_line = road_image.average_slope_intercept(canny_white, temp_lin_white, y_values, n, left_temp_line)
-            #     low_x = min(right_temp_line[:,0],right_temp_line[:,2])
-            #     low_y = min(right_temp_line[:,1],right_temp_line[:,3])
-            #     high_x = max(right_temp_line[:,0],right_temp_line[:,2])
-            #     high_y = max(right_temp_line[:,1],right_temp_line[:,3])
-            #     fudge_factor = n * 5
-            #     if (low_y - fudge_factor) < (190):
-            #     	low_y = 190 + fudge_factor # this prevents going into the sky region
-            #     right_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
-            #     right_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
-            #     right_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
-            #     right_roi_pt_4 = (int(high_x + fudge_factor), int(low_y - fudge_factor))
-            #     right_roi = np.array([[(right_roi_pt_1), (right_roi_pt_2), (right_roi_pt_3), (right_roi_pt_4)]])
-            #     # print(right_roi)
-            #     dynamic_coordinates_right[n] = right_roi 
-            #     right_line = np.concatenate((right_line, [right_temp_line]), axis = 0)
-            # else:
-            # 	#return to default mask
-            # 	dynamic_coordinates_right[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
+            if temp_lin_yellow is not None: # make sure you detected a line
+                # print("Here")
+                # for line in temp_lin_yellow:
+                #     # print(line)
+                #     cv2.line(canny_yellow, (line[0,0], line[0,1]), (line[0,2], line[0,3]), (255, 0, 0), 10)
+                # cv2.imshow("canny_yellow", canny_yellow)
+                # cv2.moveWindow("canny_yellow", 650,0);
+                # if cv2.waitKey(1) & 0xFF == ord('q'):
+                #     cap.release()
+                #     cv2.destroyAllWindows()
+                left_temp_line = (road_image.average_slope_intercept(canny_yellow, temp_lin_yellow, y_values, n))
+                #make sure min gets smaller max gets bigger
+                low_x = min(left_temp_line[:,0],left_temp_line[:,2])
+                low_y = min(left_temp_line[:,1],left_temp_line[:,3])
+                high_x = max(left_temp_line[:,0],left_temp_line[:,2])
+                high_y = max(left_temp_line[:,1],left_temp_line[:,3])
+                fudge_factor = n * 7
+                if (low_y - fudge_factor) < (280):
+                	low_y = 280 # this prevents going into the sky region
+                left_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
+                left_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
+                left_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
+                left_roi_pt_4 = (int(high_x + fudge_factor), int(low_y - fudge_factor))
+                left_roi = np.array([[(left_roi_pt_1), (left_roi_pt_2), (left_roi_pt_3), (left_roi_pt_4)]])
+                # print(dynamic_coordinates_left[n])
+                dynamic_coordinates_left[n] = left_roi 
+                # print(dynamic_coordinates_left[n])
+                left_line = np.concatenate((left_line, [left_temp_line]), axis = 0)
+            else: 
+            	#return to default mask
+            	dynamic_coordinates_left[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
+            if temp_lin_white is not None: # make sure you detected a line
+                # print("there")
+                # for line in temp_lin_white:
+                #     # print(line)
+                #     cv2.line(canny_white, (line[0,0], line[0,1]), (line[0,2], line[0,3]), (255, 0, 0), 10)
+                # cv2.imshow("canny_white", canny_white)
+                # cv2.moveWindow("canny_white", 0,0);
+                # if cv2.waitKey(1) & 0xFF == ord('q'):
+                #     cap.release()
+                #     cv2.destroyAllWindows()
+                right_temp_line = road_image.average_slope_intercept(canny_white, temp_lin_white, y_values, n, left_temp_line)
+                low_x = min(right_temp_line[:,0],right_temp_line[:,2])
+                low_y = min(right_temp_line[:,1],right_temp_line[:,3])
+                high_x = max(right_temp_line[:,0],right_temp_line[:,2])
+                high_y = max(right_temp_line[:,1],right_temp_line[:,3])
+                fudge_factor = n * 5
+                if (low_y - fudge_factor) < (190):
+                	low_y = 190 + fudge_factor # this prevents going into the sky region
+                right_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
+                right_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
+                right_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
+                right_roi_pt_4 = (int(high_x + fudge_factor), int(low_y - fudge_factor))
+                right_roi = np.array([[(right_roi_pt_1), (right_roi_pt_2), (right_roi_pt_3), (right_roi_pt_4)]])
+                # print(right_roi)
+                dynamic_coordinates_right[n] = right_roi 
+                right_line = np.concatenate((right_line, [right_temp_line]), axis = 0)
+            else:
+            	#return to default mask
+            	dynamic_coordinates_right[n] = np.array([[123, 123], [123, 123], [123, 123], [123, 123]])
 
         return right_line[1:], left_line[1:], canny_yellow
 
