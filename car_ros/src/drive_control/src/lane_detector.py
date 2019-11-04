@@ -33,9 +33,7 @@ class image_displayer:
 
 			lane_image = np.copy(image)
 			canny_white_lines, canny_yellow_lines = RI.getCanny(lane_image)
-			right_line, left_line, test_image = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices,
-																0, canny_white_lines.shape[1], lane_image,
-																dynamic_coordinates_left, dynamic_coordinates_right)
+			right_line, left_line, test_image = RI.split_detect(canny_white_lines, canny_yellow_lines, number_of_slices, 0, canny_white_lines.shape[1], lane_image, dynamic_coordinates_left, dynamic_coordinates_right)
 			if right_line.shape[0] != 0:
 				line_image_right = RI.display_lines_3D(lane_image, right_line, (0, 0, 255))
 			else:
