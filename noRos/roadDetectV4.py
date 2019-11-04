@@ -410,9 +410,9 @@ class road_image:
                 low_y = min(left_temp_line[:,1],left_temp_line[:,3])
                 high_x = max(left_temp_line[:,0],left_temp_line[:,2])
                 high_y = max(left_temp_line[:,1],left_temp_line[:,3])
-                fudge_factor = n * 5
-                if (low_y - fudge_factor) < (190):
-                	low_y = 190 + fudge_factor # this prevents going into the sky region
+                fudge_factor = n * 7
+                if (low_y - fudge_factor) < (280):
+                	low_y = 280 # this prevents going into the sky region
                 left_roi_pt_1 = (int(low_x - fudge_factor), int(low_y - fudge_factor))
                 left_roi_pt_2 = (int(low_x - fudge_factor), int(high_y + fudge_factor))
                 left_roi_pt_3 = (int(high_x + fudge_factor), int(high_y + fudge_factor))
