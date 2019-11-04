@@ -42,7 +42,7 @@ class drawWaypoint:
     def __call__(self, event):
         if self.test:
             for i in range(len(self.wayPoints)):
-                if reachedWP((len(self.im[0,:])-event.xdata,event.ydata),self.wayPoints[i]):
+                if reachedWP((event.ydata,len(self.im[0,:])-event.xdata),self.wayPoints[i]):
                     print("True")
         else:
             ix = int(event.xdata)
@@ -50,9 +50,9 @@ class drawWaypoint:
             ax = self.fig.gca()
             ax.plot(ix,iy,'ro')
             if len(self.wayPoints)==0:
-                self.wayPoints = np.array([(len(self.im[0,:])-ix,iy)])
+                self.wayPoints = np.array([(iy,len(self.im[0,:])-ix)])
             else:
-                self.wayPoints = np.append(self.wayPoints,[(len(self.im[0,:])-ix,iy)],axis=0)
+                self.wayPoints = np.append(self.wayPoints,[(iy,len(self.im[0,:])-ix)],axis=0)
             self.fig.canvas.draw()
 
     def __print__(self):
@@ -79,7 +79,7 @@ def setWayPoint(imPath,csvPath):
     wp.__print__()
 
     wp.writeCSV(csvPath)
-
+# just for testing to see if this thing works
 def testWayPoint(imPath,wp):
     imglob = mpimg.imread(imPath)
     rad = 20
@@ -95,9 +95,11 @@ def testWayPoint(imPath,wp):
     plt.imshow(imglob)
     plt.show()
 
+# takes a csv file and returns a np.array
 def csv2WayPoint(csvPath):
     return np.genfromtxt(csvPath,dtype="int",delimiter=",")
 
+#check to see if you've reached the waypoint
 def reachedWP(curLoc, wp):
     global MIN_DIST, X, Y
     dist = math.sqrt(((curLoc[X]-wp[X])**2)+(curLoc[Y]-wp[Y])**2)
