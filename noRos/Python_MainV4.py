@@ -187,8 +187,8 @@ while(cap.isOpened()):
 		# 		steering_point = [int(average_line[2] + offset), int(average_line[3])]
 		if left_line.shape[0] != 0:# and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
-			steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
-			print("yellow only")
+			steering_point = [int(average_line[2] + left_offset), int(average_line[3] + left_offset)]
+			
 
 		elif left_line.shape[0] == 0 and right_line.shape[0] != 0: # I only have the right line
 			average_line = [np.average(lines_to_average_right[:,:,0]), np.average(lines_to_average_right[:,:,1]), np.average(lines_to_average_right[:,:,2]), np.average(lines_to_average_right[:,:,3])]
