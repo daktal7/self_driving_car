@@ -45,7 +45,7 @@ def turn_right():
 	time.sleep(1)
 
 def turn_left():
-	steer(-25)
+	steer(-20)
 	time.sleep(0.75)
 
 def go_straight():
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!pid0\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.04\n"
+	init_command = "!speed.3\n"
 	ser.write(init_command.encode())
 
 	signal(SIGINT, handler)
