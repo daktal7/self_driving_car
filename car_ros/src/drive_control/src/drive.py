@@ -46,7 +46,7 @@ def turn_right():
 
 def turn_left():
 	steer(-25)
-	time.sleep(1)
+	time.sleep(0.75)
 
 def go_straight():
 	steer(0)
