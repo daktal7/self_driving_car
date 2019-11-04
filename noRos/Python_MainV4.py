@@ -170,7 +170,7 @@ while(cap.isOpened()):
 		lines_to_average_right = np.array(lines_to_average_right)
 		lines_to_average_left = left_line
 		lines_to_average_left = np.array(lines_to_average_left)
-		left_offset = 115
+		left_offset = 125
 		right_offset = -150
 		offset = 0
 		# if left_line.shape[0] != 0 and right_line.shape[0] != 0: #this means I have a left and right line
@@ -191,13 +191,16 @@ while(cap.isOpened()):
 		if left_line.shape[0] != 0:# and right_line.shape[0] == 0: # I only have the left line
 			average_line = [np.average(lines_to_average_left[:,:,0]), np.average(lines_to_average_left[:,:,1]), np.average(lines_to_average_left[:,:,2]), np.average(lines_to_average_left[:,:,3])]
 			steering_point = [int(average_line[2] + left_offset), int(average_line[3])]
+			speed(DRIVING_SPEED)
 			
 
 		elif left_line.shape[0] == 0 and right_line.shape[0] != 0: # I only have the right line
 			average_line = [np.average(lines_to_average_right[:,:,0]), np.average(lines_to_average_right[:,:,1]), np.average(lines_to_average_right[:,:,2]), np.average(lines_to_average_right[:,:,3])]
 			steering_point = [int(average_line[2] + right_offset), int(average_line[3])]
+			speed(DRIVING_SPEED)
 			
 		else: #this is a defualt value
+			speed(0)
 			steering_point = (420,300)
 
 		fudge_factor = 50
