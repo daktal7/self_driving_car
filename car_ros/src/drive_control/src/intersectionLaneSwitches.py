@@ -30,6 +30,7 @@ def one():
 	#direction to go depends on the location of our next waypoint
 
 def two():
+	global wps
 	print("Intersection lane 2")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
@@ -51,6 +52,7 @@ def two():
 	#direction to go depends on the location of our next waypoint
 
 def three():
+	global wps
 	print("Intersection lane 3")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
@@ -72,6 +74,7 @@ def three():
 	#direction to go depends on the location of our next waypoint
 
 def four():
+	global wps
 	print("Intersection lane 4")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
