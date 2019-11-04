@@ -11,7 +11,7 @@ def one():
 	print("Intersection lane 1")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 6:
 			print("turn right")
 			return 1
@@ -34,7 +34,7 @@ def two():
 	print("Intersection lane 2")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 7:
 			print("turn right")
 			return 1
@@ -56,7 +56,7 @@ def three():
 	print("Intersection lane 3")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 8:
 			print("turn right")
 			return 1
@@ -78,7 +78,7 @@ def four():
 	print("Intersection lane 4")
 	if len(wps) != 0:
 		inter = wpm.reachedIntersection(wps[0])
-		wps = np.delete(wps,0,0)
+		#wps = np.delete(wps,0,0)
 		if inter == 5:
 			print("turn right")
 			return 1
@@ -98,6 +98,8 @@ def four():
 def five():
 	print("Drove into intersection lane 5")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 5):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -105,6 +107,8 @@ def five():
 def six():
 	print("Drove into intersection lane 6")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 6):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -112,6 +116,8 @@ def six():
 def seven():
 	print("Drove into intersection lane 7")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 7):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
@@ -119,6 +125,8 @@ def seven():
 def eight():
 	print("Drove into intersection lane 8")
 	global wps
+	if(wpm.reachedIntersection(wps[0]) == 8):
+		wps = np.delete(wps, 0, 0)
 	if len(wps) == 0:
 		return 2
 	return None
