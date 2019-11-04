@@ -130,7 +130,8 @@ cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
 #pub = rospy.Publisher('steerAngle', Float32, queue_size=10)
 #rospy.init_node('angleTalker', anonymous=False)
 #rate = rospy.Rate(10)
-for x in range(100000000):
+for x in range(10000000):
+	speed(0)
 	x = 1+x
 
 turnIndex=0
