@@ -25,6 +25,7 @@ class image_displayer:
 		self.count = 0
 
 	def display(self, data):
+		global dynamic_coordinates_right, dynamic_coordinates_left
 		frame = self.bridge.imgmsg_to_cv2(data, "rgb8")
 		if frame is None:
 			return
