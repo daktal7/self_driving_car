@@ -35,9 +35,8 @@ def publishIntersection():
 			turn = ils.useLaneNumber(inter)
 			if turn is not None:
 				print("publishing turn %d", turn)
-				time.sleep(1)
 				pub.publish(turn)
-				time.sleep(2)
+				time.sleep(2.5)
 				pub.publish(3)
 			else:
 				print("not publishing turn")
