@@ -150,7 +150,7 @@ def ten():
 	global wps
 	if len(wps) != 0:
 		wps = np.delete(wps,0,0)
-		print("turn right") #put code to turn here
+		print("turn right")
 		return 1
 	else:
 		print("error, no more waypoints")

@@ -20,6 +20,7 @@ def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=1)
 	rospy.init_node('intersection_pub', anonymous=False)
 	rate = rospy.Rate(1)
+	prevInter = -1
 	while not rospy.is_shutdown():
 		# grab the gps point
 		
@@ -31,15 +32,19 @@ def publishIntersection():
         # if we are in an intersection, publish where we should turn
         # -1 is left 0 is straight, 1 is right
 		if inter != -1:
-			rospy.loginfo(inter)
-			turn = ils.useLaneNumber(inter)
-			if turn is not None:
-				print("publishing turn %d", turn)
-				pub.publish(turn)
-				time.sleep(2.5)
-				pub.publish(3)
-			else:
-				print("not publishing turn")
+			if inter != prevInter:
+				prevInter = inter
+				rospy.loginfo(inter)
+				turn = ils.useLaneNumber(inter)
+				if turn is not None:
+					print("publishing turn %d", turn)
+					pub.publish(2)
+					time.sleep(1.5)
+					pub.publish(turn)
+					time.sleep(2.5)
+					pub.publish(3)
+				else:
+					print("not publishing turn")
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05

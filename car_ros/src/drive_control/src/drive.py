@@ -18,8 +18,11 @@ import os
 import gc
 import intersectionLaneSwitches as inter
 
-DRIVE_LOCK = False	
+DRIVE_LOCK = False
+DRIVE_SPEED = 0.0075
 prevAngle = 0
+
+
 # Function to correctly exit program
 def handler(signal_received, frame):
     command = "!speed0\n"
@@ -27,34 +30,42 @@ def handler(signal_received, frame):
     print('CTRL-C detected. Exiting gracefully')
     exit(0)
 
+
 def steer(angle):
     if not DRIVE_LOCK:
-        #print(angle.data)
+        # print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
+
 def drive(speed):
-    if not DRIVE_LOCK:
-        print("speed ",speed)
-        command = "!speed" + str(speed.data) + "\n"
-        ser.write(command.encode())
+    # if not DRIVE_LOCK:
+    print("speed ", speed)
+    command = "!speed" + str(speed.data) + "\n"
+    ser.write(command.encode())
+
 
 def turn_right():
-	time.sleep(1.3)
-	angle = 30 - prevAngle
-	command = "!steering" + str(angle) + "\n"
-	ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    time.sleep(1.3)
+    angle = 30 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+
 
 def turn_left():
-	time.sleep(1.8)
-	angle = -20 - prevAngle
-	command = "!steering" + str(angle) + "\n"
-	ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    time.sleep(1.8)
+    angle = -20 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+
 
 def go_straight():
-	angle = 0 - prevAngle
-	command = "!steering" + str(angle) + "\n"	
-	ser.write(command.encode())
+    angle = 0 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(DRIVE_SPEED)
 
 
 def intersect(turn):
@@ -78,49 +89,57 @@ def intersect(turn):
     if turn.data == 3:
         print("drive lock off")
         DRIVE_LOCK = False
+        drive(DRIVE_SPEED)
+
 
 def drive_control():
     print("drive_control here")
     rospy.init_node('drive_control', anonymous=False)
-    #subscribe to whatever is checking our intersections
-    #rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
+    # subscribe to whatever is checking our intersections
+    # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
-    rospy.Subscriber("driveSpeed", Float32, drive)
+    # rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
     rospy.spin()
 
+
 if __name__ == '__main__':
-# initialize communication with the arduino
-	ser = serial.Serial("/dev/ttyUSB0",115200)
-	ser.flushInput()
-	time.sleep(2)
+    # initialize communication with the arduino
+    ser = serial.Serial("/dev/ttyUSB0", 115200)
+    ser.flushInput()
+    time.sleep(2)
 
-	print("about to init")
-	#will need to change because of new gear ratios
-	init_command = "!start1625\n"# was 1750 // was 1615 
-	ser.write(init_command.encode())
-	init_command = "!inits.002\n"
-	ser.write(init_command.encode())
-	init_command = "!kp0.01\n"
-	ser.write(init_command.encode())
-	init_command = "!kd0.01\n"
-	ser.write(init_command.encode())
-	init_command = "!pid0\n"
-	ser.write(init_command.encode())
-	init_command = "!speed.0075\n"
-	ser.write(init_command.encode())
+    print("about to init")
+    # will need to change because of new gear ratios
+    init_command = "!start1625\n"  # was 1750 // was 1615
+    ser.write(init_command.encode())
+    init_command = "!inits.002\n"
+    ser.write(init_command.encode())
+    init_command = "!kp0.01\n"
+    ser.write(init_command.encode())
+    init_command = "!kd0.01\n"
+    ser.write(init_command.encode())
+    init_command = "!pid0\n"
+    ser.write(init_command.encode())
+    init_command = "!speed.0075\n"
+    ser.write(init_command.encode())
 
-	signal(SIGINT, handler)
-	print('Running. Press CTRL-C to exit')
-	drive_control()
-	#while True:
-	#steer(0)
-	#time.sleep(1)
-	#drive(0.5)
-	#time.sleep(2)
-	#steer(30)
-	#time.sleep(1)
-	#steer(0)
-	#time.sleep(1)
-	#drive(0)
-	#time.sleep(1)
+    time.sleep(.25)
+    drive(0)  # Stop and wait for a second
+    time.sleep(1)
+    drive(DRIVE_SPEED)
+
+    signal(SIGINT, handler)
+    print('Running. Press CTRL-C to exit')
+    drive_control()
+    # while True:
+    # steer(0)
+    # time.sleep(1)
+    # drive(0.5)
+    # time.sleep(2)
+    # steer(30)
+    # time.sleep(1)
+    # steer(0)
+    # time.sleep(1)
+    # drive(0)
+    # time.sleep(1)
