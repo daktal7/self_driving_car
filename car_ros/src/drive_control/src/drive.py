@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
 	print("about to init")
 	#will need to change because of new gear ratios
-	init_command = "!start1615\n"# was 1750
+	init_command = "!start1615\n"# was 1750 
 	ser.write(init_command.encode())
 	init_command = "!inits.002\n"
 	ser.write(init_command.encode())
@@ -97,7 +97,7 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!pid0\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.3\n"
+	init_command = "!speed.005\n"
 	ser.write(init_command.encode())
 
 	signal(SIGINT, handler)
