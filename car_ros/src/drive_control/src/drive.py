@@ -40,10 +40,12 @@ def drive(speed):
         ser.write(command.encode())
 
 def turn_right():
+	time.sleep(1)
 	command = "!steering30\n"
 	ser.write(command.encode())
 
 def turn_left():
+	time.sleep(1.5)
 	command = "!steering-20\n"
 	ser.write(command.encode())
 
