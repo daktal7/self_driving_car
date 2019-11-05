@@ -24,7 +24,6 @@ DRIVE_LOCK = False
 def handler(signal_received, frame):
     command = "!speed0\n"
     ser.write(command.encode())
-    vs.release()
     print('CTRL-C detected. Exiting gracefully')
     exit(0)
 
@@ -56,6 +55,8 @@ def intersect(turn):
     print("in drive intersection")
     global DRIVE_LOCK
     DRIVE_LOCK = True
+    for i in range(0,50):
+        j = 0
     if turn.data == -1:
         print("Drive: turn left")
         turn_left()
