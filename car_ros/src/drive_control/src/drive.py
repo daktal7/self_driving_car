@@ -41,7 +41,7 @@ def steer(angle):
 def drive(speed):
     # if not DRIVE_LOCK:
     print("speed ", speed)
-    command = "!speed" + str(speed.data) + "\n"
+    command = "!speed" + str(speed) + "\n"
     ser.write(command.encode())
 
 
