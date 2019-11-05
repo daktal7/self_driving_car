@@ -46,7 +46,7 @@ def turn_right():
 	ser.write(command.encode())
 
 def turn_left():
-	time.sleep(1.5)
+	time.sleep(2)
 	angle = -20 - prevAngle
 	command = "!steering" + str(angle) + "\n"
 	ser.write(command.encode())
