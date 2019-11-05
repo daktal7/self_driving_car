@@ -32,7 +32,7 @@ ser.flushInput()
 print("2")
 time.sleep(2)
 print("3")
-init_command = "!start1625\n"
+init_command = "!start1615\n"
 print("4")
 ser.write(init_command.encode())
 print("5")
@@ -198,7 +198,7 @@ while(cap.isOpened()):
 			steering_point = [int(average_line[2] + right_offset), int(average_line[3])]
 			
 		else: #this is a defualt value
-			steering_point = (570,300)
+			steering_point = (630,300)
 
 		fudge_factor = 50
 		if steering_point[0] > lane_image.shape[1] + fudge_factor:
