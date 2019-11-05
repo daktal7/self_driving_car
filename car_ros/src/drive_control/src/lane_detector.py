@@ -123,7 +123,7 @@ class image_displayer:
 			self.angle_pub.publish(steering_angle)
 
 		elif self.count == 1:
-			self.count = 2
+			self.count = 0
 		else:
 			self.count = 0
 
