@@ -42,9 +42,11 @@ def drive(speed):
 
 def turn_right():
 	steer(30)
+	drive(.02)
 
 def turn_left():
 	steer(-20)
+	drive(.02)
 
 def go_straight():
 	steer(0)
