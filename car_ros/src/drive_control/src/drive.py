@@ -56,7 +56,7 @@ def intersect(turn):
     global DRIVE_LOCK
     DRIVE_LOCK = True
     for i in range(0,50):
-        j = 0
+        print(i)
     if turn.data == -1:
         print("Drive: turn left")
         turn_left()
