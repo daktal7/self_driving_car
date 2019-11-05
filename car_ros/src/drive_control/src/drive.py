@@ -40,13 +40,13 @@ def drive(speed):
         ser.write(command.encode())
 
 def turn_right():
-	time.sleep(1.5)
+	time.sleep(1.3)
 	angle = 30 - prevAngle
 	command = "!steering" + str(angle) + "\n"
 	ser.write(command.encode())
 
 def turn_left():
-	time.sleep(2)
+	time.sleep(1.8)
 	angle = -20 - prevAngle
 	command = "!steering" + str(angle) + "\n"
 	ser.write(command.encode())
