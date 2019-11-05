@@ -19,7 +19,7 @@ import gc
 import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False	
-
+prevAngle = 0
 # Function to correctly exit program
 def handler(signal_received, frame):
     command = "!speed0\n"
@@ -41,16 +41,19 @@ def drive(speed):
 
 def turn_right():
 	time.sleep(1)
-	command = "!steering30\n"
+	angle = 30 - prevAngle
+	command = "!steering" + str(angle) + "\n"
 	ser.write(command.encode())
 
 def turn_left():
 	time.sleep(1.5)
-	command = "!steering-20\n"
+	angle = -20 - prevAngle
+	command = "!steering" + str(angle) + "\n"
 	ser.write(command.encode())
 
 def go_straight():
-	command = "!steering0\n"	
+	angle = 0 - prevAngle
+	command = "!steering" + str(angle) + "\n"	
 	ser.write(command.encode())
 
 
