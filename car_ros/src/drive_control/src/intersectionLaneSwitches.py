@@ -208,4 +208,4 @@ def useLaneNumber(num):
 	#get the funciton that we need to call
 	func = switcher.get(num, lambda: noIntersection)
 	#execute the function
-	func()
+	return func()

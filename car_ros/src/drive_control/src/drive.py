@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Int32
 from matplotlib import pyplot as plt
 # from gluoncv import model_zoo, utils
 # import pyrealsense2 as rs
@@ -66,8 +66,8 @@ def intersect(turn):
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
-	if turn.data == 3:
-		DRIVE_LOCK = False
+    if turn.data == 3:
+        DRIVE_LOCK = False
 
 def drive_control():
     print("drive_control here")
@@ -76,7 +76,7 @@ def drive_control():
     #rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
     rospy.Subscriber("driveSpeed", Float32, drive)
-    rospy.Subscriber("intersection", Float32, intersect)
+    rospy.Subscriber("intersection", Int32, intersect)
     rospy.spin()
 
 if __name__ == '__main__':

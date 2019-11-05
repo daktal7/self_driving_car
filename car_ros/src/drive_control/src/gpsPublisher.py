@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Int32
 from drive_control.msg import gps
 import intersectionLaneSwitches as ils
 import wpManager as wpm
@@ -17,7 +17,7 @@ import testIntersections as ti
 # 0: go straight
 # 2: stop
 def publishIntersection():
-	pub = rospy.Publisher('intersection', Float32, queue_size=10)
+	pub = rospy.Publisher('intersection', Int32, queue_size=1)
 	rospy.init_node('intersection_pub', anonymous=False)
 	rate = rospy.Rate(1)
 	while not rospy.is_shutdown():
@@ -34,9 +34,12 @@ def publishIntersection():
 			rospy.loginfo(inter)
 			turn = ils.useLaneNumber(inter)
 			if turn is not None:
+				print("publishing turn %d", turn)
 				pub.publish(turn)
 				time.sleep(2)
 				pub.publish(3)
+			else:
+				print("not publishing turn")
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05
