@@ -31,7 +31,7 @@ def handler(signal_received, frame):
 
 signal(SIGINT, handler)
 print('Running. Press CTRL-C to exit')
-cap = cv2.VideoCapture("/dev/video1",cv2.CAP_V4L)
+cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
 ic = image_converter()
 rospy.init_node('video', anonymous = False)
 while(cap.isOpened()):
