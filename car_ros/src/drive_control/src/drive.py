@@ -40,15 +40,16 @@ def drive(speed):
         ser.write(command.encode())
 
 def turn_right():
-	steer(30)
-	#drive(.015)
+	command = "!steering30\n"
+	ser.write(command.encode())
 
 def turn_left():
-	steer(-20)
-	#drive(.015)
+	command = "!steering-20\n"
+	ser.write(command.encode())
 
 def go_straight():
-	steer(0)
+	command = "!steering0\n"	
+	ser.write(command.encode())
 
 
 def intersect(turn):
