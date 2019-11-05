@@ -42,11 +42,11 @@ def drive(speed):
 
 def turn_right():
 	steer(30)
-	drive(.015)
+	#drive(.015)
 
 def turn_left():
 	steer(-20)
-	drive(.015)
+	#drive(.015)
 
 def go_straight():
 	steer(0)
@@ -69,6 +69,7 @@ def intersect(turn):
         print("Drive: stop")
         drive(0)
     if turn.data == 3:
+        print("drive lock off")
         DRIVE_LOCK = False
 
 def drive_control():
@@ -99,7 +100,7 @@ if __name__ == '__main__':
 	ser.write(init_command.encode())
 	init_command = "!pid0\n"
 	ser.write(init_command.encode())
-	init_command = "!speed.01\n"
+	init_command = "!speed.0075\n"
 	ser.write(init_command.encode())
 
 	signal(SIGINT, handler)
