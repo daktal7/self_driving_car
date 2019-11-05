@@ -42,11 +42,11 @@ def drive(speed):
 
 def turn_right():
 	steer(30)
-	drive(.02)
+	drive(.015)
 
 def turn_left():
 	steer(-20)
-	drive(.02)
+	drive(.015)
 
 def go_straight():
 	steer(0)
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
 	print("about to init")
 	#will need to change because of new gear ratios
-	init_command = "!start1645\n"# was 1750 
+	init_command = "!start1615\n"# was 1750 
 	ser.write(init_command.encode())
 	init_command = "!inits.002\n"
 	ser.write(init_command.encode())
