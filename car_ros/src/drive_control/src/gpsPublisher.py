@@ -22,15 +22,11 @@ def publishIntersection():
 	rate = rospy.Rate(1)
 	prevInter = -1
 	while not rospy.is_shutdown():
-		# grab the gps point
-		
-        # check to see if we're in the intersection
 		coor = ti.getCoor("Green")
 		if coor[0] < 0:
 			coor = (-1*coor[0],-1*coor[1])
-		inter = wpm.reachedIntersection(coor) #change this to the right color
-        # if we are in an intersection, publish where we should turn
-        # -1 is left 0 is straight, 1 is right
+		inter = wpm.reachedIntersection(coor)
+        # -1 is left 0 is straight, 1 is right, 2 is stop, 3 is deactivate flag
 		if inter != -1:
 			if inter != prevInter:
 				prevInter = inter
