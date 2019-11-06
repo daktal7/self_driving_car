@@ -30,6 +30,7 @@ class image_displayer:
 		if frame is None:
 			return
 		if self.count == 0:
+			start = time.time()
 			image = cv2.resize(frame, (640, 480))
 
 			lane_image = np.copy(image)
@@ -120,7 +121,8 @@ class image_displayer:
 			#writer.write(frame)
 
 			#writer_2.write(test_image_resized)
-
+			end = time.time()
+			print("time elapsed: ", end-start)
 			self.angle_pub.publish(steering_angle)
 			self.count = 1
 
