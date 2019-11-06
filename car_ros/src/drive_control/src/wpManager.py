@@ -8,19 +8,15 @@ import math
 import matplotlib.path as mpltPath
 
 #this are the coordinates for all the intersections
-INT_1  = np.array([[ 454,  878],[ 395,  822],[ 259,  970],[ 328, 1023]]) #Fixed
-INT_2  = np.array([[ 541,  834],[ 671,  952],[ 742,  899],[ 610,  773]]) #Fixed
-INT_3  = np.array([[ 553,  663],[ 677,  527],[ 602,  474],[ 492,  604]]) #Fixed
-INT_4  = np.array([[ 369,  647],[ 330,  700],[ 214,  590],[ 269,  545]]) #Fixed
-INT_5  = np.array([[ 263,  966],[ 210,  909],[ 338,  775],[ 399,  818]]) #Fixed
-INT_6  = np.array([[ 490,  897],[ 543,  834],[ 681,  952],[ 626, 1015]]) #Fixed
-INT_7  = np.array([[ 624,  722],[ 765,  596],[ 683,  523],[ 555,  657]]) #Fixed
-INT_8  = np.array([[ 430,  594],[ 371,  645],[ 275,  541],[ 340,  489]]) #Fixed
-INT_9  = np.array([[ 310,    3],[ 448,   5 ],[  462,  64],[ 300,   64]]) #Fixed
-INT_10 = np.array([[ 202,  160],[ 271,  162],[ 275,  286],[ 206,  292]]) #Fixed
-INT_11 = np.array([[868,  1404],[870,  1256],[791,  1260],[787,  1400]]) #Fixed
-INT_12 = np.array([[756,  1569],[620,  1569],[620,  1504],[761,  1506]]) #Fixed
-INTERSECTIONS = np.array([INT_1,INT_2,INT_3,INT_4,INT_5,INT_6,INT_7,INT_8,INT_9,INT_10,INT_11,INT_12])
+INT_1  = np.array([[345,788],[290,843],[394,943],[448,875]])
+INT_2  = np.array([[497,891],[616,772],[665,817],[542,949]]) #Fixed
+INT_3  = np.array([[668,672],[539,549],[500,601],[610,717]]) #Fixed
+INT_4  = np.array([[448,614],[397,559],[265,685],[329,727]]) #Fixed
+INT_5  = np.array([[361,149],[361,1],[297,1],[306,146]]) #Fixed
+INT_6  = np.array([[281,146],[136,143],[132,243],[277,233]]) #Fixed
+INT_7  = np.array([[784,1424],[942,1430],[948,1353],[774,1356]]) #Fixed
+INT_8  = np.array([[781,1436],[710,1430],[703,1578],[787,1582]]) #Fixed
+INTERSECTIONS = np.array([INT_1,INT_2,INT_3,INT_4,INT_5,INT_6,INT_7,INT_8])
 
 #Distance that the car must be from a waypoint in order bump that waypoint off our list.
 MIN_DIST = 80

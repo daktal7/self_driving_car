@@ -20,6 +20,7 @@ import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False
 DRIVE_SPEED = 0.0075
+STARTUP_SPEED = .009
 prevAngle = 0
 
 
@@ -46,25 +47,29 @@ def drive(speed):
 
 
 def turn_right():
-    drive(DRIVE_SPEED)
+    drive(STARTUP_SPEED)
     time.sleep(1.3)
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    drive(DRIVE_SPEED)
 
 
 def turn_left():
-    drive(DRIVE_SPEED)
+    drive(STARTUP_SPEED)
     time.sleep(1.8)
     angle = -20 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    drive(DRIVE_SPEED)
 
 
 def go_straight():
     angle = 0 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    drive(STARTUP_SPEED)
+    time.sleep(1)
     drive(DRIVE_SPEED)
 
 
