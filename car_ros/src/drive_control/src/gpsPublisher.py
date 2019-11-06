@@ -30,7 +30,7 @@ def publishIntersection():
 		if inter != -1:
 			if inter != prevInter:
 				prevInter = inter
-				rospy.loginfo(inter)
+				#rospy.loginfo(inter)
 				turn = ils.useLaneNumber(inter)
 				if turn is not None:
 					print("publishing turn %d", turn)
