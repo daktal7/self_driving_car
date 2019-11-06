@@ -9,8 +9,8 @@
 	<node pkg="drive_control" type="drive.py" name="drive" output="screen">
 	</node>
 
-	<node pkg="drive_control" type="speed_test.py" name="speedTalker" output="screen">
-	</node>
+	<!--<node pkg="drive_control" type="speed_test.py" name="speedTalker" output="screen">
+	</node>-->
 
 	<node pkg="drive_control" type="gpsPublisher.py" name="intersection_pub" output="screen">
 	</node>
