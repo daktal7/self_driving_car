@@ -30,7 +30,6 @@ class image_displayer:
 		if frame is None:
 			return
 		if self.count == 0:
-			print("running lane detector")
 			start = time.time()
 			image = cv2.resize(frame, (640, 480))
 
@@ -154,7 +153,6 @@ for num in range(number_of_slices):
 #rospy.init_node('angleTalker', anonymous=False)
 #rate = rospy.Rate(10)
 
-print("initing lane detector")
 rospy.init_node('lane_detector', anonymous = True)
 id = image_displayer()
 rospy.spin()
