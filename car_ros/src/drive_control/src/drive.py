@@ -47,34 +47,40 @@ def drive(speed):
 
 
 def turn_right():
+    global DRIVE_LOCK
     drive(STARTUP_SPEED)
-    time.sleep(1.3)
+    time.sleep(.5)
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
+    DRIVE_LOCK = False
+
 
 
 def turn_left():
+    global DRIVE_LOCK
     drive(STARTUP_SPEED)
-    time.sleep(1.8)
+    time.sleep(.7)
     angle = -20 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
+    DRIVE_LOCK = False
 
 
 def go_straight():
+    global DRIVE_LOCK
     angle = 0 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
     time.sleep(1)
     drive(DRIVE_SPEED)
+    DRIVE_LOCK = False
 
 
 def intersect(turn):
-    print("in drive intersection")
     global DRIVE_LOCK
     DRIVE_LOCK = True
     # for i in range(0,50):

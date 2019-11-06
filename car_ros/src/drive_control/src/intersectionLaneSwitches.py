@@ -11,7 +11,6 @@ def one():
 	print("Intersection lane 1")
 	if len(wps) != 0:
 		nextInter = wpm.reachedIntersection(wps[0])
-		#wps = np.delete(wps,0,0)
 		if nextInter == 2:
 			print("turn right")
 			return 1
@@ -24,6 +23,7 @@ def one():
 		elif nextInter == 1:
 			print("deleting waypoint")
 			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
 			return None
 		else:
 			print("error, in intersection 1 and I don't know where to go")
@@ -38,7 +38,6 @@ def two():
 	print("Intersection lane 2")
 	if len(wps) != 0:
 		nextInter = wpm.reachedIntersection(wps[0])
-		#wps = np.delete(wps,0,0)
 		if nextInter == 3:
 			print("turn right")
 			return 1
@@ -51,6 +50,7 @@ def two():
 		elif nextInter == 2:
 			print("deleting waypoint")
 			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
 			return None
 		else:
 			print("error, in intersection 2 and I don't know where to go")
@@ -76,6 +76,7 @@ def three():
 		elif nextInter == 3:
 			print("deleting waypoint")
 			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
 			return None
 		else:
 			print("error, in intersection 3 and I don't know where to go")
@@ -101,6 +102,7 @@ def four():
 		elif nextInter == 4:
 			print("deleting waypoint")
 			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
 			return None
 		else:
 			print("error, in intersection 4 and I don't know where to go")
@@ -116,6 +118,7 @@ def five():
 		nextInter = wpm.reachedIntersection(wps[0])
 		if nextInter == 5:
 			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 6:
 			print("turn left")
@@ -136,6 +139,7 @@ def six():
 		nextInter = wpm.reachedIntersection(wps[0])
 		if nextInter == 6:
 			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 5:
 			print("turn right")
@@ -158,6 +162,7 @@ def seven():
 		nextInter = wpm.reachedIntersection(wps[0])
 		if nextInter == 7:
 			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 8:
 			print("turn right")
@@ -178,6 +183,7 @@ def eight():
 		nextInter = wpm.reachedIntersection(wps[0])
 		if nextInter == 8:
 			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 7:
 			print("turn left")

@@ -37,8 +37,6 @@ def publishIntersection():
 					pub.publish(2)
 					time.sleep(1.5)
 					pub.publish(turn)
-					time.sleep(2.5)
-					pub.publish(3)
 				else:
 					print("not publishing turn")
 			#print("found intersection. Intersection value: ", inter)
