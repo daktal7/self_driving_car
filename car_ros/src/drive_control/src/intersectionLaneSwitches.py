@@ -106,6 +106,7 @@ def four():
 			return None
 		else:
 			print("in intersection 4 and continuing")
+			return None
 	else:
 		print("Finished waypoints")
 		return 2
