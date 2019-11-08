@@ -108,7 +108,7 @@ def drive_control():
     # subscribe to whatever is checking our intersections
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
-    # rospy.Subscriber("driveSpeed", Float32, drive)
+    #rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
     rospy.spin()
 

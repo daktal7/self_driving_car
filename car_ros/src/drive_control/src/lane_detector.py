@@ -24,6 +24,7 @@ class image_displayer:
 		self.angle_pub = rospy.Publisher("steerAngle", Float32, queue_size = 1)
 		self.count = 0
 
+
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
 		frame = self.bridge.imgmsg_to_cv2(data, "rgb8")
@@ -121,8 +122,10 @@ class image_displayer:
 			#writer.write(frame)
 
 			#writer_2.write(test_image_resized)
+			cv2.imshow("result", combo_image)
+			cv2.waitKey(1)
 			end = time.time()
-			print("time elapsed: ", end-start)
+			#print("time elapsed: ", end-start)
 			self.angle_pub.publish(steering_angle)
 			self.count = 1
 
