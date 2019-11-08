@@ -16,6 +16,7 @@ import testIntersections as ti
 # -1: turn left
 # 0: go straight
 # 2: stop
+# 3: deactivate flag
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=1)
 	rospy.init_node('intersection_pub', anonymous=False)
@@ -25,20 +26,20 @@ def publishIntersection():
 		coor = ti.getCoor("Green")
 		if coor[0] < 0:
 			coor = (-1*coor[0],-1*coor[1])
-		inter = wpm.reachedIntersection(coor)
-        # -1 is left 0 is straight, 1 is right, 2 is stop, 3 is deactivate flag
+		inter = wpm.reachedWarningIntersection(coor)
+
+        #check to see if we're in a warning intersection
 		if inter != -1:
 			if inter != prevInter:
-				prevInter = inter
-				#rospy.loginfo(inter)
-				turn = ils.useLaneNumber(inter)
+				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
 				if turn is not None:
+					#TODO: Publish to the new topic that we're in a warning intersection
+					prevInter = inter
+					#rospy.loginfo(inter)
 					print("publishing turn %d", turn)
 					pub.publish(2)
 					time.sleep(1.5)
 					pub.publish(turn)
-				else:
-					print("not publishing turn")
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05

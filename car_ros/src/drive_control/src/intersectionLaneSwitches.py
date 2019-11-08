@@ -26,7 +26,7 @@ def one():
 			print("new wp size: ", len(wps))
 			return None
 		else:
-			print("error, in intersection 1 and I don't know where to go")
+			print("in intersection 1 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -53,7 +53,7 @@ def two():
 			print("new wp size: ", len(wps))
 			return None
 		else:
-			print("error, in intersection 2 and I don't know where to go")
+			print("in intersection 2 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -79,7 +79,7 @@ def three():
 			print("new wp size: ", len(wps))
 			return None
 		else:
-			print("error, in intersection 3 and I don't know where to go")
+			print("in intersection 3 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -105,7 +105,7 @@ def four():
 			print("new wp size: ", len(wps))
 			return None
 		else:
-			print("error, in intersection 4 and I don't know where to go")
+			print("in intersection 4 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -124,7 +124,7 @@ def five():
 			print("turn left")
 			return -1
 		else:
-			print("ERror, in intersection 5 and don't know where to go")
+			print("in intersection 5 and continuing")
 			return None
 	else:
 		print("no more waypoints")
@@ -145,7 +145,7 @@ def six():
 			print("turn right")
 			return 1
 		else:
-			print("ERror, in intersection 6 and don't know where to go")
+			print("in intersection 6 and continuing")
 			return None
 	else:
 		print("no more waypoints")
@@ -168,7 +168,7 @@ def seven():
 			print("turn right")
 			return 1
 		else:
-			print("ERror, in intersection 7 and don't know where to go")
+			print("in intersection 7 and continuing")
 			return None
 	else:
 		print("no more waypoints")
@@ -189,7 +189,7 @@ def eight():
 			print("turn left")
 			return -1
 		else:
-			print("ERror, in intersection 8 and don't know where to go")
+			print("in intersection 8 and continuing")
 			return None
 	else:
 		print("no more waypoints")
