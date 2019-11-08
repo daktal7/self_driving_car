@@ -207,6 +207,7 @@ while(cap.isOpened()):
 		if steering_point[1] > lane_image.shape[0] + fudge_factor:
 			steering_point[1] = lane_image.shape[0] + fudge_factor
 		steering_angle = steering_angle + RI.getDriveAngle(steering_point)
+
 		end = time.time()
 		print("elapsed time: ",end-beg)
 		# Check for intersection
