@@ -122,9 +122,9 @@ class image_displayer:
 
 			#writer_2.write(test_image_resized)
 			self.angle_pub.publish(steering_angle)
-			self.count = 1
 			end = time.time()
-			print("time elapsed: ", end - start)
+			print("time elapsed: ", end - start)s
+			self.count = 1
 
 		elif self.count == 1:
 			self.count = 0

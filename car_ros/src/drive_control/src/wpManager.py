@@ -8,15 +8,25 @@ import math
 import matplotlib.path as mpltPath
 
 #this are the coordinates for all the intersections
-INT_1  = np.array([[345,788],[290,843],[394,943],[448,875]])
-INT_2  = np.array([[497,891],[616,772],[665,817],[542,949]]) #Fixed
-INT_3  = np.array([[668,672],[539,549],[500,601],[610,717]]) #Fixed
-INT_4  = np.array([[448,614],[397,559],[265,685],[329,727]]) #Fixed
-INT_5  = np.array([[361,149],[361,1],[297,1],[306,146]]) #Fixed
-INT_6  = np.array([[281,146],[136,143],[132,243],[277,233]]) #Fixed
-INT_7  = np.array([[784,1424],[942,1430],[948,1353],[774,1356]]) #Fixed
-INT_8  = np.array([[781,1436],[710,1430],[703,1578],[787,1582]]) #Fixed
-INTERSECTIONS = np.array([INT_1,INT_2,INT_3,INT_4,INT_5,INT_6,INT_7,INT_8])
+SI_1 = np.array([[342,776],[296,821],[401,929],[444,880]])
+SI_2 = np.array([[492,880],[541,931],[653,825],[602,778]])
+SI_3 = np.array([[598,724],[494,620],[541,561],[653,675]])
+SI_4 = np.array([[440,624],[391,575],[289,679],[340,723]])
+SI_5 = np.array([[291,143],[289,3],[363,1],[362,133]])
+SI_6 = np.array([[277,141],[125,143],[123,226],[279,222]])
+SI_7 = np.array([[777,1432],[941,1430],[947,1349],[777,1359]])
+SI_8 = np.array([[779,1442],[696,1430],[689,1576],[781,1580]])
+STOP_INTERSECTIONS = np.array([SI_1,SI_2,SI_3,SI_4,SI_5,SI_6,SI_7,SI_8])
+#These are the warning intersections
+WI_1 = np.array([[328,786],[209,911],[310,1025],[432,889]])
+WI_2 = np.array([[505,887],[636,1027],[748,927],[612,790]])
+WI_3 = np.array([[604,713],[758,561],[634,452],[503,609]])
+WI_4 = np.array([[430,610],[304,482],[197,589],[326,715]])
+WI_5 = np.array([[300,140],[484,138],[490,2],[294,2]])
+WI_6 = np.array([[134,158],[278,148],[272,324],[134,332]])
+WI_7 = np.array([[782,1407],[938,1405],[940,1225],[788,1229]])
+WI_8 = np.array([[778,1424],[574,1428],[574,1577],[764,1584]])
+WARNING_INTERSECTIONS = np.array([WI_1,WI_2,WI_3,WI_4,WI_5,WI_6,WI_7,WI_8])
 
 #Distance that the car must be from a waypoint in order bump that waypoint off our list.
 MIN_DIST = 80
@@ -104,9 +114,22 @@ def reachedWP(curLoc, wp):
 #this function returns the index of the intersection we are in, or returns -1 if we aren't in any intersection
 #An intersection is a 2D array or list with four vertices, so this function needs to be a list of 2D arrays or lists
 #curLoc is a tuple
-def reachedIntersection(curLoc):
-    for i in range(len(INTERSECTIONS)):
-        path = mpltPath.Path(INTERSECTIONS[i])
+def reachedWarningIntersection(curLoc):
+    global WARNING_INTERSECTIONS
+    for i in range(len(WARNING_INTERSECTIONS)):
+        path = mpltPath.Path(WARNING_INTERSECTIONS[i])
+        if path.contains_point(curLoc):
+            return i+1
+    return -1
+
+
+#this function returns the index of the intersection we are in, or returns -1 if we aren't in any intersection
+#An intersection is a 2D array or list with four vertices, so this function needs to be a list of 2D arrays or lists
+#curLoc is a tuple
+def reachedStopIntersection(curLoc):
+    global STOP_INTERSECTIONS
+    for i in range(len(STOP_INTERSECTIONS)):
+        path = mpltPath.Path(STOP_INTERSECTIONS[i])
         if path.contains_point(curLoc):
             return i+1
     return -1
