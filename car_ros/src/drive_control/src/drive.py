@@ -70,7 +70,7 @@ def turn_left():
 
 def go_straight():
     global DRIVE_LOCK
-    angle = 0 - prevAngle
+    angle = 0 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
