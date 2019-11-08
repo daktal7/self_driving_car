@@ -3,14 +3,14 @@
 	<node pkg="drive_control" type="camera_feed.py" name="video" output="screen">
 	</node>
 	
-	<node pkg="drive_control" type="depth_camera_feed.py" name="depth_video" output="screen">
-	</node>
+	<!--node pkg="drive_control" type="depth_camera_feed.py" name="depth_video" output="screen">
+	</node-->
 
 	<node pkg="drive_control" type="lane_detector.py" name="lane_detector" output="screen">
 	</node>
 
-	<node pkg="drive_control" type="depth_detector.py" name="depth_detector" output="screen">
-	</node>	
+	<!--node pkg="drive_control" type="depth_detector.py" name="depth_detector" output="screen">
+	</node-->
 
 	<node pkg="drive_control" type="drive.py" name="drive" output="screen">
 	</node>
@@ -18,7 +18,7 @@
 	<!--<node pkg="drive_control" type="speed_test.py" name="speedTalker" output="screen">
 	</node>-->
 
-	<!--node pkg="drive_control" type="gpsPublisher.py" name="intersection_pub" output="screen">
-	</node-->
+	<node pkg="drive_control" type="gpsPublisher.py" name="intersection_pub" output="screen">
+	</node>
 
 </launch>
