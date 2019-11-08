@@ -19,6 +19,8 @@ import gc
 import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False
+WARNING_INTERSECTION = False
+ANGLE_THRESHOLD = 10
 DRIVE_SPEED = 0.0075
 STARTUP_SPEED = .009
 prevAngle = 0
@@ -33,11 +35,13 @@ def handler(signal_received, frame):
 
 
 def steer(angle):
+    global DRIVE_LOCK
+    if WARNING_INTERSECTION and abs(angle.data) > ANGLE_THRESHOLD:
+        DRIVE_LOCK = True
     if not DRIVE_LOCK:
         # print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
-
 
 def drive(speed):
     # if not DRIVE_LOCK:
@@ -80,8 +84,11 @@ def go_straight():
 
 
 def intersect(turn):
-    global DRIVE_LOCK
-    DRIVE_LOCK = True
+    global DRIVE_LOCK,WARNING_INTERSECTION
+    if turn.data == 4:
+        WARNING_INTERSECTION = True
+    else:
+        WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
     if turn.data == -1:
@@ -96,10 +103,6 @@ def intersect(turn):
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
-    if turn.data == 3:
-        print("drive lock off")
-        DRIVE_LOCK = False
-        drive(DRIVE_SPEED)
 
 
 def drive_control():
