@@ -24,25 +24,20 @@ def publishIntersection():
 	prevInter = -1
 	while not rospy.is_shutdown():
 		coor = ti.getCoor("Green")
-		if coor[0] < 0:
-			coor = (-1*coor[0],-1*coor[1])
+		coor = (abs(coor[0]),abs(coor[1]))
 		inter = wpm.reachedWarningIntersection(coor)
 
         #check to see if we're in a warning intersection
 		if inter != -1:
 			if inter != prevInter:
-				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
 				prevInter = inter
+				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
 				if turn is not None:
 					pub.publish(4)
 					rateInner = rospy.Rate(2)
-					coor = ti.getCoor("Green")
-					if coor[0] < 0:
-						coor = (-1 * coor[0], -1 * coor[1])
 					while wpm.reachedStopIntersection(coor) == -1:
 						coor = ti.getCoor("Green")
-						if coor[0] < 0:
-							coor = (-1 * coor[0], -1 * coor[1])
+						coor = (abs(coor[0]),abs(coor[1]))
 						rateInner.sleep()
 					print("publishing turn %d", turn)
 					pub.publish(2)
