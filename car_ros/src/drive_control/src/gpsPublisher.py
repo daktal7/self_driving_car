@@ -20,7 +20,7 @@ import testIntersections as ti
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=1)
 	rospy.init_node('intersection_pub', anonymous=False)
-	rate = rospy.Rate(1)
+	rate = rospy.Rate(5)
 	prevInter = -1
 	while not rospy.is_shutdown():
 		coor = ti.getCoor("Green")
