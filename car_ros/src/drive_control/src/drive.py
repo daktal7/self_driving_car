@@ -20,7 +20,7 @@ import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False
 WARNING_INTERSECTION = False
-ANGLE_THRESHOLD = 10
+ANGLE_THRESHOLD = 8
 DRIVE_SPEED = 0.0075
 STARTUP_SPEED = .009
 prevAngle = 0
@@ -36,8 +36,10 @@ def handler(signal_received, frame):
 
 def steer(angle):
     global DRIVE_LOCK
-    if WARNING_INTERSECTION and abs(angle.data) > ANGLE_THRESHOLD:
-        DRIVE_LOCK = True
+    if WARNING_INTERSECTION:
+        print(angle.data)
+        if abs(angle.data) > ANGLE_THRESHOLD:
+            DRIVE_LOCK = True
     if not DRIVE_LOCK:
         # print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
