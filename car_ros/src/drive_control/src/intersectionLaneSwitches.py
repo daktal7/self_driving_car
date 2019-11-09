@@ -10,7 +10,7 @@ def one():
 	global wps
 	print("Intersection lane 1")
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 2:
 			print("turn right")
 			return 1
@@ -37,7 +37,7 @@ def two():
 	global wps
 	print("Intersection lane 2")
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 3:
 			print("turn right")
 			return 1
@@ -63,7 +63,7 @@ def three():
 	global wps
 	print("Intersection lane 3")
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 4:
 			print("turn right")
 			return 1
@@ -89,7 +89,7 @@ def four():
 	global wps
 	print("Intersection lane 4")
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 1:
 			print("turn right")
 			return 1
@@ -116,7 +116,7 @@ def five():
 	print("Intersection lane 5")
 	global wps
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 5:
 			wps = np.delete(wps,0,0)
 			print("new wp size: ", len(wps))
@@ -137,7 +137,7 @@ def six():
 	print("Intersection lane 6")
 	global wps
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 6:
 			wps = np.delete(wps,0,0)
 			print("new wp size: ", len(wps))
@@ -160,7 +160,7 @@ def seven():
 	#Might need to go straight still for a bit, then make a right turn
 	global wps
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 7:
 			wps = np.delete(wps,0,0)
 			print("new wp size: ", len(wps))
@@ -181,7 +181,7 @@ def eight():
 	#Might need to go straight still for a bit, then make a left turn
 	global wps
 	if len(wps) != 0:
-		nextInter = wpm.reachedIntersection(wps[0])
+		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 8:
 			wps = np.delete(wps,0,0)
 			print("new wp size: ", len(wps))

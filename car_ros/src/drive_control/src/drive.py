@@ -52,11 +52,12 @@ def drive(speed):
 def turn_right():
     global DRIVE_LOCK
     drive(STARTUP_SPEED)
-    time.sleep(.5)
+    time.sleep(1)
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
+    time.sleep(1)
     DRIVE_LOCK = False
 
 
