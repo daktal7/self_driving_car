@@ -60,7 +60,7 @@ def turn_right():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
-    time.sleep(1)
+    time.sleep(2)
     DRIVE_LOCK = False
 
 
