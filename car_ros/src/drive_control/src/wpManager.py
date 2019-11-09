@@ -21,11 +21,11 @@ STOP_INTERSECTIONS = np.array([SI_1,SI_2,SI_3,SI_4,SI_5,SI_6,SI_7,SI_8])
 WI_1 = np.array([[328,786],[209,911],[310,1025],[432,889]])
 WI_2 = np.array([[505,887],[636,1027],[748,927],[612,790]])
 WI_3 = np.array([[604,713],[758,561],[634,452],[503,609]])
-WI_4 = np.array([[430,610],[304,482],[197,589],[326,715]])
+WI_4 = np.array([[318,491],[462,635],[362,737],[190,585]])
 WI_5 = np.array([[300,140],[484,138],[490,2],[294,2]])
 WI_6 = np.array([[134,158],[278,148],[272,324],[134,332]])
 WI_7 = np.array([[782,1407],[938,1405],[940,1225],[788,1229]])
-WI_8 = np.array([[778,1424],[574,1428],[574,1577],[764,1584]])
+WI_8 = np.array([[523,1427],[783,1423],[785,1578],[521,1578]])
 WARNING_INTERSECTIONS = np.array([WI_1,WI_2,WI_3,WI_4,WI_5,WI_6,WI_7,WI_8])
 
 #Distance that the car must be from a waypoint in order bump that waypoint off our list.
