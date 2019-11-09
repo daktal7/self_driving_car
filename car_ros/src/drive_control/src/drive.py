@@ -37,7 +37,7 @@ def handler(signal_received, frame):
 def steer(angle):
     global DRIVE_LOCK
     if WARNING_INTERSECTION:
-        # print(angle.data)
+        print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
     if not DRIVE_LOCK:
