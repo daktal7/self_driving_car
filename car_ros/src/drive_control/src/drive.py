@@ -64,7 +64,7 @@ def turn_right():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
-    time.sleep(2)
+    time.sleep(2.25)
     DRIVE_LOCK = False
 
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1625\n"  # was 1750 // was 1615
+    init_command = "!start1626\n"  # was 1750 // was 1615
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
