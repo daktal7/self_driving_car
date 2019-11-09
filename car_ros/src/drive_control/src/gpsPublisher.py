@@ -34,7 +34,7 @@ def publishIntersection():
 				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
 				if turn is not None:
 					pub.publish(4)
-					rateInner = rospy.Rate(1.5)
+					rateInner = rospy.Rate(10)
 					while wpm.reachedStopIntersection(coor) == -1:
 						coor = ti.getCoor("Green")
 						coor = (abs(coor[0]),abs(coor[1]))
