@@ -81,7 +81,7 @@ class image_displayer:
 				steering_point = [int(average_line[2] + right_offset), int(average_line[3])]
 
 			else:  # this is a defualt value
-				steering_point = (400, 300)
+				steering_point = (370, 300)
 
 			fudge_factor = 50
 			if steering_point[0] > lane_image.shape[1] + fudge_factor:
