@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1622\n"  # was 1750 // was 1615
+    init_command = "!start1623\n"  # was 1750 // was 1615
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
