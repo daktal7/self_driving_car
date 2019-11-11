@@ -42,7 +42,7 @@ signal(SIGINT, handler)
 print('Running. Press CTRL-C to exit')
 cap = cv2.VideoCapture("/dev/video1",cv2.CAP_V4L)
 icd = image_converter_depth()
-rospy.init_node('video', anonymous = False)
+#rospy.init_node('video', anonymous = False)
 while(cap.isOpened()):
 	try:
 		_, frame = cap.read()
