@@ -139,7 +139,7 @@ def drive_control():
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
     #rospy.Subscriber("driveSpeed", Float32, drive)
-    # rospy.Subscriber("intersection", Int32, intersect)
+    rospy.Subscriber("intersection", Int32, intersect)
     rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
     rospy.spin()
 
