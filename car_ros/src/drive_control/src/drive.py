@@ -19,6 +19,7 @@ import gc
 import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False
+OBJECT_DETECTED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 8
 DRIVE_SPEED = 0.0075
@@ -35,6 +36,8 @@ def handler(signal_received, frame):
 
 
 def steer(angle):
+    if OBJECT_DETECTED:
+        return
     global DRIVE_LOCK
     if WARNING_INTERSECTION:
         print("WARNING_INTERSECTION:")
@@ -93,6 +96,8 @@ def go_straight():
 
 
 def intersect(turn):
+    if OBJECT_DETECTED:
+        return
     global DRIVE_LOCK,WARNING_INTERSECTION
     if turn.data == 4:
         WARNING_INTERSECTION = True
@@ -113,6 +118,19 @@ def intersect(turn):
         print("Drive: stop")
         drive(0)
 
+def emergencyStop(flag):
+    global OBJECT_DETECTED
+    print("got an emergency stop flag")
+    if flag.data == 1:
+        if not OBJECT_DETECTED:
+            print("stopping for object")
+            OBJECT_DETECTED = True
+            drive(0)
+    else:
+        if OBJECT_DETECTED:
+            print("object gone, starting")
+            OBJECT_DETECTED = False
+            drive(DRIVE_SPEED)
 
 def drive_control():
     print("drive_control here")
@@ -121,7 +139,8 @@ def drive_control():
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
     #rospy.Subscriber("driveSpeed", Float32, drive)
-    rospy.Subscriber("intersection", Int32, intersect)
+    #rospy.Subscriber("intersection", Int32, intersect)
+    rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
     rospy.spin()
 
 
