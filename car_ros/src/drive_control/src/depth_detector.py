@@ -69,7 +69,8 @@ class image_displayer:
 		hsvIm = cv2.cvtColor(depth_image,cv2.COLOR_RGB2HSV)
 		valIm = hsvIm[:,:,2]
 		ret, threshold_image = cv2.threshold(valIm, threshold_value, 255, cv2.THRESH_BINARY_INV)
-		ret, threshold_image2 = cv2.threshold(valIm, 50, 255, cv2.THRESH_BINARY)
+		#ret, threshold_image2 = cv2.threshold(valIm, 50, 255, cv2.THRESH_BINARY)
+		ret, threshold_image2 = cv2.threshold(valIm, 100, 255, cv2.THRESH_BINARY)
 		valCombine = cv2.bitwise_and(threshold_image,threshold_image2)
 		masked_depth_image = self.region_of_interest_depth(valCombine)
 		rgbIm_masked = cv2.cvtColor(masked_depth_image,cv2.COLOR_GRAY2RGB)
