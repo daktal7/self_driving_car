@@ -16,35 +16,33 @@ import testIntersections as ti
 # -1: turn left
 # 0: go straight
 # 2: stop
+# 4: raise warning flag
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=1)
 	rospy.init_node('intersection_pub', anonymous=False)
-	rate = rospy.Rate(1)
+	rate = rospy.Rate(5)
 	prevInter = -1
 	while not rospy.is_shutdown():
-		# grab the gps point
-		
-        # check to see if we're in the intersection
 		coor = ti.getCoor("Green")
-		if coor[0] < 0:
-			coor = (-1*coor[0],-1*coor[1])
-		inter = wpm.reachedIntersection(coor) #change this to the right color
-        # if we are in an intersection, publish where we should turn
-        # -1 is left 0 is straight, 1 is right
+		coor = (abs(coor[0]),abs(coor[1]))
+		inter = wpm.reachedWarningIntersection(coor)
+
+        #check to see if we're in a warning intersection
 		if inter != -1:
 			if inter != prevInter:
 				prevInter = inter
-				rospy.loginfo(inter)
-				turn = ils.useLaneNumber(inter)
+				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
 				if turn is not None:
+					pub.publish(4)
+					rateInner = rospy.Rate(10)
+					while wpm.reachedStopIntersection(coor) == -1:
+						coor = ti.getCoor("Green")
+						coor = (abs(coor[0]),abs(coor[1]))
+						rateInner.sleep()
 					print("publishing turn %d", turn)
 					pub.publish(2)
 					time.sleep(1.5)
 					pub.publish(turn)
-					time.sleep(2.5)
-					pub.publish(3)
-				else:
-					print("not publishing turn")
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05

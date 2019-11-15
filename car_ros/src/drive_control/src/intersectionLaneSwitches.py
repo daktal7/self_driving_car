@@ -10,19 +10,23 @@ def one():
 	global wps
 	print("Intersection lane 1")
 	if len(wps) != 0:
-		inter = wpm.reachedIntersection(wps[0])
-		#wps = np.delete(wps,0,0)
-		if inter == 6:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 2:
 			print("turn right")
 			return 1
-		elif inter == 7:
+		elif nextInter == 3:
 			print("go straight")
 			return 0
-		elif inter == 8:
+		elif nextInter == 4:
 			print("turn left")
 			return -1
+		elif nextInter == 1:
+			print("deleting waypoint")
+			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
+			return None
 		else:
-			print("error, in intersection 1 and I don't know where to go")
+			print("in intersection 1 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -33,19 +37,23 @@ def two():
 	global wps
 	print("Intersection lane 2")
 	if len(wps) != 0:
-		inter = wpm.reachedIntersection(wps[0])
-		#wps = np.delete(wps,0,0)
-		if inter == 7:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 3:
 			print("turn right")
 			return 1
-		elif inter == 8:
+		elif nextInter == 4:
 			print("go straight")
 			return 0
-		elif inter == 5:
+		elif nextInter == 1:
 			print("turn left")
 			return -1
+		elif nextInter == 2:
+			print("deleting waypoint")
+			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
+			return None
 		else:
-			print("error, in intersection 1 and I don't know where to go")
+			print("in intersection 2 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -55,19 +63,23 @@ def three():
 	global wps
 	print("Intersection lane 3")
 	if len(wps) != 0:
-		inter = wpm.reachedIntersection(wps[0])
-		#wps = np.delete(wps,0,0)
-		if inter == 8:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 4:
 			print("turn right")
 			return 1
-		elif inter == 5:
+		elif nextInter == 1:
 			print("go straight")
 			return 0
-		elif inter == 6:
+		elif nextInter == 2:
 			print("turn left")
 			return -1
+		elif nextInter == 3:
+			print("deleting waypoint")
+			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
+			return None
 		else:
-			print("error, in intersection 1 and I don't know where to go")
+			print("in intersection 3 and continuing")
 	else:
 		print("Finished waypoints")
 		return 2
@@ -77,111 +89,111 @@ def four():
 	global wps
 	print("Intersection lane 4")
 	if len(wps) != 0:
-		inter = wpm.reachedIntersection(wps[0])
-		#wps = np.delete(wps,0,0)
-		if inter == 5:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 1:
 			print("turn right")
 			return 1
-		elif inter == 6:
+		elif nextInter == 2:
 			print("go straight")
 			return 0
-		elif inter == 7:
+		elif nextInter == 3:
 			print("turn left")
 			return -1
+		elif nextInter == 4:
+			print("deleting waypoint")
+			wps = np.delete(wps, 0, 0)
+			print("new wp size: ", len(wps))
+			return None
 		else:
-			print("error, in intersection 1 and I don't know where to go")
+			print("in intersection 4 and continuing")
+			return None
 	else:
 		print("Finished waypoints")
 		return 2
 	#direction to go depends on the location of our next waypoint
 
 def five():
-	print("Drove into intersection lane 5")
+	print("Intersection lane 5")
 	global wps
-	#if we hit the waypoint ,and it is the next wapyout, now we can delete it
-	if(wpm.reachedIntersection(wps[0]) == 5):
-		wps = np.delete(wps, 0, 0)
-	if len(wps) == 0:
+	if len(wps) != 0:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 5:
+			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
+			return None
+		elif nextInter == 6:
+			print("turn left")
+			return -1
+		else:
+			print("in intersection 5 and continuing")
+			return None
+	else:
+		print("no more waypoints")
 		return 2
-	return None
+	#needs to suspend the normal driving angle procedures
+	#Might need to go straight still for a bit, then make a left turn
 
 def six():
-	print("Drove into intersection lane 6")
+	print("Intersection lane 6")
 	global wps
-	if(wpm.reachedIntersection(wps[0]) == 6):
-		wps = np.delete(wps, 0, 0)
-	if len(wps) == 0:
+	if len(wps) != 0:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 6:
+			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
+			return None
+		elif nextInter == 5:
+			print("turn right")
+			return 1
+		else:
+			print("in intersection 6 and continuing")
+			return None
+	else:
+		print("no more waypoints")
 		return 2
-	return None
+	#needs to suspend the normal driving angle procedures
+	#Might need to go straight still for a bit, then make a right turn
 
 def seven():
-	print("Drove into intersection lane 7")
+	print("Intersection lane 7")
+	#needs to suspend the normal driving angle procedures
+	#Might need to go straight still for a bit, then make a right turn
 	global wps
-	if(wpm.reachedIntersection(wps[0]) == 7):
-		wps = np.delete(wps, 0, 0)
-	if len(wps) == 0:
+	if len(wps) != 0:
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 7:
+			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
+			return None
+		elif nextInter == 8:
+			print("turn right")
+			return 1
+		else:
+			print("in intersection 7 and continuing")
+			return None
+	else:
+		print("no more waypoints")
 		return 2
-	return None
 
 def eight():
-	print("Drove into intersection lane 8")
-	global wps
-	if(wpm.reachedIntersection(wps[0]) == 8):
-		wps = np.delete(wps, 0, 0)
-	if len(wps) == 0:
-		return 2
-	return None
-
-def nine():
-	print("Intersection lane 9")
-	global wps
-	if len(wps) != 0:
-		wps = np.delete(wps,0,0)
-		print("turn left")
-		return -1
-	else:
-		print("error, no more waypoints")
-		return 2
-	#needs to suspend the normal driving angle procedures
-	#Might need to go straight still for a bit, then make a left turn
-
-def ten():
-	print("Intersection lane 10")
-	global wps
-	if len(wps) != 0:
-		wps = np.delete(wps,0,0)
-		print("turn right")
-		return 1
-	else:
-		print("error, no more waypoints")
-		return 2
-	#needs to suspend the normal driving angle procedures
-	#Might need to go straight still for a bit, then make a right turn
-
-def eleven():
-	print("Intersection lane 11")
-	#needs to suspend the normal driving angle procedures
-	#Might need to go straight still for a bit, then make a right turn
-	global wps
-	if len(wps) != 0:
-		wps = np.delete(wps,0,0)
-		print("turn right")
-		return 1
-	else:
-		print("error, no more waypoints")
-		return 2
-
-def twelve():
-	print("Intersection lane 12")
+	print("Intersection lane 8")
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a left turn
 	global wps
 	if len(wps) != 0:
-		wps = np.delete(wps,0,0)
-		print("turn left")
-		return -1
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter == 8:
+			wps = np.delete(wps,0,0)
+			print("new wp size: ", len(wps))
+			return None
+		elif nextInter == 7:
+			print("turn left")
+			return -1
+		else:
+			print("in intersection 8 and continuing")
+			return None
 	else:
-		print("error, no more waypoints")
+		print("no more waypoints")
 		return 2
 
 def noIntersection():
@@ -199,11 +211,7 @@ def useLaneNumber(num):
 		5: five,
 		6: six,
 		7: seven, 
-		8: eight,
-		9: nine,
-		10: ten,
-		11: eleven,
-		12: twelve
+		8: eight
 	}
 	#get the funciton that we need to call
 	func = switcher.get(num, lambda: noIntersection)

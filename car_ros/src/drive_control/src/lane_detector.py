@@ -24,12 +24,14 @@ class image_displayer:
 		self.angle_pub = rospy.Publisher("steerAngle", Float32, queue_size = 1)
 		self.count = 0
 
+
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
 		frame = self.bridge.imgmsg_to_cv2(data, "rgb8")
 		if frame is None:
 			return
 		if self.count == 0:
+			#start = time.time()
 			image = cv2.resize(frame, (640, 480))
 
 			lane_image = np.copy(image)
@@ -121,7 +123,16 @@ class image_displayer:
 
 			# writer_2.write(test_image_resized)
 
+
+			#writer_2.write(test_image_resized)
+			#cv2.imshow("result", combo_image)
+			#cv2.waitKey(1)
+			#end = time.time()
+			#print("time elapsed: ", end-start)
+
 			self.angle_pub.publish(steering_angle)
+			#end = time.time()
+			#print("time elapsed: ", end - start)
 			self.count = 1
 
 		elif self.count == 1:
@@ -151,8 +162,8 @@ for num in range(number_of_slices):
 #rospy.init_node('angleTalker', anonymous=False)
 #rate = rospy.Rate(10)
 
-id = image_displayer()
 rospy.init_node('lane_detector', anonymous = True)
+id = image_displayer()
 rospy.spin()
 
 

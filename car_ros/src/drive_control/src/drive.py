@@ -19,7 +19,11 @@ import gc
 import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False
+OBJECT_DETECTED = False
+WARNING_INTERSECTION = False
+ANGLE_THRESHOLD = 8
 DRIVE_SPEED = 0.0075
+STARTUP_SPEED = .009
 prevAngle = 0
 
 
@@ -32,46 +36,73 @@ def handler(signal_received, frame):
 
 
 def steer(angle):
+    if OBJECT_DETECTED:
+        return
+    global DRIVE_LOCK
+    if WARNING_INTERSECTION:
+        print("WARNING_INTERSECTION:")
+        if abs(angle.data) > ANGLE_THRESHOLD:
+            DRIVE_LOCK = True
     if not DRIVE_LOCK:
         # print(angle.data)
+        if WARNING_INTERSECTION:
+            print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
-
 def drive(speed):
     # if not DRIVE_LOCK:
-    print("speed ", speed)
     command = "!speed" + str(speed) + "\n"
     ser.write(command.encode())
 
 
 def turn_right():
-    drive(DRIVE_SPEED)
-    time.sleep(1.3)
+    global DRIVE_LOCK
+    angle = 0 - prevAngle/2
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(STARTUP_SPEED)
+    time.sleep(1)
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    time.sleep(2.4)
+    DRIVE_LOCK = False
+
 
 
 def turn_left():
-    drive(DRIVE_SPEED)
-    time.sleep(1.8)
+    global DRIVE_LOCK
+    drive(STARTUP_SPEED)
+    time.sleep(1.5)
     angle = -20 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    time.sleep(2)
+    DRIVE_LOCK = False
 
 
 def go_straight():
-    angle = 0 - prevAngle
+    global DRIVE_LOCK
+    angle = 0 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    drive(STARTUP_SPEED)
+    time.sleep(3.5)
     drive(DRIVE_SPEED)
+    DRIVE_LOCK = False
 
 
 def intersect(turn):
-    print("in drive intersection")
-    global DRIVE_LOCK
-    DRIVE_LOCK = True
+    if OBJECT_DETECTED:
+        return
+    global DRIVE_LOCK,WARNING_INTERSECTION
+    if turn.data == 4:
+        WARNING_INTERSECTION = True
+    else:
+        WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
     if turn.data == -1:
@@ -86,11 +117,20 @@ def intersect(turn):
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
-    if turn.data == 3:
-        print("drive lock off")
-        DRIVE_LOCK = False
-        drive(DRIVE_SPEED)
 
+def emergencyStop(flag):
+    global OBJECT_DETECTED
+    print("got an emergency stop flag")
+    if flag.data == 1:
+        if not OBJECT_DETECTED:
+            print("stopping for object")
+            OBJECT_DETECTED = True
+            drive(0)
+    else:
+        if OBJECT_DETECTED:
+            print("object gone, starting")
+            OBJECT_DETECTED = False
+            drive(DRIVE_SPEED)
 
 def drive_control():
     print("drive_control here")
@@ -98,8 +138,9 @@ def drive_control():
     # subscribe to whatever is checking our intersections
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
-    # rospy.Subscriber("driveSpeed", Float32, drive)
+    #rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
+    rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
     rospy.spin()
 
 

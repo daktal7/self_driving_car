@@ -12,6 +12,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 class image_converter:
 	def __init__(self):
+		print("image converter")
 		self.image_pub = rospy.Publisher("video_topic", Image, queue_size=1)
 		self.bridge = CvBridge()
 	
@@ -32,6 +33,9 @@ def handler(signal_received, frame):
 signal(SIGINT, handler)
 print('Running. Press CTRL-C to exit')
 cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
+#while not cap.isOpened():
+#	print("trying again")
+#	cap = cv2.VideoCapture("/dev/video2",cv2.CAP_V4L)
 ic = image_converter()
 rospy.init_node('video', anonymous = False)
 while(cap.isOpened()):

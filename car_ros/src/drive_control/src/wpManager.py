@@ -8,19 +8,25 @@ import math
 import matplotlib.path as mpltPath
 
 #this are the coordinates for all the intersections
-INT_1  = np.array([[ 454,  878],[ 395,  822],[ 259,  970],[ 328, 1023]]) #Fixed
-INT_2  = np.array([[ 541,  834],[ 671,  952],[ 742,  899],[ 610,  773]]) #Fixed
-INT_3  = np.array([[ 553,  663],[ 677,  527],[ 602,  474],[ 492,  604]]) #Fixed
-INT_4  = np.array([[ 369,  647],[ 330,  700],[ 214,  590],[ 269,  545]]) #Fixed
-INT_5  = np.array([[ 263,  966],[ 210,  909],[ 338,  775],[ 399,  818]]) #Fixed
-INT_6  = np.array([[ 490,  897],[ 543,  834],[ 681,  952],[ 626, 1015]]) #Fixed
-INT_7  = np.array([[ 624,  722],[ 765,  596],[ 683,  523],[ 555,  657]]) #Fixed
-INT_8  = np.array([[ 430,  594],[ 371,  645],[ 275,  541],[ 340,  489]]) #Fixed
-INT_9  = np.array([[ 310,    3],[ 448,   5 ],[  462,  64],[ 300,   64]]) #Fixed
-INT_10 = np.array([[ 202,  160],[ 271,  162],[ 275,  286],[ 206,  292]]) #Fixed
-INT_11 = np.array([[868,  1404],[870,  1256],[791,  1260],[787,  1400]]) #Fixed
-INT_12 = np.array([[756,  1569],[620,  1569],[620,  1504],[761,  1506]]) #Fixed
-INTERSECTIONS = np.array([INT_1,INT_2,INT_3,INT_4,INT_5,INT_6,INT_7,INT_8,INT_9,INT_10,INT_11,INT_12])
+SI_1 = np.array([[342,776],[296,821],[401,929],[444,880]])
+SI_2 = np.array([[492,880],[541,931],[653,825],[602,778]])
+SI_3 = np.array([[598,724],[494,620],[541,561],[653,675]])
+SI_4 = np.array([[440,624],[391,575],[289,679],[340,723]])
+SI_5 = np.array([[291,143],[289,3],[363,1],[362,133]])
+SI_6 = np.array([[277,141],[125,143],[123,226],[279,222]])
+SI_7 = np.array([[777,1432],[941,1430],[947,1349],[777,1359]])
+SI_8 = np.array([[779,1442],[696,1430],[689,1576],[781,1580]])
+STOP_INTERSECTIONS = np.array([SI_1,SI_2,SI_3,SI_4,SI_5,SI_6,SI_7,SI_8])
+#These are the warning intersections
+WI_1 = np.array([[328,786],[209,911],[310,1025],[432,889]])
+WI_2 = np.array([[505,887],[636,1027],[748,927],[612,790]])
+WI_3 = np.array([[604,713],[758,561],[634,452],[503,609]])
+WI_4 = np.array([[318,491],[462,635],[362,737],[190,585]])
+WI_5 = np.array([[300,140],[484,138],[490,2],[294,2]])
+WI_6 = np.array([[134,158],[278,148],[272,324],[134,332]])
+WI_7 = np.array([[782,1407],[938,1405],[940,1225],[788,1229]])
+WI_8 = np.array([[523,1427],[783,1423],[785,1578],[521,1578]])
+WARNING_INTERSECTIONS = np.array([WI_1,WI_2,WI_3,WI_4,WI_5,WI_6,WI_7,WI_8])
 
 #Distance that the car must be from a waypoint in order bump that waypoint off our list.
 MIN_DIST = 80
@@ -108,9 +114,22 @@ def reachedWP(curLoc, wp):
 #this function returns the index of the intersection we are in, or returns -1 if we aren't in any intersection
 #An intersection is a 2D array or list with four vertices, so this function needs to be a list of 2D arrays or lists
 #curLoc is a tuple
-def reachedIntersection(curLoc):
-    for i in range(len(INTERSECTIONS)):
-        path = mpltPath.Path(INTERSECTIONS[i])
+def reachedWarningIntersection(curLoc):
+    global WARNING_INTERSECTIONS
+    for i in range(len(WARNING_INTERSECTIONS)):
+        path = mpltPath.Path(WARNING_INTERSECTIONS[i])
+        if path.contains_point(curLoc):
+            return i+1
+    return -1
+
+
+#this function returns the index of the intersection we are in, or returns -1 if we aren't in any intersection
+#An intersection is a 2D array or list with four vertices, so this function needs to be a list of 2D arrays or lists
+#curLoc is a tuple
+def reachedStopIntersection(curLoc):
+    global STOP_INTERSECTIONS
+    for i in range(len(STOP_INTERSECTIONS)):
+        path = mpltPath.Path(STOP_INTERSECTIONS[i])
         if path.contains_point(curLoc):
             return i+1
     return -1

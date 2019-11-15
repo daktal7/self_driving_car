@@ -28,4 +28,4 @@ def getCoor(color):
 
 
 
-ils.useLaneNumber(wpm.reachedIntersection(getCoor("Blue")))
+ils.useLaneNumber(wpm.reachedWarningIntersection(getCoor("Blue")))
