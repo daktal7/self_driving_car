@@ -101,25 +101,25 @@ class image_displayer:
 			combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
 			combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
 
-			if W is None or H is None:
-			    (H, W) = frame.shape[:2]
+			# if W is None or H is None:
+			#     (H, W) = frame.shape[:2]
 
-			# check if the video writer is None
-			if writer is None:
-				initialize our video writer
-				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-				writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
-										 (640, 480), True)
+			# # check if the video writer is None
+			# if writer is None:
+			# 	initialize our video writer
+			# 	fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+			# 	writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
+			# 							 (640, 480), True)
 			# if writer_2 is None:
 			# 	initialize our video writer
 			# 	fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 			# 	writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
 			# 							   (640, 480), True)
 
-			# write the output frame to disk
-			test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
-			test_image_resized = cv2.resize(test_image, (640, 480))
-			writer.write(frame)
+			# # write the output frame to disk
+			# test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
+			# test_image_resized = cv2.resize(test_image, (640, 480))
+			# writer.write(frame)
 
 			# writer_2.write(test_image_resized)
 
