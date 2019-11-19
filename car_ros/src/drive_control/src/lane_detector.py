@@ -125,8 +125,8 @@ class image_displayer:
 
 
 			writer_2.write(test_image_resized)
-			cv2.imshow("result", combo_image)
-			cv2.waitKey(1)
+			# cv2.imshow("result", combo_image)
+			# cv2.waitKey(1)
 			end = time.time()
 			#print("time elapsed: ", end-start)
 
