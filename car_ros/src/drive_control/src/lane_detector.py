@@ -174,6 +174,7 @@ for num in range(number_of_slices):
 rospy.init_node('lane_detector', anonymous = True)
 id = image_displayer()
 rospy.spin()
+rospy.on_shutdown(id.shutDown)
 
 
 
