@@ -106,12 +106,12 @@ class image_displayer:
 
 			# check if the video writer is None
 			if writer is None:
-				initialize our video writer
+				# initialize our video writer
 				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 				writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
 										 (640, 480), True) 
 			if writer_2 is None:
-				initialize our video writer
+				# initialize our video writer
 				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 				writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
 										   (640, 480), True)
