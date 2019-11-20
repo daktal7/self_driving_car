@@ -17,6 +17,7 @@ from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Float32
 
 
+
 class image_displayer:
 	def __init__(self):
 		self.bridge = CvBridge()
@@ -27,6 +28,8 @@ class image_displayer:
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
+		W = None
+		H = None
 		frame = self.bridge.imgmsg_to_cv2(data, "rgb8")
 		if frame is None:
 			return
