@@ -261,13 +261,13 @@ class road_image:
         ret1, thresh1 = cv2.threshold(hue,lower_hue_bound,255,cv2.THRESH_BINARY)
         ret2, thresh2 = cv2.threshold(hue,upper_hue_bound,255,cv2.THRESH_BINARY_INV)
         hueCombine = cv2.bitwise_and(thresh1,thresh2)
-        lower_sat_bound = 155
+        lower_sat_bound = 135
         upper_sat_bound = 255
         ret1, sat_thresh1 = cv2.threshold(saturation,lower_sat_bound,255,cv2.THRESH_BINARY)
         ret2, sat_thresh2 = cv2.threshold(saturation,upper_sat_bound,255,cv2.THRESH_BINARY_INV)
         satCombine = cv2.bitwise_and(sat_thresh1,sat_thresh2)
-        lower_val_bound = 115
-        upper_val_bound = 235
+        lower_val_bound = 90
+        upper_val_bound = 230
         ret1, val_thresh1 = cv2.threshold(value,lower_val_bound,255,cv2.THRESH_BINARY)
         ret2, val_thresh2 = cv2.threshold(value,upper_val_bound,255,cv2.THRESH_BINARY_INV)
         valCombine = cv2.bitwise_and(val_thresh1,val_thresh2)
