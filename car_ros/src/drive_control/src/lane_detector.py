@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
-# import serial
+import serial
 import time
 from signal import signal, SIGINT
 import rospy
@@ -29,6 +29,10 @@ class image_displayer:
 		self.writer = None
 		self.writer_2 = None
 
+	def shutDown(self):
+		print("SHUTTING DOWN LANE_DETECTOR")
+		self.writer.release()
+		self.writer_2.release()
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
@@ -128,7 +132,7 @@ class image_displayer:
 			self.writer.write(frame)
 
 			self.writer_2.write(test_image_resized)
-			
+
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
 			end = time.time()
