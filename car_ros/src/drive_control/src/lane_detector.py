@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
-import serial
+# import serial
 import time
 from signal import signal, SIGINT
 import rospy
