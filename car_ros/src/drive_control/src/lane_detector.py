@@ -139,7 +139,7 @@ class image_displayer:
 			self.writer.write(combo_image)
 			self.writer.write(combo_image)
 
-			self.writer_2.write(test_image_resized)
+			self.writer_2.write(combo_image)
 
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
