@@ -31,11 +31,13 @@ class image_displayer:
 		self.fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 		self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", self.fourcc, 30,
 										 (640, 480), True) 
+		self.writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", self.fourcc, 30,
+										 (640, 480), True) 
 
 	def shutDown(self):
 		print("SHUTTING DOWN LANE_DETECTOR")
 		self.writer.release()
-		# self.writer_2.release()
+		self.writer_2.release()
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
@@ -133,9 +135,9 @@ class image_displayer:
 			# write the output frame to disk
 			test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
 			test_image_resized = cv2.resize(test_image, (640, 480))
-			self.writer.write(frame)
+			self.writer.write(combo_image)
 
-			# self.writer_2.write(test_image_resized)
+			self.writer_2.write(test_image_resized)
 
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
