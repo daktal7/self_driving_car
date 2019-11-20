@@ -128,9 +128,7 @@ class image_displayer:
 			self.writer.write(frame)
 
 			self.writer_2.write(test_image_resized)
-
-
-			writer_2.write(test_image_resized)
+			
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
 			end = time.time()
