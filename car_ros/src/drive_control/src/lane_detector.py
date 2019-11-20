@@ -135,9 +135,9 @@ class image_displayer:
 			# write the output frame to disk
 			test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
 			test_image_resized = cv2.resize(test_image, (640, 480))
-			self.writer.write(combo_image)
-			self.writer.write(combo_image)
-			self.writer.write(combo_image)
+			self.writer.write(test_image)
+			self.writer.write(test_image)
+			self.writer.write(test_image)
 
 			self.writer_2.write(combo_image)
 
