@@ -24,15 +24,18 @@ class image_displayer:
 		self.image_sub = rospy.Subscriber("video_topic", Image, self.display)
 		self.angle_pub = rospy.Publisher("steerAngle", Float32, queue_size = 1)
 		self.count = 0
-		self.W = None
-		self.H = None
-		self.writer = None
-		self.writer_2 = None
+		# self.W = None
+		# self.H = None
+		# self.writer = None
+		# self.writer_2 = None
+		self.fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+		self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", self.fourcc, 30,
+										 (640, 480), True) 
 
 	def shutDown(self):
 		print("SHUTTING DOWN LANE_DETECTOR")
 		self.writer.release()
-		self.writer_2.release()
+		# self.writer_2.release()
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
@@ -111,28 +114,28 @@ class image_displayer:
 			combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
 			combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
 
-			if self.W is None or self.H is None:
-			    (self.H, self.W) = frame.shape[:2]
+			# if self.W is None or self.H is None:
+			#     (self.H, self.W) = frame.shape[:2]
 
 			# check if the video writer is None
-			if self.writer is None:
-				# initialize our video writer
-				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-				self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
-										 (640, 480), True) 
-				print("Initializing WRITER")
-			if self.writer_2 is None:
-				# initialize our video writer
-				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-				self.writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
-										   (640, 480), True)
+			# if self.writer is None:
+			# 	# initialize our video writer
+			# 	fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+			# 	self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
+			# 							 (640, 480), True) 
+			# 	print("Initializing WRITER")
+			# if self.writer_2 is None:
+			# 	# initialize our video writer
+			# 	fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+			# 	self.writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", fourcc, 30,
+			# 							   (640, 480), True)
 
 			# write the output frame to disk
 			test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
 			test_image_resized = cv2.resize(test_image, (640, 480))
 			self.writer.write(frame)
 
-			self.writer_2.write(test_image_resized)
+			# self.writer_2.write(test_image_resized)
 
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
