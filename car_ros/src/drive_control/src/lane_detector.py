@@ -120,6 +120,7 @@ class image_displayer:
 				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
 				self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", fourcc, 30,
 										 (640, 480), True) 
+				print("Initializing WRITER")
 			if self.writer_2 is None:
 				# initialize our video writer
 				fourcc = cv2.VideoWriter_fourcc(*"MJPG")
