@@ -21,4 +21,7 @@
 	<node pkg="drive_control" type="gpsPublisher.py" name="intersection_pub" output="screen">
 	</node>
 
+	<node pkg="drive_control" type="yolo.py" name="yolo" output="screen">
+	</node>
+
 </launch>
