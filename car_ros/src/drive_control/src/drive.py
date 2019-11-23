@@ -139,7 +139,7 @@ def drive_control():
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
     #rospy.Subscriber("driveSpeed", Float32, drive)
-    #rospy.Subscriber("intersection", Int32, intersect)
+    rospy.Subscriber("intersection", Int32, intersect)
     rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
     rospy.spin()
 
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1620\n"  # was 1750 // was 1615
+    init_command = "!start1625\n"  # was 1750 // was 1615
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
