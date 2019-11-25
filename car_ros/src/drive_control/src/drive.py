@@ -62,25 +62,59 @@ def turn_right():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    time.sleep(1)
+    #time.sleep(1)
+    straightTime = 1.0
+    res = 100
+    for i in range(res):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+        time.sleep(straightTime/res)
+
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
-    time.sleep(2.4)
+    turnTime = 2.4
+    for i in range(res):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+            drive(DRIVE_SPEED) #this might not work be careful
+        time.sleep(turnTime/res)
     DRIVE_LOCK = False
 
 
 
 def turn_left():
     global DRIVE_LOCK
+    straightTime = 1.5
+    res = 100
     drive(STARTUP_SPEED)
-    time.sleep(1.5)
+    for i in range(res):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+        time.sleep(straightTime / res)
     angle = -20 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
-    time.sleep(2)
+    turnTime = 2.0
+    for i in range(res):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+            drive(DRIVE_SPEED)  # this might not work be careful
+        time.sleep(turnTime / res)
     DRIVE_LOCK = False
 
 
@@ -89,8 +123,16 @@ def go_straight():
     angle = 0 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
+    res = 100
+    straightTime = 3.5
     drive(STARTUP_SPEED)
-    time.sleep(3.5)
+    for i in range(res):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+        time.sleep(straightTime / res)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
 
