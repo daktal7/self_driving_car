@@ -218,6 +218,7 @@ yolo_control()
 #             current_score = (scores[0][i])[0]
 #             current_bb = bounding_boxs[0][i-1]
             
+<<<<<<< HEAD
 #     gc.collect()
 
 #     try:
@@ -247,6 +248,7 @@ yolo_control()
 #         pass
 #         #print("Other ID is: ", current_class_id)   
 #         #print("Score: ", current_score) 
+
 
 #     #print("Class ID: ", current_class_id)
 #     #print("Score: ", current_score)
