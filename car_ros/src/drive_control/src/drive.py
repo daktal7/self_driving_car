@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float32, Int32
+from std_msgs.msg import Float32, Int32, Char
 from matplotlib import pyplot as plt
 # from gluoncv import model_zoo, utils
 # import pyrealsense2 as rs
@@ -23,7 +23,8 @@ OBJECT_DETECTED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 8
 DRIVE_SPEED = 0.0075
-STARTUP_SPEED = .009
+STARTUP_SPEED = .01
+GREEN = False
 prevAngle = 0
 
 
@@ -152,15 +153,16 @@ def intersect(turn):
         WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
-    if turn.data == -1:
-        print("Drive: turn left")
-        turn_left()
-    if turn.data == 0:
-        print("Drive: go straight")
-        go_straight()
-    if turn.data == 1:
-        print("Drive: turn right")
-        turn_right()
+	if GREEN:
+		if turn.data == -1:
+			print("Drive: turn left")
+			turn_left()
+		if turn.data == 0:
+			print("Drive: go straight")
+			go_straight()
+		if turn.data == 1:
+			print("Drive: turn right")
+			turn_right()
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
@@ -179,6 +181,14 @@ def emergencyStop(flag):
             OBJECT_DETECTED = False
             drive(DRIVE_SPEED)
 
+def stopLight(light):
+	global GREEN
+	if light.data == 'g':
+		GREEN = True
+	else:
+		GREEN = False
+
+
 def drive_control():
     print("drive_control here")
     rospy.init_node('drive_control', anonymous=False)
@@ -188,6 +198,7 @@ def drive_control():
     #rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
     rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
+	rospy.Subscriber("light", Char, stopLight)
     rospy.spin()
 
 
