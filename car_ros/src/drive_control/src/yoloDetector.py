@@ -100,7 +100,7 @@ current_bb = [0, 0, 0, 0]
 
 # loop over frames from the video file stream
 while True:  
-    f.open("~/Desktop/intersection.txt", "r")
+    f = open("/home/nvidia/Desktop/intersection.txt", "r")
     w = f.read(1)
     if(w != '4'):
         pass
