@@ -34,6 +34,9 @@ def publishIntersection():
 				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
 				if turn is not None:
 					pub.publish(4)
+					f = open("~/Desktop/intersection.txt", "w")
+					f.write("4")
+					f.close()
 					rateInner = rospy.Rate(10)
 					while wpm.reachedStopIntersection(coor) == -1:
 						coor = ti.getCoor("Green")
@@ -41,8 +44,14 @@ def publishIntersection():
 						rateInner.sleep()
 					print("publishing turn %d", turn)
 					pub.publish(2)
+					f = open("~/Desktop/intersection.txt", "w")
+					f.write("2")
+					f.close()
 					time.sleep(1.5)
 					pub.publish(turn)
+					f = open("~/Desktop/intersection.txt", "w")
+					f.write(turn)
+					f.close()
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
 		#	speed = 0.05
