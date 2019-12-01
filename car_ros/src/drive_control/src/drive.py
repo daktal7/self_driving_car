@@ -65,27 +65,29 @@ def turn_right():
     #time.sleep(1)
     straightTime = 1.0
     res = 100
-    for i in range(res):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-        time.sleep(straightTime/res)
-
+    drive(STARTUP_SPEED)
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #    time.sleep(straightTime/res)
+    time.sleep(straightTime)
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
     turnTime = 2.4
-    for i in range(res):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-            drive(DRIVE_SPEED) #this might not work be careful
-        time.sleep(turnTime/res)
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #        drive(DRIVE_SPEED) #this might not work be careful
+    #    time.sleep(turnTime/res)
+    time.sleep(turnTime)
     DRIVE_LOCK = False
 
 
@@ -95,26 +97,28 @@ def turn_left():
     straightTime = 1.5
     res = 100
     drive(STARTUP_SPEED)
-    for i in range(res):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-        time.sleep(straightTime / res)
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #    time.sleep(straightTime / res)
+    time.sleep(straightTime)
     angle = -20 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
     turnTime = 2.0
-    for i in range(res):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-            drive(DRIVE_SPEED)  # this might not work be careful
-        time.sleep(turnTime / res)
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #        drive(DRIVE_SPEED)  # this might not work be careful
+    #    time.sleep(turnTime / res)
+    time.sleep(turnTime)
     DRIVE_LOCK = False
 
 
@@ -126,13 +130,14 @@ def go_straight():
     res = 100
     straightTime = 3.5
     drive(STARTUP_SPEED)
-    for i in range(res):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-        time.sleep(straightTime / res)
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #    time.sleep(straightTime / res)
+    time.sleep(straightTime)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
 
