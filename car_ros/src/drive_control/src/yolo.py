@@ -18,9 +18,9 @@ rate = rospy.Rate(1)
 oldLight = 'q'
 while not rospy.is_shutdown():
     f = open("/home/nvidia/Desktop/light.txt", "r")
-    light = f.read(1)
+    light = chr(f.read(1))
     if light != oldLight:
-        pub.publish(light[0])
+        pub.publish(light)
     f.close()
     rate.sleep()
 
