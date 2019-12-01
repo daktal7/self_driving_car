@@ -17,7 +17,7 @@ from sys import exit
 import numpy as np
 import mxnet as mx
 import argparse
-import imutils
+# import imutils
 import serial
 import time
 import cv2
