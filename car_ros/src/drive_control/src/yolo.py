@@ -142,7 +142,7 @@ def yolo_detect(data):
                 # cv2.imwrite("yoloImage.jpg", img2)
                 pub.publish(tl.detectLight(img, {top_left, bottom_right}, RGB))
                 if current_bb[0] != -1:
-                    break
+                    return None
                 #cv2.circle(img, top_left, 5, red, -1)
                 #cv2.circle(img, bottom_right, 5, green, -1)
                 #cv2.rectangle(img, top_left, bottom_right, box, thickness=1, lineType=8, shift=0)

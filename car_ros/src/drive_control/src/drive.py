@@ -198,7 +198,7 @@ def drive_control():
     #rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
     rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
-	rospy.Subscriber("light", Char, stopLight)
+    rospy.Subscriber("light", Char, stopLight)
     rospy.spin()
 
 
