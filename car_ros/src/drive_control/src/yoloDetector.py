@@ -1,0 +1,215 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@daktal7 
+1
+00daktal7/self_driving_car
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+self_driving_car/car_ros/src/drive_control/src/yolo.py
+ Dylan Update yolo.py
+3bc700b 5 days ago
+186 lines (146 sloc)  5.51 KB
+  
+Code navigation is available!
+Navigate your code with ease. Click on function and method calls to jump to their definitions or references in the same repository. Learn more
+
+ Code navigation is available for this repository but data for this commit does not exist.
+
+Learn more or give us feedback
+#!/usr/bin/env python
+
+# USAGE
+# sudo MXNET_CUDNN_AUTOTUNE_DEFAULT=0 python3 yolo.py
+# OPTIONAL PARAMETERS
+# -c/--confidence (.0-1.0) (detected objects with a confidence higher than this will be used)
+
+# import the necessary packages
+#from car_control import steer, drive
+from matplotlib import pyplot as plt
+from gluoncv import model_zoo, utils
+#import pyrealsense2 as rs
+from PIL import Image
+from signal import signal, SIGINT
+from sys import exit
+import numpy as np
+import mxnet as mx
+import argparse
+import imutils
+import serial
+import time
+import cv2
+import os
+import gc
+import trafficLight as tl
+
+
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-c", "--confidence", type=float, default=0.5,
+    help="minimum probability to filter weak detections")
+args = vars(ap.parse_args())
+
+"""Transforms for YOLO series."""
+def transform_test(imgs, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)):
+    if isinstance(imgs, mx.nd.NDArray):
+        imgs = [imgs]
+    for im in imgs:
+        assert isinstance(im, mx.nd.NDArray), "Expect NDArray, got {}".format(type(im))
+
+    tensors = []
+    origs = []
+    for img in imgs:
+        orig_img = img.asnumpy().astype('uint8')
+        img = mx.nd.image.to_tensor(img)
+        
+        img = mx.nd.image.normalize(img, mean=mean, std=std)
+        
+        tensors.append(img.expand_dims(0))
+        origs.append(orig_img)
+    if len(tensors) == 1:
+        return tensors[0], origs[0]
+    return tensors, origs
+
+def load_test(filenames, short=416):
+    if not isinstance(filenames, list):
+        filenames = [filenames]
+    imgs = [letterbox_image(f, short) for f in filenames]
+    return transform_test(imgs)
+
+
+# this function is from yolo3.utils.letterbox_image
+def letterbox_image(image, size=416):
+    '''resize image with unchanged aspect ratio using padding'''
+    iw, ih = image.size
+
+    scale = min(size/iw, size/ih)
+    nw = int(iw*scale)
+    nh = int(ih*scale)
+
+    image = image.resize((nw, nh), Image.BICUBIC)
+    new_image = Image.new('RGB', (size, size), (128, 128, 128))
+    new_image.paste(image, ((size-nw)//2, (size-nh)//2))
+    return mx.nd.array(np.array(new_image))
+
+# Function to correctly exit program
+def handler(signal_received, frame):
+    vs.release()
+    cv2.destroyAllWindows()
+    print('CTRL-C detected. Exiting gracefully')
+    exit(0)
+
+# initialize the video stream, pointer to output video file, and
+# frame dimensions
+vs = cv2.VideoCapture("/dev/video2", cv2.CAP_V4L) # ls -ltr /dev/video*
+(W, H) = (None, None)
+
+# Implement YOLOv3MXNet
+net = model_zoo.get_model('yolo3_mobilenet1.0_coco', pretrained=True)        
+
+# Set device to GPU
+device=mx.gpu()
+        
+net.collect_params().reset_ctx(device)
+
+signal(SIGINT, handler)
+#print('Running. Press CTRL-C to exit')
+
+current_bb = [0, 0, 0, 0]
+
+# loop over frames from the video file stream
+while True:  
+    f.open("~/Desktop/intersection.txt", "r")
+    w = f.read(1)
+    if(w != '4'):
+        pass
+    # read the next frame from the file
+    (grabbed, frame) = vs.read()
+
+    # if the frame was not grabbed, then we have reached the end
+    # of the stream
+    if not grabbed:
+        break
+
+    # if the frame dimensions are empty, grab them
+    if W is None or H is None:
+        (H, W) = frame.shape[:2]        
+
+    # from gluoncv import data
+    yolo_image = Image.fromarray(frame, 'RGB')
+    x, img = load_test(yolo_image, short=416)
+    
+    class_IDs, scores, bounding_boxs = net(x.copyto(device))
+
+    #print(class_IDs)
+    #print(scores)
+    #print(bounding_boxs)
+    
+    # Convert to numpy arrays, then to lists
+    class_IDs = class_IDs.asnumpy().tolist()
+    scores = scores.asnumpy().tolist()
+    bounding_boxs = bounding_boxs.asnumpy()
+
+
+    # iterate through detected objects
+    for i in range(len(class_IDs[0])):        
+        if ((scores[0][i])[0]) > args["confidence"]:
+            current_class_id = net.classes[int((class_IDs[0][i])[0])]
+            current_score = (scores[0][i])[0]
+            current_bb = bounding_boxs[0][i-1]
+            
+    gc.collect()
+
+    try:
+        if current_class_id == "traffic light":
+            #print("Found a traffic light")
+            #print("Score: ", current_score)
+            #red = (0, 0, 255)
+            #green = (0, 255, 0)
+            box = (255, 255, 255)
+            top_left = (current_bb[0], current_bb[1])
+            bottom_right = (current_bb[2], current_bb[3])
+            #print("Box corners are ", top_left, " and ", bottom_right)
+            print(current_bb[0], current_bb[1], current_bb[2], current_bb[3])
+            #print("Score: ", current_score) 
+            #write the image so we can debug
+            img2 = cv2.rectangle(img, top_left, bottom_right, box, thickness=1, lineType=8, shift=0)
+            cv2.imwrite("yoloImage.jpg", img2)
+            #color = tl.detectLight(img2, {top_left, bottom_right}, RGB)
+            print(color)
+            f = open("~/Desktop/light.txt", "w")
+            f.write(color)
+            f.close()
+            if current_bb[0] != -1:
+                break
+            #cv2.circle(img, top_left, 5, red, -1)
+            #cv2.circle(img, bottom_right, 5, green, -1)
+            #cv2.rectangle(img, top_left, bottom_right, box, thickness=1, lineType=8, shift=0)
+        else:
+            print("0 0 0 0") #this means no light detection
+    except:
+        pass
+        #print("Other ID is: ", current_class_id)   
+        #print("Score: ", current_score) 
+
+    #print("Class ID: ", current_class_id)
+    #print("Score: ", current_score)
+    #print("Bounding Box Coordinates: ", current_bb, "\n")
+    
+    
+    #uncomment the following line to turn on image showing
+    #cv2.imshow("Camera Feed", img)
+
+
+
+    # key = cv2.waitKey(1) & 0xFF
+
+    # if key == ord("q"):
+    #     break
+    
+vs.release()
+cv2.destroyAllWindows()
