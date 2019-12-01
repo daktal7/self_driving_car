@@ -156,6 +156,7 @@ while True:
             #write the image so we can debug
             img2 = cv2.rectangle(img, top_left, bottom_right, box, thickness=1, lineType=8, shift=0)
             # cv2.imwrite("yoloImage.jpg", img2)
+            print("foo")
             color = tl.detectLight(img2, {top_left, bottom_right}, 'RGB')
             print(color)
             f = open("~/Desktop/light.txt", "w")
