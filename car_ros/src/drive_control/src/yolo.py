@@ -17,7 +17,7 @@ rospy.init_node('yolo_node', anonymous=False)
 rate = rospy.Rate(1)
 oldLight = 'q'
 while not rospy.is_shutdown():
-    f = open("~/Desktop/light.txt", "r")
+    f = open("/home/nvidia/Desktop/light.txt", "r")
     light = f.read(1)
     if light != oldLight:
         pub.publish(light)
