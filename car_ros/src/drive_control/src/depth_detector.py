@@ -74,7 +74,7 @@ class image_displayer:
 		valCombine = cv2.bitwise_and(threshold_image,threshold_image2)
 		masked_depth_image = self.region_of_interest_depth(valCombine)
 		rgbIm_masked = cv2.cvtColor(masked_depth_image,cv2.COLOR_GRAY2RGB)
-		self.writer.write(rgbIm_masked)
+		# self.writer.write(rgbIm_masked)
 			
 		#cv2.imshow("depth_thresh", masked_depth_image)
 		#cv2.waitKey(1)
