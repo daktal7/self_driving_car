@@ -46,7 +46,7 @@ class image_displayer:
 		if frame is None:
 			return
 		if self.count == 0:
-			#start = time.time()
+			start = time.time()
 			image = cv2.resize(frame, (640, 480))
 
 			lane_image = np.copy(image)
@@ -111,10 +111,10 @@ class image_displayer:
 			# closest_line_found = RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 			intersection_theshold = 410
 
-			cv2.circle(lane_image, (steering_point[0], steering_point[1]), 10, (255, 255, 255),
-					   -1)  # the color is organized as (blue, green, red)
-			combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
-			combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
+			#cv2.circle(lane_image, (steering_point[0], steering_point[1]), 10, (255, 255, 255),
+			#		   -1)  # the color is organized as (blue, green, red)
+			#combo_image_lines = cv2.addWeighted(line_image_left, 0.5, line_image_right, 0.5, 1)
+			#combo_image = cv2.addWeighted(lane_image, 0.3, combo_image_lines, 1, 1)
 
 			# if self.W is None or self.H is None:
 			#     (self.H, self.W) = frame.shape[:2]
@@ -133,20 +133,20 @@ class image_displayer:
 			# 							   (640, 480), True)
 
 			# write the output frame to disk
-			test_image = RI.filter_yellow(frame)
+			#test_image = RI.filter_yellow(frame)
 
-			test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
-			test_image_resized = cv2.resize(test_image, (640, 480))
-			self.writer.write(test_image_resized)
-			self.writer.write(test_image_resized)
-			self.writer.write(test_image_resized)
+			#test_image = cv2.cvtColor(test_image, cv2.COLOR_GRAY2RGB)
+			#test_image_resized = cv2.resize(test_image, (640, 480))
+			#self.writer.write(test_image_resized)
+			#self.writer.write(test_image_resized)
+			#self.writer.write(test_image_resized)
 
-			self.writer_2.write(combo_image)
+			#self.writer_2.write(combo_image)
 
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
 			end = time.time()
-			#print("time elapsed: ", end-start)
+			print("time elapsed: ", end-start)
 
 			self.angle_pub.publish(steering_angle)
 			#end = time.time()
