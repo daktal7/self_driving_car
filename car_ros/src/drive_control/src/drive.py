@@ -153,16 +153,16 @@ def intersect(turn):
         WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
-	if GREEN:
-		if turn.data == -1:
-			print("Drive: turn left")
-			turn_left()
-		if turn.data == 0:
-			print("Drive: go straight")
-			go_straight()
-		if turn.data == 1:
-			print("Drive: turn right")
-			turn_right()
+	# if GREEN:
+	if turn.data == -1:
+		print("Drive: turn left")
+		turn_left()
+	if turn.data == 0:
+		print("Drive: go straight")
+		go_straight()
+	if turn.data == 1:
+		print("Drive: turn right")
+		turn_right()
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
@@ -181,12 +181,12 @@ def emergencyStop(flag):
             OBJECT_DETECTED = False
             drive(DRIVE_SPEED)
 
-def stopLight(light):
-	global GREEN
-	if light.data == 'g':
-		GREEN = True
-	else:
-		GREEN = False
+# def stopLight(light):
+# 	global GREEN
+# 	if light.data == 'g':
+# 		GREEN = True
+# 	else:
+# 		GREEN = False
 
 
 def drive_control():
@@ -198,7 +198,7 @@ def drive_control():
     #rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
     rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
-    rospy.Subscriber("light", Char, stopLight)
+    # rospy.Subscriber("light", Char, stopLight)
     rospy.spin()
 
 
