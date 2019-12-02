@@ -19,6 +19,7 @@ oldLight = 'q'
 while not rospy.is_shutdown():
     f = open("/home/nvidia/Desktop/light.txt", "r")
     light = f.read(1)
+    print(light)
     if light != oldLight:
         pub.publish(light)
     f.close()
