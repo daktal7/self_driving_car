@@ -105,9 +105,9 @@ class image_displayer:
 				steering_point[1] = lane_image.shape[0] + fudge_factor
 			steering_angle = RI.getDriveAngle(steering_point)
 			# Check for intersection
-			toleranceDeg = 5
-			prevLine = None
-			prevLineSearchTolerance = 20
+			#toleranceDeg = 5
+			#prevLine = None
+			#prevLineSearchTolerance = 20
 			# closest_line_found = RI.detectIntersection(canny_white_lines, toleranceDeg, prevLine, prevLineSearchTolerance)
 			intersection_theshold = 410
 
@@ -145,10 +145,10 @@ class image_displayer:
 
 			# cv2.imshow("result", combo_image)
 			# cv2.waitKey(1)
-			end = time.time()
-			print("time elapsed: ", end-start)
 
 			self.angle_pub.publish(steering_angle)
+			end = time.time()
+			print("time elapsed: ", end - start)
 			#end = time.time()
 			#print("time elapsed: ", end - start)
 			self.count = 1
