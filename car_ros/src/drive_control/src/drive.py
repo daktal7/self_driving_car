@@ -23,7 +23,7 @@ OBJECT_DETECTED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 8
 DRIVE_SPEED = 0.0075
-STARTUP_SPEED = .01
+STARTUP_SPEED = .011
 GREEN = False
 prevAngle = 0
 
@@ -210,7 +210,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1638\n"  # was 1750 // was 1615
+    init_command = "!start1637\n"  # was 1750 // was 1615
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
