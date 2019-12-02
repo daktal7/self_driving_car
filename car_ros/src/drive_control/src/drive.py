@@ -26,6 +26,7 @@ DRIVE_SPEED = 0.007
 STARTUP_SPEED = .010
 GREEN = False
 prevAngle = 0
+I = 0
 
 
 # Function to correctly exit program
@@ -50,6 +51,10 @@ def steer(angle):
             print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
+        global I
+        if I < 6:
+            I = I +1
+            drive(DRIVE_SPEED)
 
 def drive(speed):
     # if not DRIVE_LOCK:
