@@ -55,7 +55,7 @@ def steer(angle):
         if I < 6:
             I = I +1
             drive(DRIVE_SPEED)
-            time.sleep(1)
+            #time.sleep(1)
 
 def drive(speed):
     # if not DRIVE_LOCK:
