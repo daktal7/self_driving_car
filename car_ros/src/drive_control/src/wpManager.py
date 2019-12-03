@@ -21,7 +21,8 @@ SI_5 = np.array([[291,143],[289,3],[363,1],[362,133]])
 SI_6 = np.array([[277,141],[125,143],[123,226],[279,222]])
 SI_7 = np.array([[777,1432],[941,1430],[947,1349],[777,1359]])
 SI_8 = np.array([[779,1442],[696,1430],[689,1576],[781,1580]])
-STOP_INTERSECTIONS = np.array([SI_1,SI_2,SI_3,SI_4,SI_5,SI_6,SI_7,SI_8])
+SI_9 = np.array([[232,1436],[232,1495],[276,1495],[276,1436]])#this is a special stop for the left turn in the top right
+STOP_INTERSECTIONS = np.array([SI_1,SI_2,SI_3,SI_4,SI_5,SI_6,SI_7,SI_8,SI_9])
 #These are the warning intersections
 WI_1 = np.array([[328,786],[209,911],[310,1025],[432,889]])
 WI_2 = np.array([[505,887],[636,1027],[748,927],[612,790]])

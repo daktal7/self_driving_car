@@ -196,6 +196,10 @@ def eight():
 		print("no more waypoints")
 		return 2
 
+def eight():
+	print("Special right turn top left")
+	return 1
+
 def noIntersection():
 	print("no intersection")
 	return None
@@ -212,6 +216,7 @@ def useLaneNumber(num):
 		6: six,
 		7: seven, 
 		8: eight
+		9: nine
 	}
 	#get the funciton that we need to call
 	func = switcher.get(num, lambda: noIntersection)
