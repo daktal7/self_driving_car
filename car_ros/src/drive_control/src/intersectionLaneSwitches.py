@@ -196,7 +196,7 @@ def eight():
 		print("no more waypoints")
 		return 2
 
-def eight():
+def nine():
 	print("Special right turn top left")
 	return 1
 
