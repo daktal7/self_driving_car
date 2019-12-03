@@ -26,7 +26,7 @@ class tlDetector:
     def __init__(self):
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("video_topic", Image, self.light_detect)
-        self.intersection_sub = rospy.Subscriber("intersection", Int32, intersect)
+        self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
         self.light_pub = rospy.Publisher('light', Bool, queue_size = 1)
         self.intersection = False
     # im must be in hsv
