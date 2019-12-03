@@ -68,12 +68,12 @@ def drive(speed):
 
 def turn_right():
     global DRIVE_LOCK
-    angle = 0 - prevAngle/2
+    angle = 0 - prevAngle/2 #straight angle, meant to correct a bit for possibly being off-center before
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
     #time.sleep(1)
-    straightTime = 1.0
+    straightTime = 1.5 #upped to 1.5 becasue we were getting stuck on the light pole, was 1.5
     res = 100
     drive(STARTUP_SPEED)
     #for i in range(res):
