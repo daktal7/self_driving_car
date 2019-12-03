@@ -21,9 +21,9 @@ import intersectionLaneSwitches as inter
 DRIVE_LOCK = False
 OBJECT_DETECTED = False
 WARNING_INTERSECTION = False
-ANGLE_THRESHOLD = 8
-DRIVE_SPEED = 0.0075
-STARTUP_SPEED = .009
+ANGLE_THRESHOLD = 12
+DRIVE_SPEED = 0.008
+STARTUP_SPEED = .0095
 prevAngle = 0
 
 
@@ -58,7 +58,7 @@ def drive(speed):
 
 def turn_right():
     global DRIVE_LOCK
-    angle = 0 - prevAngle/2
+    angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
@@ -86,11 +86,11 @@ def turn_left():
 
 def go_straight():
     global DRIVE_LOCK
-    angle = 0 - prevAngle/2
+    angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    time.sleep(3.5)
+    time.sleep(4)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
 
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1625\n"  # was 1750 // was 1615
+    init_command = "!start1630\n"  # was 1750 // was 1615
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
