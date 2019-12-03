@@ -152,7 +152,7 @@ class image_displayer:
 
 			self.count = self.count + 1
 
-		elif self.count == 5:
+		elif self.count == 1:
 			self.count = 0
 		#else:
 		#	self.count = 0
