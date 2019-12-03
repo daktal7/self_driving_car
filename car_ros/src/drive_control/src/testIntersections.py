@@ -18,9 +18,16 @@ def getCoor(color):
     # extracting data
     coorString = r.text
     coordinates = coorString.split()
-    latitude = float(coordinates[0])
-    longitude = float(coordinates[1])
-    return (latitude, longitude)
+    try:
+        latitude = float(coordinates[0])
+        longitude = float(coordinates[1])
+        return (latitude, longitude)
+    except IndexError:
+        print("IndexError in accessing the coordinates")
+        return(0,0)
+    except:
+        print("Other error")
+        return(0,0)
 
 
 
