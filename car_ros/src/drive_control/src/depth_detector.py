@@ -36,8 +36,8 @@ class image_displayer:
 		self.emergency_stop_pub = rospy.Publisher("Emergency_Stop", Int32, queue_size = 1)
 		self.count = 0
 		self.od = True #object detected boool
-		self.fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-		self.writer = cv2.VideoWriter("/home/nvidia/Desktop/class_code/depth_vid.avi",self.fourcc,30,(640,480),True)
+		#self.fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+		#self.writer = cv2.VideoWriter("/home/nvidia/Desktop/class_code/depth_vid.avi",self.fourcc,30,(640,480),True)
 
 
 	def display_depth(self, data):

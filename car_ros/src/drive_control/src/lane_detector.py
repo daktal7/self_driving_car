@@ -28,11 +28,9 @@ class image_displayer:
 		# self.H = None
 		# self.writer = None
 		# self.writer_2 = None
-		self.fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-		self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", self.fourcc, 30,
-										 (640, 480), True) 
-		self.writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", self.fourcc, 30,
-										 (640, 480), True) 
+		#self.fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+		#self.writer = cv2.VideoWriter("./Zach_Wes_test.avi", self.fourcc, 30, (640, 480), True) 
+		#self.writer_2 = cv2.VideoWriter("./Zach_Wes_test_2.avi", self.fourcc, 30, (640, 480), True) 
 
 	def shutDown(self):
 		print("SHUTTING DOWN LANE_DETECTOR")
