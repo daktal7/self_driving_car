@@ -9,6 +9,7 @@ import numpy as np
 #the function (copied from Learning Suite) to get you location 
 def getCoor(color):
     # api-endpoint
+    coordinates = [0,0]
     URL = "http://192.168.1.8:8080/%s" % color
  
     # sending get request and saving the response as response object
