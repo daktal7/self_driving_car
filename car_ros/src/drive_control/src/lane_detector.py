@@ -151,9 +151,9 @@ class image_displayer:
 			#print("time elapsed: ", end - start)
 
 			#self.count = self.count + 1
-			self.count = 1
+			self.count = self.count + 1
 
-		elif self.count >= 1:
+		elif self.count >= 7:
 			self.count = 0
 		#else:
 		#	self.count = 0
