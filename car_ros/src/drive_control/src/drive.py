@@ -48,6 +48,7 @@ def steer(angle):
     if not DRIVE_LOCK:
         # print(angle.data)
         if WARNING_INTERSECTION:
+            print("angle: ")
             print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
