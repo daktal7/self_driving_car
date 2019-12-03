@@ -56,7 +56,7 @@ def drive(speed):
     ser.write(command.encode())
 
 
-def turn_right():
+def turn_right_stop_sign():
     global DRIVE_LOCK
     angle = 0 - prevAngle/2 #straight angle, meant to correct a bit for possibly being off-center before
     command = "!steering" + str(angle) + "\n"
@@ -90,6 +90,40 @@ def turn_right():
     time.sleep(turnTime)
     DRIVE_LOCK = False
 
+
+def turn_right_intersection():
+    global DRIVE_LOCK
+    angle = 0 - prevAngle/2 #straight angle, meant to correct a bit for possibly being off-center before
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(STARTUP_SPEED)
+    #time.sleep(1)
+    straightTime = 2.5 #upped to 1.5 becasue we were getting stuck on the light pole, was 1.5
+    res = 100
+    drive(STARTUP_SPEED)
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #    time.sleep(straightTime/res)
+    time.sleep(straightTime)
+    angle = 30 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    turnTime = 2.4
+    #for i in range(res):
+    #    if OBJECT_DETECTED:
+    #        drive(0)
+    #        while OBJECT_DETECTED:
+    #            continue
+    #        drive(STARTUP_SPEED)
+    #        drive(DRIVE_SPEED) #this might not work be careful
+    #    time.sleep(turnTime/res)
+    time.sleep(turnTime)
+    DRIVE_LOCK = False
 
 
 def turn_left():
@@ -164,8 +198,11 @@ def intersect(turn):
 		print("Drive: go straight")
 		go_straight()
 	if turn.data == 1:
-		print("Drive: turn right")
-		turn_right()
+		print("Drive: turn right intersection")
+		turn_right_intersection()
+    if turn.data == 40:
+        print("Drive: turn right stop sign")
+        turn_right_stop_sign()
     if turn.data == 2:
         DRIVE_LOCK = True
         print("Drive: stop")
