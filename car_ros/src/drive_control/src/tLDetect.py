@@ -96,9 +96,11 @@ class tlDetector:
 
     def light_detect(self, data):
         if self.intersection == False:
+            print("not in the intersection")
             return
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
         if im is None:
+            print("bad image")
             return 
         try:
             hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
