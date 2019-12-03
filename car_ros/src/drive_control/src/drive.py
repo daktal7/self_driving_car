@@ -96,6 +96,9 @@ def turn_left():
     global DRIVE_LOCK
     straightTime = 1.5
     res = 100
+    angle = 0 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
     drive(STARTUP_SPEED)
     #for i in range(res):
     #    if OBJECT_DETECTED:
