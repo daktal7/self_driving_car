@@ -96,7 +96,7 @@ class tlDetector:
 
     def light_detect(self, data):
         if self.intersection == False:
-            pass
+            return
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
         if im is None:
             pass
@@ -112,7 +112,10 @@ class tlDetector:
             print("failed to get TL")
         # print(light.length())
         try:
-            self.light_pub.publish(self.isGreen(light))
+            green = self.isGreen(light)
+            self.light_pub.publish(green)
+            if(green):
+                self.intersection = False
         except:
             print("Failed to check for green")
         # roi = 170/len(hsvIm[:,0])
