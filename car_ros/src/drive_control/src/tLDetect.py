@@ -106,6 +106,7 @@ class tlDetector:
             print("Failed to convert to hsv")
             return
         if hsvIm is None:
+            print("hsv is none")
             return
         try:
             light = self.getTL(hsvIm)
@@ -115,6 +116,7 @@ class tlDetector:
         # print(light.length())
         try:
             green = self.isGreen(light)
+            print(green)
             self.light_pub.publish(green)
             # if(green):
                 # self.intersection = False
