@@ -42,22 +42,12 @@ def steer(angle):
         return
     global DRIVE_LOCK
     if WARNING_INTERSECTION:
-        print("WARNING_INTERSECTION:")
-        #DRIVE_LOCK = True
+        #print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
     if not DRIVE_LOCK:
-        # print(angle.data)
-        if WARNING_INTERSECTION:
-            print("angle: ")
-            print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
-        global I
-        #if I < 6:
-        #    I = I +1
-        #    drive(DRIVE_SPEED)
-        #    #time.sleep(1)
 
 def drive(speed):
     # if not DRIVE_LOCK:
@@ -153,6 +143,7 @@ def go_straight():
 
 
 def intersect(turn):
+    global DRIVE_LOCK
     if OBJECT_DETECTED:
         return
     global DRIVE_LOCK,WARNING_INTERSECTION
@@ -173,6 +164,7 @@ def intersect(turn):
 		print("Drive: turn right")
 		turn_right()
     if turn.data == 2:
+        DRIVE_LOCK = True
         print("Drive: stop")
         drive(0)
 
