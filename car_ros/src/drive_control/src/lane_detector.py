@@ -150,12 +150,13 @@ class image_displayer:
 			#end = time.time()
 			#print("time elapsed: ", end - start)
 
-			self.count = self.count + 1
+			#self.count = self.count + 1
+			self.count = 1
 
-		elif self.count >= 1:
+		elif self.count == 1:
 			self.count = 0
-		#else:
-		#	self.count = 0
+		else:
+			self.count = 0
 
 
 FRAMES_TO_AVERAGE = 3
