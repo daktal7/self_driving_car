@@ -8,7 +8,7 @@ import math
 import matplotlib.path as mpltPath
 
 #this are the coordinates for all the intersections
-#new ones are commented out
+#old ones are commented out
 #SI_1 = np.array([[342,776],[296,821],[401,929],[444,880]])
 SI_1 = np.array([[330,987],[287,940],[355,870],[390,920]])
 #SI_2 = np.array([[492,880],[541,931],[653,825],[602,778]])
