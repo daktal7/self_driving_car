@@ -215,7 +215,7 @@ def useLaneNumber(num):
 		5: five,
 		6: six,
 		7: seven, 
-		8: eight
+		8: eight,
 		9: nine
 	}
 	#get the funciton that we need to call
