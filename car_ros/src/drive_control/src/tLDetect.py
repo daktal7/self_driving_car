@@ -111,6 +111,7 @@ class tlDetector:
             print("hsv is none")
             return
         try:
+            print(hsvIm)
             light = self.getTL(hsvIm)
         except:
             print("failed to get TL")
