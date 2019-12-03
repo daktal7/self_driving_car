@@ -116,8 +116,6 @@ def intersect(turn):
         if turn.data == 1:
             print("Drive: turn right")
             turn_right()
-    else:
-        drive(0)
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
