@@ -44,9 +44,8 @@ def steer(angle):
         #print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
-            #print("Drive Lock Engagded")
+            print("Drive Lock Engagded")
     if not DRIVE_LOCK:
-        # print(angle.data)
         if WARNING_INTERSECTION:
             print(angle.data)
         command = "!steering" + str(angle.data) + "\n"

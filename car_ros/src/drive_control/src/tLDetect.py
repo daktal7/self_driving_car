@@ -19,8 +19,8 @@ GREEN_CENTER = 60
 GREEN_BUFFER = 20
 GREEN_LOWER = GREEN_CENTER-GREEN_BUFFER
 GREEN_UPPER = GREEN_CENTER+GREEN_BUFFER+10
-SAT_CUTOFF = 100
-GREEN_CUTOFF = 100
+SAT_CUTOFF = 200
+GREEN_CUTOFF = 1500
 
 class tlDetector:
     def __init__(self):
@@ -125,18 +125,21 @@ class tlDetector:
             return
         #try:
             #print(hsvIm)
-        light = self.getTL(hsvIm)
+        #light = self.getTL(hsvIm)
         #except:
         #    print("failed to get TL")
         #    return
         # print(light.length())
         #try:
-        if light is not None:
-            green = self.isGreen(light)
-            print(green)
-            self.light_pub.publish(green)
+        #if light is not None:
+        #    green = self.isGreen(light)
+        #    print(green)
+        #    self.light_pub.publish(green)
             # if(green):
                 # self.intersection = False
+        green = self.isGreen(hsvIm[0:int(ROI*len(im[:,0])),:])
+        print(green)
+        self.light_pub.publish(green)
         #except:
         #    print("Failed to check for green")
         # roi = 170/len(hsvIm[:,0])
