@@ -118,7 +118,7 @@ def go_straight():
 
 
 def intersect(turn):
-    global STORED_TURN
+    global STORED_TURN, DRIVE_LOCK
     STORED_TURN = turn
     if OBJECT_DETECTED:
         return
@@ -136,6 +136,7 @@ def intersect(turn):
         print("Drive: turn left stop sign")
         turn_left()
     if turn.data == 2:
+        DRIVE_LOCK = True
         print("Drive: stop")
         drive(0)
     #GREEN = True
