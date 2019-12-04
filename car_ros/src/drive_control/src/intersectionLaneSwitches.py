@@ -216,7 +216,7 @@ def noIntersection():
 def useLaneNumber(num,prevIntersect):
 	global prevInter
 	prevInter = prevIntersect
-	print("using lane number")
+	#print("ILS: using lane number")
 	switcher = {
 		1: one,
 		2: two,

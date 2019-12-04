@@ -118,7 +118,7 @@ def go_straight():
 
 
 def intersect(turn):
-    global STORED_TURN, DRIVE_LOCK
+    global STORED_TURN, DRIVE_LOCK, GREEN
     STORED_TURN = turn
     if OBJECT_DETECTED:
         return
@@ -150,6 +150,7 @@ def intersect(turn):
         if turn.data == 1:
             print("Drive: turn right stop light")
             turn_right_intersection()
+        GREEN = False
 
 def emergencyStop(flag):
     global OBJECT_DETECTED
@@ -172,6 +173,7 @@ def stopLight(light):
         GREEN = True
         print("drive: setting green to true")
         intersect(STORED_TURN)
+        GREEN = False
     else:
         GREEN = False
 
