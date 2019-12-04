@@ -98,6 +98,7 @@ class tlDetector:
         if self.intersection == False:
             #print("not in the intersection")
             return
+        print("In light_detect")
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
         if im is None:
             print("bad image")

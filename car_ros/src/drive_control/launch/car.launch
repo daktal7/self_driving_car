@@ -18,7 +18,7 @@
 	<node pkg="drive_control" type="gpsPublisher.py" name="intersection_pub" output="screen">
 	</node>
 
-	<!--node pkg="drive_control" type="tLDetect.py" name="light" output="screen">
-	</node-->
+	<node pkg="drive_control" type="tLDetect.py" name="light" output="screen">
+	</node>
 
 </launch>
