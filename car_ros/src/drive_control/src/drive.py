@@ -44,6 +44,7 @@ def steer(angle):
         print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
+            print("Drive Lock Engagded")
     if not DRIVE_LOCK:
         # print(angle.data)
         if WARNING_INTERSECTION:
@@ -70,6 +71,7 @@ def turn_right_stop_sign():
     drive(DRIVE_SPEED)
     time.sleep(2.4)
     DRIVE_LOCK = False
+    print("Drive lock disengaged")
 
 
 def turn_right_intersection():
@@ -87,6 +89,7 @@ def turn_right_intersection():
     drive(DRIVE_SPEED)
     time.sleep(2.4)
     DRIVE_LOCK = False
+    print("drive lock disengaged")
 
 
 def turn_left():
@@ -99,6 +102,7 @@ def turn_left():
     drive(DRIVE_SPEED)
     time.sleep(2)
     DRIVE_LOCK = False
+    print("drive lock disengaged")
 
 
 def go_straight():
@@ -110,6 +114,7 @@ def go_straight():
     time.sleep(4)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
+    print("drive lock disengaged")
 
 
 def intersect(turn):
