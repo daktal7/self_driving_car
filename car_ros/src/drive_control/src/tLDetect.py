@@ -29,6 +29,8 @@ class tlDetector:
         self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
         self.light_pub = rospy.Publisher('light', Bool, queue_size = 10)
         self.intersection = False
+        self.frameCount = 0
+        self.frameMod = 10
     # im must be in hsv
     #returns 'r' for red and 'g' for green
     #if box is none the algorithm will run over the entire image
@@ -108,15 +110,13 @@ class tlDetector:
         
 
     def light_detect(self, data):
-        frameCount = 0
-        frameMod = 10
         if self.intersection == False:
-            frameCount = 0
+            self.frameCount = 0
             #print("not in the intersection")
             return
-        frameCount = frameCount + 1
-        print("TLDEtect, Framecount: ", frameCount)
-        if frameCount % frameMod:
+        self.frameCount = self.frameCount + 1
+        #print("TLDEtect, Framecount: ", frameCount)
+        if self.frameCount % self.frameMod:
             return
         #print("In light_detect")
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
