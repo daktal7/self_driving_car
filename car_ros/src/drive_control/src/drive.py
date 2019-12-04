@@ -57,7 +57,7 @@ def drive(speed):
     ser.write(command.encode())
 
 
-def turn_right():
+def turn_right_stop_sign():
     global DRIVE_LOCK
     angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
@@ -71,6 +71,20 @@ def turn_right():
     time.sleep(2.4)
     DRIVE_LOCK = False
 
+
+def turn_right_intersection():
+    global DRIVE_LOCK
+    angle = 2.5 - prevAngle/2
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(STARTUP_SPEED)
+    time.sleep(1)
+    angle = 30 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    time.sleep(2.4)
+    DRIVE_LOCK = False
 
 
 def turn_left():
