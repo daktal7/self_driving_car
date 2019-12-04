@@ -25,7 +25,7 @@ ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.008
 STARTUP_SPEED = .0095
 GREEN = False
-STORED_TURN = -100 #junk value
+STORED_TURN = -100  # junk value
 prevAngle = 0
 
 
@@ -42,7 +42,7 @@ def steer(angle):
         return
     global DRIVE_LOCK
     if WARNING_INTERSECTION:
-        #print("WARNING_INTERSECTION:")
+        # print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
             print("Drive Lock Engagded")
@@ -52,6 +52,7 @@ def steer(angle):
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
+
 def drive(speed):
     # if not DRIVE_LOCK:
     command = "!speed" + str(speed) + "\n"
@@ -60,7 +61,7 @@ def drive(speed):
 
 def turn_right_stop_sign():
     global DRIVE_LOCK
-    angle = 2.5 - prevAngle/2
+    angle = 2.5 - prevAngle / 2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
@@ -77,7 +78,7 @@ def turn_right_stop_sign():
 def turn_right_intersection():
     print("Running turn_right_instersection")
     global DRIVE_LOCK
-    angle = 2.5 - prevAngle/2
+    angle = 2.5 - prevAngle / 2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
@@ -107,7 +108,7 @@ def turn_left():
 
 def go_straight():
     global DRIVE_LOCK
-    angle = 2.5 - prevAngle/2
+    angle = 2.5 - prevAngle / 2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
@@ -122,7 +123,7 @@ def intersect(turn):
     STORED_TURN = turn
     if OBJECT_DETECTED:
         return
-    global DRIVE_LOCK,WARNING_INTERSECTION
+    global DRIVE_LOCK, WARNING_INTERSECTION
     if turn.data == 4:
         WARNING_INTERSECTION = True
     else:
@@ -138,7 +139,7 @@ def intersect(turn):
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
-    #GREEN = True
+    # GREEN = True
     if GREEN:
         if turn.data == -1:
             print("Drive: turn left")
@@ -149,6 +150,7 @@ def intersect(turn):
         if turn.data == 1:
             print("Drive: turn right stop light")
             turn_right_intersection()
+
 
 def emergencyStop(flag):
     global OBJECT_DETECTED
@@ -164,14 +166,15 @@ def emergencyStop(flag):
             OBJECT_DETECTED = False
             drive(DRIVE_SPEED)
 
+
 def stopLight(light):
-	global GREEN
-	if light.data:
-		GREEN = True
-        print("drive: setting green to true")
-        intersect(STORED_TURN)
-	else:
-		GREEN = False
+    global GREEN
+    if light.data:
+        GREEN = True
+    print("drive: setting green to true")
+    intersect(STORED_TURN)
+    else:
+    GREEN = False
 
 
 def drive_control():
@@ -180,9 +183,9 @@ def drive_control():
     # subscribe to whatever is checking our intersections
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
     rospy.Subscriber("steerAngle", Float32, steer)
-    #rospy.Subscriber("driveSpeed", Float32, drive)
+    # rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
-    rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
+    rospy.Subscriber("Emergency_Stop", Int32, emergencyStop)
     rospy.Subscriber("light", Bool, stopLight)
 
     rospy.spin()
