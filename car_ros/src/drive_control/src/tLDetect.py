@@ -10,7 +10,7 @@ from std_msgs.msg import Bool, Int32
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
-ROI = 170/613;
+ROI = 170.0/613.0;
 BLACK_THRESH = 20
 BIN_THRESH = .6
 RES = 100
