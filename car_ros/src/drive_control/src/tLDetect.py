@@ -95,6 +95,7 @@ class tlDetector:
                 maxVal = bins[i,1]
                 maxI = i
         #print("tlDetect: bins", bins)
+        print("tlDetect: maxBlack ", maxVal)
         return self.getBox(im,bins,maxI,dx)
 
     def intersect(self, data):
