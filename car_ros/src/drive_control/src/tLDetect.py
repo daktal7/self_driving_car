@@ -89,14 +89,14 @@ class tlDetector:
 
     def intersect(self, data):
         if data.data == 4:
-            self.intersection = True
+           self.intersection = True
             # time.sleep(10)
             # self.intersection = False
         
 
     def light_detect(self, data):
         if self.intersection == False:
-            print("not in the intersection")
+            #print("not in the intersection")
             return
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
         if im is None:
@@ -111,7 +111,7 @@ class tlDetector:
             print("hsv is none")
             return
         try:
-            print(hsvIm)
+            #print(hsvIm)
             light = self.getTL(hsvIm)
         except:
             print("failed to get TL")
