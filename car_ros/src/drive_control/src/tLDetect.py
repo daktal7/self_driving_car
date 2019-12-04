@@ -102,29 +102,29 @@ class tlDetector:
         if im is None:
             print("bad image")
             return 
-        try:
-            hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
-        except:
-            print("Failed to convert to hsv")
-            return
+        #try:
+        hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
+        #except:
+        #    print("Failed to convert to hsv")
+        #    return
         if hsvIm is None:
             print("hsv is none")
             return
-        try:
+        #try:
             #print(hsvIm)
-            light = self.getTL(hsvIm)
-        except:
-            print("failed to get TL")
-            return
+        light = self.getTL(hsvIm)
+        #except:
+        #    print("failed to get TL")
+        #    return
         # print(light.length())
-        try:
-            green = self.isGreen(light)
-            print(green)
-            self.light_pub.publish(green)
+        #try:
+        green = self.isGreen(light)
+        print(green)
+        self.light_pub.publish(green)
             # if(green):
                 # self.intersection = False
-        except:
-            print("Failed to check for green")
+        #except:
+        #    print("Failed to check for green")
         # roi = 170/len(hsvIm[:,0])
 
         # cv2.imshow("Traffic Light", im)

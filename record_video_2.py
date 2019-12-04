@@ -41,8 +41,8 @@ for i in range(args["time"]*FPS):
     if writer is None:
         # initialize our video writer
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-        writer = cv2.VideoWriter("Standard_video.avi", fourcc, 30,(frame.shape[1], frame.shape[0]), True)
-        writer_depth = cv2.VideoWriter("Depth_video.avi", fourcc, 30,(frame_depth.shape[1], frame_depth.shape[0]), True)
+        writer = cv2.VideoWriter(args["output"]+".avi", fourcc, 30,(frame.shape[1], frame.shape[0]), True)
+        writer_depth = cv2.VideoWriter(args["output"]+"_depth.avi", fourcc, 30,(frame_depth.shape[1], frame_depth.shape[0]), True)
  
     # write the output frame to disk
     writer.write(frame)

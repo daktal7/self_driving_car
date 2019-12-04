@@ -31,7 +31,7 @@ def publishIntersection():
 		if inter != -1:
 			if inter != prevInter:
 				prevInter = inter
-				turn = ils.useLaneNumber(inter) #check to see if we are going to turn or not
+				turn = ils.useLaneNumber(inter,prevInter) #check to see if we are going to turn or not
 				if turn is not None:
 					pub.publish(4)
 					rateInner = rospy.Rate(10)

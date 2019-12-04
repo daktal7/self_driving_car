@@ -6,6 +6,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
+
+# PRETTY SURE THIS ISN'T BEING USED BY ANYTHING
+
 RED_LOWER = 0
 RED_UPPER = 40
 GREEN_CENTER = 60

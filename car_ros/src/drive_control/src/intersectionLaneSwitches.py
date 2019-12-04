@@ -5,7 +5,14 @@ import numpy as np
 
 csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/big_course.csv"
 wps = wpm.csv2WayPoint(csvPath) # the waypoints are loaded
+prevInter = None
 
+#returns:
+# -1 turn left
+# 1 turn right stop light
+# 0 go straight
+# 2 stop
+# 40 turn right, stop sign
 def one():
 	global wps
 	print("Intersection lane 1")
@@ -196,12 +203,18 @@ def eight():
 		print("no more waypoints")
 		return 2
 
+def nine():
+	if prevInter == 8:
+		return 40
+
 def noIntersection():
 	print("no intersection")
 	return None
 
 
-def useLaneNumber(num):
+def useLaneNumber(num,prevIntersect):
+	global prevInter
+	prevInter = prevIntersect
 	print("using lane number")
 	switcher = {
 		1: one,
@@ -211,7 +224,8 @@ def useLaneNumber(num):
 		5: five,
 		6: six,
 		7: seven, 
-		8: eight
+		8: eight,
+		9: nine
 	}
 	#get the funciton that we need to call
 	func = switcher.get(num, lambda: noIntersection)
