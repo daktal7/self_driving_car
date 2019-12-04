@@ -73,6 +73,7 @@ def turn_right_stop_sign():
 
 
 def turn_right_intersection():
+    print("Running turn_right_instersection")
     global DRIVE_LOCK
     angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
