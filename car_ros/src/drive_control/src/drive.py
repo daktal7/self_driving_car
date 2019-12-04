@@ -164,10 +164,11 @@ def emergencyStop(flag):
             OBJECT_DETECTED = False
             drive(DRIVE_SPEED)
 
+
 def stopLight(light):
-	global GREEN
-	if light.data:
-		GREEN = True
+    global GREEN
+    if light.data:
+        GREEN = True
         print("drive: setting green to true")
         intersect(STORED_TURN)
     else:
