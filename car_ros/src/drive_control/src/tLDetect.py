@@ -27,7 +27,7 @@ class tlDetector:
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("video_topic", Image, self.light_detect)
         self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
-        self.light_pub = rospy.Publisher('light', Bool, queue_size = 1)
+        self.light_pub = rospy.Publisher('light', Bool, queue_size = 10)
         self.intersection = False
     # im must be in hsv
     #returns 'r' for red and 'g' for green
@@ -99,9 +99,9 @@ class tlDetector:
         return self.getBox(im,bins,maxI,dx)
 
     def intersect(self, data):
-        if data.data == 4:
+        if data.data == 5:
            if self.intersection == False:
-                print("turningn light detection on")
+                print("tlDetect: turningn light detection on")
            self.intersection = True
             # time.sleep(10)
             # self.intersection = False
@@ -148,6 +148,9 @@ class tlDetector:
         green = self.isGreen(hsvIm[0:int(ROI*len(im[:,0])),:])
         print(green)
         self.light_pub.publish(green)
+        if green:
+            self.intersection = False
+            print("tlDetect: disabling light detection")
         #except:
         #    print("Failed to check for green")
         # roi = 170/len(hsvIm[:,0])

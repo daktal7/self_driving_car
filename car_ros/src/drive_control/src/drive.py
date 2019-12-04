@@ -25,6 +25,7 @@ ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.008
 STARTUP_SPEED = .0095
 GREEN = False
+STORED_TURN = -100 #junk value
 prevAngle = 0
 
 
@@ -117,6 +118,8 @@ def go_straight():
 
 
 def intersect(turn):
+    global STORED_TURN
+    STORED_TURN = turn
     if OBJECT_DETECTED:
         return
     global DRIVE_LOCK,WARNING_INTERSECTION
@@ -126,6 +129,15 @@ def intersect(turn):
         WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
+    if turn.data == 40:
+        print("Drive: turn right stop sign")
+        turn_right_stop_sign()
+    if turn.data == -40:
+        print("Drive: turn left stop sign")
+        turn_left()
+    if turn.data == 2:
+        print("Drive: stop")
+        drive(0)
     #GREEN = True
     if GREEN:
         if turn.data == -1:
@@ -135,14 +147,8 @@ def intersect(turn):
             print("Drive: go straight")
             go_straight()
         if turn.data == 1:
-            print("Drive: turn right intersection")
+            print("Drive: turn right stop light")
             turn_right_intersection()
-        if turn.data == 40:
-            print("Drive: turn right stop sign")
-            turn_right_stop_sign()
-    if turn.data == 2:
-        print("Drive: stop")
-        drive(0)
 
 def emergencyStop(flag):
     global OBJECT_DETECTED
@@ -162,6 +168,8 @@ def stopLight(light):
 	global GREEN
 	if light.data:
 		GREEN = True
+        print("drive: setting green to true")
+        intersect(STORED_TURN)
 	else:
 		GREEN = False
 

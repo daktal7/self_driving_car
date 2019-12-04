@@ -13,6 +13,7 @@ prevInter = None
 # 0 go straight
 # 2 stop
 # 40 turn right, stop sign
+# -40 turn left, stop sign
 def one():
 	global wps
 	print("Intersection lane 1")
@@ -130,7 +131,7 @@ def five():
 			return None
 		elif nextInter == 6:
 			print("turn left stop sign")
-			return -1
+			return -40
 		else:
 			print("in intersection 5 and continuing")
 			return None
@@ -195,7 +196,7 @@ def eight():
 			return None
 		elif nextInter == 7:
 			print("turn left stop sign")
-			return -1
+			return -40
 		else:
 			print("in intersection 8 and continuing")
 			return None

@@ -16,7 +16,10 @@ import testIntersections as ti
 # -1: turn left
 # 0: go straight
 # 2: stop
-# 4: raise warning flag
+# 4: raise warning intersection flag
+# 5: tell traffic light detection to start running
+# 40: turn right, stop sign
+# -40: turn left, stop sign
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=1)
 	rospy.init_node('intersection_pub', anonymous=False)
@@ -34,6 +37,7 @@ def publishIntersection():
 				turn = ils.useLaneNumber(inter,prevInter) #check to see if we are going to turn or not
 				if turn is not None:
 					pub.publish(4)
+					# check if we are in the stoplight intersections
 					rateInner = rospy.Rate(10)
 					while wpm.reachedStopIntersection(coor) == -1:
 						coor = ti.getCoor("Green")
@@ -41,7 +45,10 @@ def publishIntersection():
 						rateInner.sleep()
 					print("publishing turn %d", turn)
 					pub.publish(2)
-					time.sleep(1.5)
+					if inter < 5:
+						pub.publish(5)
+					else:
+						time.sleep(1.5)
 					pub.publish(turn)
 			#print("found intersection. Intersection value: ", inter)
 		#if speed >= 0.25:
