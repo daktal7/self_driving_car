@@ -34,7 +34,6 @@ class tlDetector:
     #if box is none the algorithm will run over the entire image
     #commented out stuff used for debugging
     def isGreen(self,im):
-        print("size of Im", np.shape(im))
         resGreen = 0
         #light = np.zeros((box[2]-box[0],box[3]-box[1],3),np.uint16)
         for i in range(len(im[:,0])):
@@ -72,7 +71,7 @@ class tlDetector:
                 else:
                     break
         if iRight == 0 and iLeft == 0:
-            print("tlDetect: returning none")
+            #print("tlDetect: returning none")
             return None
         return im[0:int(ROI*len(im[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
 
@@ -89,6 +88,7 @@ class tlDetector:
             if bins[i,1] > maxVal:
                 maxVal = bins[i,1]
                 maxI = i
+        print("tlDetect: bins", bins)
         return self.getBox(im,bins,maxI,dx)
 
     def intersect(self, data):
@@ -109,7 +109,7 @@ class tlDetector:
             return 
         #try:
         hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
-        print("hsv shape:", np.shape(hsvIm))
+        #print("hsv shape:", np.shape(hsvIm))
         #except:
         #    print("Failed to convert to hsv")
         #    return
