@@ -12,7 +12,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 ROI = 170.0/613.0;
 BLACK_THRESH = 20
-BIN_THRESH = .6
+BIN_THRESH = .3
 RES = 100
 
 GREEN_CENTER = 60
