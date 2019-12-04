@@ -79,7 +79,8 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    time.sleep(1)
+    time.sleep(2)
+    print("Done with straight part of right turn")
     angle = 30 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
