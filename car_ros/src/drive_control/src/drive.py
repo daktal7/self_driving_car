@@ -21,7 +21,7 @@ import intersectionLaneSwitches as inter
 DRIVE_LOCK = False
 OBJECT_DETECTED = False
 WARNING_INTERSECTION = False
-ANGLE_THRESHOLD = 12
+ANGLE_THRESHOLD = 8
 DRIVE_SPEED = 0.008
 STARTUP_SPEED = .0095
 GREEN = False
@@ -47,8 +47,8 @@ def steer(angle):
             DRIVE_LOCK = True
             print("Drive Lock Engagded")
     if not DRIVE_LOCK:
-        if WARNING_INTERSECTION:
-            print(angle.data)
+        #if WARNING_INTERSECTION:
+            #print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
@@ -160,7 +160,7 @@ def emergencyStop(flag):
             drive(0)
     else:
         if OBJECT_DETECTED:
-            print("object gone, starting")
+            print("drive: object gone, starting")
             OBJECT_DETECTED = False
             drive(DRIVE_SPEED)
 
@@ -176,7 +176,6 @@ def stopLight(light):
 
 
 def drive_control():
-    print("drive_control here")
     rospy.init_node('drive_control', anonymous=False)
     # subscribe to whatever is checking our intersections
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)

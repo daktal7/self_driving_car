@@ -21,7 +21,7 @@ import testIntersections as ti
 # 40: turn right, stop sign
 # -40: turn left, stop sign
 def publishIntersection():
-	pub = rospy.Publisher('intersection', Int32, queue_size=1)
+	pub = rospy.Publisher('intersection', Int32, queue_size=10)
 	rospy.init_node('intersection_pub', anonymous=False)
 	rate = rospy.Rate(5)
 	prevInter = -1
