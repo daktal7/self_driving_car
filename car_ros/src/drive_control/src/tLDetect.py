@@ -71,8 +71,9 @@ class tlDetector:
                     iLeft = iLeft + 1
                 else:
                     break
-        print("iRight", iRight)
-        print("iLeft", iLeft)
+        if iRight == 0 and iLeft == 0:
+            print("tlDetect: returning none")
+            return None
         return im[0:int(ROI*len(im[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
 
     #im must be hsv, res is how many cross sections are made
@@ -108,6 +109,7 @@ class tlDetector:
             return 
         #try:
         hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
+        print("hsv shape:", np.shape(hsvIm))
         #except:
         #    print("Failed to convert to hsv")
         #    return
@@ -122,7 +124,7 @@ class tlDetector:
         #    return
         # print(light.length())
         #try:
-        if green is not None:
+        if light is not None:
             green = self.isGreen(light)
             print(green)
             self.light_pub.publish(green)
