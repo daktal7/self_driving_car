@@ -34,7 +34,7 @@ class tlDetector:
     #if box is none the algorithm will run over the entire image
     #commented out stuff used for debugging
     def isGreen(self,im):
-        print("size of Im", im.size)
+        print("size of Im", np.shape(im))
         resGreen = 0
         #light = np.zeros((box[2]-box[0],box[3]-box[1],3),np.uint16)
         for i in range(len(im[:,0])):
@@ -71,6 +71,8 @@ class tlDetector:
                     iLeft = iLeft + 1
                 else:
                     break
+        print("iRight", iRight)
+        print("iLeft", iLeft)
         return im[0:int(ROI*len(im[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
 
     #im must be hsv, res is how many cross sections are made
@@ -120,9 +122,10 @@ class tlDetector:
         #    return
         # print(light.length())
         #try:
-        green = self.isGreen(light)
-        print(green)
-        self.light_pub.publish(green)
+        if green is not None:
+            green = self.isGreen(light)
+            print(green)
+            self.light_pub.publish(green)
             # if(green):
                 # self.intersection = False
         #except:
