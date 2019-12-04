@@ -129,8 +129,11 @@ def intersect(turn):
             print("Drive: go straight")
             go_straight()
         if turn.data == 1:
-            print("Drive: turn right")
-            turn_right()
+            print("Drive: turn right intersection")
+            turn_right_intersection()
+        if turn.data == 40:
+            print("Drive: turn right stop sign")
+            turn_right_stop_sign()
     if turn.data == 2:
         print("Drive: stop")
         drive(0)
