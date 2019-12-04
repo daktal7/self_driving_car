@@ -100,6 +100,8 @@ class tlDetector:
 
     def intersect(self, data):
         if data.data == 4:
+           if self.intersection == False:
+                print("turningn light detection on")
            self.intersection = True
             # time.sleep(10)
             # self.intersection = False
