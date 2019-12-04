@@ -122,7 +122,7 @@ def five():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 6:
-			print("turn left")
+			print("turn left stop sign")
 			return -1
 		else:
 			print("in intersection 5 and continuing")
@@ -143,8 +143,8 @@ def six():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 5:
-			print("turn right")
-			return 1
+			print("turn right stop sign")
+			return 40
 		else:
 			print("in intersection 6 and continuing")
 			return None
@@ -166,8 +166,8 @@ def seven():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 8:
-			print("turn right")
-			return 1
+			print("turn right stop sign")
+			return 40
 		else:
 			print("in intersection 7 and continuing")
 			return None
@@ -187,7 +187,7 @@ def eight():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 7:
-			print("turn left")
+			print("turn left stop sign")
 			return -1
 		else:
 			print("in intersection 8 and continuing")
