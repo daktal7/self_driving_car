@@ -170,7 +170,7 @@ def stopLight(light):
 		GREEN = True
         print("drive: setting green to true")
         intersect(STORED_TURN)
-	else:
+    else:
         GREEN = False
 
 
