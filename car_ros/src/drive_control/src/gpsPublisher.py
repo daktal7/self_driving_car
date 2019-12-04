@@ -37,6 +37,7 @@ def publishIntersection():
 				turn = ils.useLaneNumber(inter,prevInter) #check to see if we are going to turn or not
 				if turn is not None:
 					pub.publish(4)
+					print("gpsPub: In warning intersection", prevInter)
 					# check if we are in the stoplight intersections
 					rateInner = rospy.Rate(10)
 					while wpm.reachedStopIntersection(coor) == -1:

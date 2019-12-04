@@ -30,7 +30,7 @@ class tlDetector:
         self.light_pub = rospy.Publisher('light', Bool, queue_size = 10)
         self.intersection = False
         self.frameCount = 0
-        self.frameMod = 10
+        self.frameMod = 20
     # im must be in hsv
     #returns 'r' for red and 'g' for green
     #if box is none the algorithm will run over the entire image

@@ -16,7 +16,7 @@ prevInter = None
 # -40 turn left, stop sign
 def one():
 	global wps
-	print("Intersection lane 1")
+	#print("Intersection lane 1")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 2:
@@ -43,7 +43,7 @@ def one():
 
 def two():
 	global wps
-	print("Intersection lane 2")
+	#print("Intersection lane 2")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 3:
@@ -69,7 +69,7 @@ def two():
 
 def three():
 	global wps
-	print("Intersection lane 3")
+	#print("Intersection lane 3")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 4:
@@ -95,7 +95,7 @@ def three():
 
 def four():
 	global wps
-	print("Intersection lane 4")
+	#print("Intersection lane 4")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 1:
@@ -121,7 +121,7 @@ def four():
 	#direction to go depends on the location of our next waypoint
 
 def five():
-	print("Intersection lane 5")
+	#print("Intersection lane 5")
 	global wps
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
@@ -142,7 +142,7 @@ def five():
 	#Might need to go straight still for a bit, then make a left turn
 
 def six():
-	print("Intersection lane 6")
+	#print("Intersection lane 6")
 	global wps
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
@@ -163,7 +163,7 @@ def six():
 	#Might need to go straight still for a bit, then make a right turn
 
 def seven():
-	print("Intersection lane 7")
+	#print("Intersection lane 7")
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a right turn
 	global wps
@@ -184,7 +184,7 @@ def seven():
 		return 2
 
 def eight():
-	print("Intersection lane 8")
+	#print("Intersection lane 8")
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a left turn
 	global wps
