@@ -70,7 +70,7 @@ class tlDetector:
                     iLeft = iLeft + 1
                 else:
                     break
-        return im[0:int(ROI*len(hsvIm[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
+        return im[0:int(ROI*len(im[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
 
     #im must be hsv, res is how many cross sections are made
     #will return numpy array that contains just the traffic light
@@ -81,7 +81,7 @@ class tlDetector:
         maxI = -1
         for i in range(RES):
             bins[i,0] = i
-            bins[i,1] = self.getNumBlack(im[0:int(ROI*len(hsvIm[:,0])),i*dx:i*dx+dx,2])
+            bins[i,1] = self.getNumBlack(im[0:int(ROI*len(im[:,0])),i*dx:i*dx+dx,2])
             if bins[i,1] > maxVal:
                 maxVal = bins[i,1]
                 maxI = i
