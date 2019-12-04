@@ -85,7 +85,7 @@ class tlDetector:
             if bins[i,1] > maxVal:
                 maxVal = bins[i,1]
                 maxI = i
-        return getBox(im,bins,maxI,dx)
+        return self.getBox(im,bins,maxI,dx)
 
     def intersect(self, data):
         if data.data == 4:
