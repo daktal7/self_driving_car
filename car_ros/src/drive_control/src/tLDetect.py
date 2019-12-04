@@ -95,6 +95,7 @@ class tlDetector:
         
 
     def light_detect(self, data):
+        print("In light_detect")
         if self.intersection == False:
             #print("not in the intersection")
             return
