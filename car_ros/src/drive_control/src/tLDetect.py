@@ -42,7 +42,7 @@ class tlDetector:
                 if GREEN_LOWER <= im[i, j, 0] <= GREEN_UPPER and im[i, j, 1] > SAT_CUTOFF:
                     resGreen = resGreen + 1
                     # light[i - box[0], j - box[1], 1] = 255
-        print(resGreen)
+        print("tlDetect: resgreen ", resGreen)
         if resGreen > GREEN_CUTOFF:
             return True
         return False
@@ -72,8 +72,11 @@ class tlDetector:
                 else:
                     break
         if iRight == 0 and iLeft == 0:
-            #print("tlDetect: returning none")
+            print("tlDetect: returning none")
             return None
+        print("maxI: ", maxI)
+        print("iRight: ", iRight)
+        print("iLeft: ", iLeft)
         return im[0:int(ROI*len(im[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
 
     #im must be hsv, res is how many cross sections are made
@@ -82,9 +85,6 @@ class tlDetector:
         bins = np.zeros((RES,2))
         dx = len(im[0,:])//RES
         yWindow = int(ROI*len(im[:,0]))
-        print("yWindow: ",yWindow)
-        print("roi: ", ROI)
-        print("len: ", len(im[:,0]))
         #print("dx val:", dx)
         maxVal = 0
         maxI = -1
@@ -108,7 +108,7 @@ class tlDetector:
         if self.intersection == False:
             #print("not in the intersection")
             return
-        print("In light_detect")
+        #print("In light_detect")
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
         if im is None:
             print("bad image")
