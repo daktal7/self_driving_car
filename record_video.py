@@ -18,12 +18,11 @@ ap.add_argument("-c", "--confidence", type=float, default=0.5,
 ap.add_argument("-t","--time",type=int,default=10, help="time to record the video")
 args = vars(ap.parse_args())	
 
-vs = cv2.VideoCapture("/dev/video1", cv2.CAP_V4L) # ls -ltr /dev/video*
+vs = cv2.VideoCapture("/dev/video2", cv2.CAP_V4L) # ls -ltr /dev/video*
 writer = None
 (W, H) = (None, None)
 
 for i in range(args["time"]*FPS):
-    print("in for loop")
     # read the next frame from the file
     (grabbed, frame) = vs.read()
  
@@ -37,7 +36,6 @@ for i in range(args["time"]*FPS):
 
     # check if the video writer is None
     if writer is None:
-        print("writing")
         # initialize our video writer
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
         writer = cv2.VideoWriter(args["output"], fourcc, 30,
