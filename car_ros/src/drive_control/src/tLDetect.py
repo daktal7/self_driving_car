@@ -34,6 +34,7 @@ class tlDetector:
     #if box is none the algorithm will run over the entire image
     #commented out stuff used for debugging
     def isGreen(self,im):
+        print("size of Im", im.size)
         resGreen = 0
         #light = np.zeros((box[2]-box[0],box[3]-box[1],3),np.uint16)
         for i in range(len(im[:,0])):
