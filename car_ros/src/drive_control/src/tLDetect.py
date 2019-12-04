@@ -49,7 +49,7 @@ class tlDetector:
 
     def getNumBlack(self,im):
         res = 0
-        print("numbBlack image size:", np.shape(im))
+        #print("numbBlack image size:", np.shape(im))
         for i in range(len(im[:,0])):
             for j in range(len(im[0,:])):
                 if im[i,j] < BLACK_THRESH:
@@ -81,12 +81,16 @@ class tlDetector:
     def getTL(self, im):
         bins = np.zeros((RES,2))
         dx = len(im[0,:])//RES
-        print("dx val:", dx)
+        yWindow = int(ROI*len(im[:,0]))
+        print("yWindow: ",yWindow)
+        print("roi: ", ROI)
+        print("len: ", len(im[:,0]))
+        #print("dx val:", dx)
         maxVal = 0
         maxI = -1
         for i in range(RES):
             bins[i,0] = i
-            bins[i,1] = self.getNumBlack(im[0:int(ROI*len(im[:,0])),i*dx:i*dx+dx,2])
+            bins[i,1] = self.getNumBlack(im[0:yWindow,i*dx:i*dx+dx,2])
             if bins[i,1] > maxVal:
                 maxVal = bins[i,1]
                 maxI = i
