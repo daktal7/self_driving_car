@@ -127,7 +127,7 @@ def intersect(turn):
         WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
-    GREEN = True
+    #GREEN = True
     if GREEN:
         if turn.data == -1:
             print("Drive: turn left")
@@ -176,7 +176,7 @@ def drive_control():
     #rospy.Subscriber("driveSpeed", Float32, drive)
     rospy.Subscriber("intersection", Int32, intersect)
     rospy.Subscriber("Emergency_Stop",Int32, emergencyStop)
-    #rospy.Subscriber("light", Bool, stopLight)
+    rospy.Subscriber("light", Bool, stopLight)
 
     rospy.spin()
 
