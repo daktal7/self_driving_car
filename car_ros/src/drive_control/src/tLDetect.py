@@ -106,8 +106,14 @@ class tlDetector:
         
 
     def light_detect(self, data):
+        frameCount = 0
+        frameMod = 10
         if self.intersection == False:
+            frameCount = 0
             #print("not in the intersection")
+            return
+        frameCount = frameCount + 1
+        if frameCount % frameMod:
             return
         #print("In light_detect")
         im = self.bridge.imgmsg_to_cv2(data,"rgb8")
