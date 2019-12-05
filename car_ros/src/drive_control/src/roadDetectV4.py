@@ -210,7 +210,7 @@ class road_image:
     #takes in an image and returns canny. you will need to mask it once it's done.
     @staticmethod
     def getCanny(im):
-        im_hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
+        im_hsv = im #cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
         bin_im = road_image.binarize(im_hsv[:,:,2], 200) #value = white lines
         im_white_lines_pre_canny = road_image.filter_white(im_hsv)
         im_canGr = cv2.Canny(im_white_lines_pre_canny, 40, 150)
