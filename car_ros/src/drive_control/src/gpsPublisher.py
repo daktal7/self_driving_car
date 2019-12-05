@@ -33,7 +33,7 @@ def isGoodCoor(coor1,coor2):
 	dist = ((coor1[1]-coor2[1])**2)+((coor1[0]-coor2[0])**2)
 	return dist < MAX_COOR_DIST
 
-def testCoor(coor, prevCoor):
+def verifyCoor(coor, prevCoor,pub):
 	if not isGoodCoor(coor, prevCoor):
 		print("gpspub: BAD COOR")
 		# begTime = time.time()
@@ -43,7 +43,6 @@ def testCoor(coor, prevCoor):
 		while not isGoodCoor(ti.getCoor("Green"), prevCoor):  # and time < COOR_TIMEOUT:
 			# time = time.time
 			rate2.sleep()
-
 		pub.publish(7)  # tell the drive that we are good again
 
 def publishIntersection():
@@ -57,7 +56,7 @@ def publishIntersection():
 
 		coor = (abs(coor[0]),abs(coor[1]))
 
-		testCoor(coor, prevCoor) #this tests to see if we're getting a bogus coordinate, just comment out if you want to disable
+		verifyCoor(coor, prevCoor, pub) #this tests to see if we're getting a bogus coordinate, just comment out if you want to disable
 		prevCoor = coor
 
 		inter = wpm.reachedWarningIntersection(coor)
