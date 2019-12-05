@@ -141,7 +141,7 @@ class tlDetector:
         #    self.light_pub.publish(green)
             # if(green):
                 # self.intersection = False
-        green = self.isGreen(hsvIm[0:int(ROI*len(im[:,0])),:])
+        green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
         print("tlDetect: is green?", green)
         self.light_pub.publish(green)
         if green:
