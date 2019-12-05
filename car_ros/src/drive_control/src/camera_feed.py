@@ -8,7 +8,7 @@ from signal import signal, SIGINT
 import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
-import serial 
+# import serial 
 #from std_msgs.msg import Float32
 
 class image_converter:
