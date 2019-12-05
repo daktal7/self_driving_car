@@ -3,7 +3,7 @@ import wpManager as wpm
 import numpy as np
 
 
-csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/long_course.csv"
+csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/med_course.csv"
 wps = wpm.csv2WayPoint(csvPath) # the waypoints are loaded
 prevInter = None
 
