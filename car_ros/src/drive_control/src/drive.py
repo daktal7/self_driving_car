@@ -95,7 +95,7 @@ def turn_right_intersection():
 def turn_left():
     global DRIVE_LOCK
     drive(STARTUP_SPEED)
-    time.sleep(1.5)
+    time.sleep(2)#was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     angle = -20 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
