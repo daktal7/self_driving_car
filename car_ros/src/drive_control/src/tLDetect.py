@@ -98,7 +98,7 @@ class tlDetector:
         if self.intersection == False:
             print("not in the intersection")
             return
-        im = self.bridge.imgmsg_to_cv2(data,"rgb8")
+        im = self.bridge.imgmsg_to_cv2(data)
         if im is None:
             print("bad image")
             return 
@@ -111,7 +111,6 @@ class tlDetector:
             print("hsv is none")
             return
         try:
-            print(hsvIm)
             light = self.getTL(hsvIm)
         except:
             print("failed to get TL")
