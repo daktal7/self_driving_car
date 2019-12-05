@@ -52,7 +52,7 @@ class image_displayer:
 			depth_image = np.copy(image)
 			#depth_image = np.asanyarray(depth_frame.get_data())
 			depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
-			threshold_value = 180
+			threshold_value = 175
 			self.check_for_obstacles(depth_colormap, threshold_value)
 		
 	def region_of_interest_depth(self, depth_image):
