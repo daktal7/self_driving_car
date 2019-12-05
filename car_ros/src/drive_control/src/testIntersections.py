@@ -27,11 +27,3 @@ def getCoor(color):
 	except:
 		print("other errror")
 		return(0,0)
-
-
-
-
-
-
-
-ils.useLaneNumber(wpm.reachedWarningIntersection(getCoor("Blue")))

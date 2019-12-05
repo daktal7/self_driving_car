@@ -3,12 +3,20 @@ import wpManager as wpm
 import numpy as np
 
 
-csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/big_course.csv"
+csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/long_course.csv"
 wps = wpm.csv2WayPoint(csvPath) # the waypoints are loaded
+prevInter = None
 
+#returns:
+# -1 turn left
+# 1 turn right stop light
+# 0 go straight
+# 2 stop
+# 40 turn right, stop sign
+# -40 turn left, stop sign
 def one():
 	global wps
-	print("Intersection lane 1")
+	#print("Intersection lane 1")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 2:
@@ -35,7 +43,7 @@ def one():
 
 def two():
 	global wps
-	print("Intersection lane 2")
+	#print("Intersection lane 2")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 3:
@@ -61,7 +69,7 @@ def two():
 
 def three():
 	global wps
-	print("Intersection lane 3")
+	#print("Intersection lane 3")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 4:
@@ -87,7 +95,7 @@ def three():
 
 def four():
 	global wps
-	print("Intersection lane 4")
+	#print("Intersection lane 4")
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 1:
@@ -113,7 +121,7 @@ def four():
 	#direction to go depends on the location of our next waypoint
 
 def five():
-	print("Intersection lane 5")
+	#print("Intersection lane 5")
 	global wps
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
@@ -122,8 +130,8 @@ def five():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 6:
-			print("turn left")
-			return -1
+			print("turn left stop sign")
+			return -40
 		else:
 			print("in intersection 5 and continuing")
 			return None
@@ -134,7 +142,7 @@ def five():
 	#Might need to go straight still for a bit, then make a left turn
 
 def six():
-	print("Intersection lane 6")
+	#print("Intersection lane 6")
 	global wps
 	if len(wps) != 0:
 		nextInter = wpm.reachedWarningIntersection(wps[0])
@@ -143,8 +151,8 @@ def six():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 5:
-			print("turn right")
-			return 1
+			print("turn right stop sign")
+			return 40
 		else:
 			print("in intersection 6 and continuing")
 			return None
@@ -155,7 +163,7 @@ def six():
 	#Might need to go straight still for a bit, then make a right turn
 
 def seven():
-	print("Intersection lane 7")
+	#print("Intersection lane 7")
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a right turn
 	global wps
@@ -166,8 +174,8 @@ def seven():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 8:
-			print("turn right")
-			return 1
+			print("turn right stop sign")
+			return 40
 		else:
 			print("in intersection 7 and continuing")
 			return None
@@ -176,7 +184,7 @@ def seven():
 		return 2
 
 def eight():
-	print("Intersection lane 8")
+	#print("Intersection lane 8")
 	#needs to suspend the normal driving angle procedures
 	#Might need to go straight still for a bit, then make a left turn
 	global wps
@@ -187,8 +195,8 @@ def eight():
 			print("new wp size: ", len(wps))
 			return None
 		elif nextInter == 7:
-			print("turn left")
-			return -1
+			print("turn left stop sign")
+			return -40
 		else:
 			print("in intersection 8 and continuing")
 			return None
@@ -196,13 +204,19 @@ def eight():
 		print("no more waypoints")
 		return 2
 
+def nine():
+	if prevInter == 8:
+		return 40
+
 def noIntersection():
 	print("no intersection")
 	return None
 
 
-def useLaneNumber(num):
-	print("using lane number")
+def useLaneNumber(num,prevIntersect):
+	global prevInter
+	prevInter = prevIntersect
+	#print("ILS: using lane number")
 	switcher = {
 		1: one,
 		2: two,
@@ -211,7 +225,8 @@ def useLaneNumber(num):
 		5: five,
 		6: six,
 		7: seven, 
-		8: eight
+		8: eight,
+		9: nine
 	}
 	#get the funciton that we need to call
 	func = switcher.get(num, lambda: noIntersection)

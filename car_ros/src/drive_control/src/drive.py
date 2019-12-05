@@ -25,6 +25,7 @@ ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.008
 STARTUP_SPEED = .0095
 GREEN = False
+STORED_TURN = -100 #junk value
 prevAngle = 0
 
 
@@ -41,13 +42,13 @@ def steer(angle):
         return
     global DRIVE_LOCK
     if WARNING_INTERSECTION:
-        print("WARNING_INTERSECTION:")
+        #print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
+            print("Drive Lock Engagded")
     if not DRIVE_LOCK:
-        # print(angle.data)
-        if WARNING_INTERSECTION:
-            print(angle.data)
+        #if WARNING_INTERSECTION:
+            #print(angle.data)
         command = "!steering" + str(angle.data) + "\n"
         ser.write(command.encode())
 
@@ -57,7 +58,7 @@ def drive(speed):
     ser.write(command.encode())
 
 
-def turn_right():
+def turn_right_stop_sign():
     global DRIVE_LOCK
     angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
@@ -70,7 +71,25 @@ def turn_right():
     drive(DRIVE_SPEED)
     time.sleep(2.4)
     DRIVE_LOCK = False
+    print("Drive lock disengaged")
 
+
+def turn_right_intersection():
+    print("Running turn_right_instersection")
+    global DRIVE_LOCK
+    angle = 2.5 - prevAngle/2
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(STARTUP_SPEED)
+    time.sleep(2)
+    print("Done with straight part of right turn")
+    angle = 30 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    drive(DRIVE_SPEED)
+    time.sleep(2.4)
+    DRIVE_LOCK = False
+    print("drive lock disengaged")
 
 
 def turn_left():
@@ -83,6 +102,7 @@ def turn_left():
     drive(DRIVE_SPEED)
     time.sleep(2)
     DRIVE_LOCK = False
+    print("drive lock disengaged")
 
 
 def go_straight():
@@ -94,9 +114,12 @@ def go_straight():
     time.sleep(4)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
+    print("drive lock disengaged")
 
 
 def intersect(turn):
+    global STORED_TURN, DRIVE_LOCK, GREEN
+    STORED_TURN = turn
     if OBJECT_DETECTED:
         return
     global DRIVE_LOCK,WARNING_INTERSECTION
@@ -106,6 +129,17 @@ def intersect(turn):
         WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
+    if turn.data == 40:
+        print("Drive: turn right stop sign")
+        turn_right_stop_sign()
+    if turn.data == -40:
+        print("Drive: turn left stop sign")
+        turn_left()
+    if turn.data == 2:
+        DRIVE_LOCK = True
+        print("Drive: stop")
+        drive(0)
+    #GREEN = True
     if GREEN:
         if turn.data == -1:
             print("Drive: turn left")
@@ -114,11 +148,9 @@ def intersect(turn):
             print("Drive: go straight")
             go_straight()
         if turn.data == 1:
-            print("Drive: turn right")
-            turn_right()
-    if turn.data == 2:
-        print("Drive: stop")
-        drive(0)
+            print("Drive: turn right stop light")
+            turn_right_intersection()
+        GREEN = False
 
 def emergencyStop(flag):
     global OBJECT_DETECTED
@@ -130,20 +162,23 @@ def emergencyStop(flag):
             drive(0)
     else:
         if OBJECT_DETECTED:
-            print("object gone, starting")
+            print("drive: object gone, starting")
             OBJECT_DETECTED = False
             drive(DRIVE_SPEED)
 
+
 def stopLight(light):
-	global GREEN
-	if light.data:
-		GREEN = True
-	else:
-		GREEN = False
+    global GREEN
+    if light.data:
+        GREEN = True
+        print("drive: setting green to true")
+        intersect(STORED_TURN)
+        GREEN = False
+    else:
+        GREEN = False
 
 
 def drive_control():
-    print("drive_control here")
     rospy.init_node('drive_control', anonymous=False)
     # subscribe to whatever is checking our intersections
     # rospy.Subscriber("intersectionNumber", int, inter.useLaneNumber)
@@ -164,7 +199,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1630\n"  # was 1750 // was 1615
+    init_command = "!start1632\n"  # was 1750 // was 1615
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())

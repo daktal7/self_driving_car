@@ -10,25 +10,27 @@ from std_msgs.msg import Bool, Int32
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
-ROI = 170/613;
+ROI = 170.0/613.0;
 BLACK_THRESH = 20
-BIN_THRESH = .6
+BIN_THRESH = .3
 RES = 100
 
 GREEN_CENTER = 60
 GREEN_BUFFER = 20
 GREEN_LOWER = GREEN_CENTER-GREEN_BUFFER
 GREEN_UPPER = GREEN_CENTER+GREEN_BUFFER+10
-SAT_CUTOFF = 150
-GREEN_CUTOFF = 100
+SAT_CUTOFF = 200
+GREEN_CUTOFF = 150
 
 class tlDetector:
     def __init__(self):
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("video_topic", Image, self.light_detect)
         self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
-        self.light_pub = rospy.Publisher('light', Bool, queue_size = 1)
+        self.light_pub = rospy.Publisher('light', Bool, queue_size = 10)
         self.intersection = False
+        self.frameCount = 0
+        self.frameMod = 20
     # im must be in hsv
     #returns 'r' for red and 'g' for green
     #if box is none the algorithm will run over the entire image
@@ -42,13 +44,14 @@ class tlDetector:
                 if GREEN_LOWER <= im[i, j, 0] <= GREEN_UPPER and im[i, j, 1] > SAT_CUTOFF:
                     resGreen = resGreen + 1
                     # light[i - box[0], j - box[1], 1] = 255
-        print(resGreen)
+        print("tlDetect: resgreen ", resGreen)
         if resGreen > GREEN_CUTOFF:
             return True
         return False
 
     def getNumBlack(self,im):
         res = 0
+        #print("numbBlack image size:", np.shape(im))
         for i in range(len(im[:,0])):
             for j in range(len(im[0,:])):
                 if im[i,j] < BLACK_THRESH:
@@ -70,60 +73,82 @@ class tlDetector:
                     iLeft = iLeft + 1
                 else:
                     break
-        return im[0:int(ROI*len(hsvIm[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
+        if iRight == 0 and iLeft == 0:
+            print("tlDetect: returning none")
+            return None
+        print("maxI: ", maxI)
+        print("iRight: ", iRight)
+        print("iLeft: ", iLeft)
+        return im[0:int(ROI*len(im[:,0])),(maxI-iLeft)*dx:(maxI+iRight)*dx,:]
 
     #im must be hsv, res is how many cross sections are made
     #will return numpy array that contains just the traffic light
     def getTL(self, im):
         bins = np.zeros((RES,2))
         dx = len(im[0,:])//RES
+        yWindow = int(ROI*len(im[:,0]))
+        #print("dx val:", dx)
         maxVal = 0
         maxI = -1
         for i in range(RES):
             bins[i,0] = i
-            bins[i,1] = getNumBlack(im[0:int(ROI*len(hsvIm[:,0])),i*dx:i*dx+dx,2])
+            bins[i,1] = self.getNumBlack(im[0:yWindow,i*dx:i*dx+dx,2])
             if bins[i,1] > maxVal:
                 maxVal = bins[i,1]
                 maxI = i
-        return getBox(im,bins,maxI,dx)
+        #print("tlDetect: bins", bins)
+        print("tlDetect: maxBlack ", maxVal)
+        return self.getBox(im,bins,maxI,dx)
 
     def intersect(self, data):
-        if data.data == 4:
-            self.intersection = True
+        if data.data == 5:
+           if self.intersection == False:
+                print("tlDetect: turningn light detection on")
+           self.intersection = True
             # time.sleep(10)
             # self.intersection = False
         
 
     def light_detect(self, data):
         if self.intersection == False:
-            print("not in the intersection")
+            self.frameCount = 0
+            #print("not in the intersection")
             return
-        im = self.bridge.imgmsg_to_cv2(data)
-        if im is None:
-            print("bad image")
-            return 
-        try:
-            hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
-        except:
-            print("Failed to convert to hsv")
+
+        self.frameCount = self.frameCount + 1
+        #print("TLDEtect, Framecount: ", frameCount)
+        if self.frameCount % self.frameMod:
             return
+        #print("In light_detect")
+        hsvIm = self.bridge.imgmsg_to_cv2(data)
+        # if im is None:
+        #     print("bad image")
+        #     return 
+        #try:
+        # hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
+        #print("hsv shape:", np.shape(hsvIm))
+        #except:
+        #    print("Failed to convert to hsv")
+        #    return
         if hsvIm is None:
             print("hsv is none")
             return
-        try:
-            light = self.getTL(hsvIm)
-        except:
-            print("failed to get TL")
-            return
         # print(light.length())
-        try:
-            green = self.isGreen(light)
-            print(green)
-            self.light_pub.publish(green)
+        #try:
+        #if light is not None:
+        #    green = self.isGreen(light)
+        #    print(green)
+        #    self.light_pub.publish(green)
             # if(green):
                 # self.intersection = False
-        except:
-            print("Failed to check for green")
+        green = self.isGreen(hsvIm[0:int(ROI*len(im[:,0])),:])
+        print("tlDetect: is green?", green)
+        self.light_pub.publish(green)
+        if green:
+            self.intersection = False
+            print("tlDetect: disabling light detection")
+        #except:
+        #    print("Failed to check for green")
         # roi = 170/len(hsvIm[:,0])
 
         # cv2.imshow("Traffic Light", im)

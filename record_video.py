@@ -6,19 +6,23 @@ import argparse
 import imutils
 import cv2
 #hey
+
+FPS = 30
+print("beginning recording")
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-o", "--output", required=True,
 	help="path to output video")
 ap.add_argument("-c", "--confidence", type=float, default=0.5,
 	help="minimum probability to filter weak detections")
+ap.add_argument("-t","--time",type=int,default=10, help="time to record the video")
 args = vars(ap.parse_args())	
 
-vs = cv2.VideoCapture("/dev/video3", cv2.CAP_V4L) # ls -ltr /dev/video*
+vs = cv2.VideoCapture("/dev/video2", cv2.CAP_V4L) # ls -ltr /dev/video*
 writer = None
 (W, H) = (None, None)
 
-while True:
+for i in range(args["time"]*FPS):
     # read the next frame from the file
     (grabbed, frame) = vs.read()
  
@@ -34,7 +38,7 @@ while True:
     if writer is None:
         # initialize our video writer
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-        writer = cv2.VideoWriter(args["output"], fourcc, 30,
+        writer = cv2.VideoWriter(args["output"]+".avi", fourcc, 30,
             (frame.shape[1], frame.shape[0]), True)
  
     # write the output frame to disk
