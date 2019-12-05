@@ -87,7 +87,7 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(DRIVE_SPEED)
-    time.sleep(2.4)
+    time.sleep(2.8)#was 2.4 12/5/19
     DRIVE_LOCK = False
     print("drive lock disengaged")
 
