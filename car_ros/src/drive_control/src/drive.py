@@ -118,7 +118,7 @@ def go_straight():
 
 
 def intersect(turn):
-    global STORED_TURN, DRIVE_LOCK, GREEN
+    global STORED_TURN, DRIVE_LOCK, GREEN, OBJECT_DETECTED
     STORED_TURN = turn
     if OBJECT_DETECTED:
         return
@@ -129,6 +129,12 @@ def intersect(turn):
         WARNING_INTERSECTION = False
     # for i in range(0,50):
     #     print(i)
+    if turn.data == 6:
+        print("Drive: GPS BROKEN, STOPPING")
+        OBJECT_DETECTED = True
+    if turn.data == 7:
+        print("Drive: GPS recovered")
+        OBJECT_DETECTED = False
     if turn.data == 40:
         print("Drive: turn right stop sign")
         turn_right_stop_sign()

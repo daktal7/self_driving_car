@@ -18,16 +18,44 @@ import testIntersections as ti
 # 2: stop
 # 4: raise warning intersection flag
 # 5: tell traffic light detection to start running
+# 6: lost GPS
+# 7: got GPS back
 # 40: turn right, stop sign
 # -40: turn left, stop sign
+
+#squared distance to save computation
+MAX_COOR_DIST = 150**2
+COOR_TIMEOUT = 20 #determines how much time we'll wait for a coordinate
+
+def isGoodCoor(coor1,coor2):
+	if coor1 is None or coor2 is None:
+		return True
+	dist = ((coor1[1]-coor2[1])**2)+((coor1[0]-coor2[0])**2)
+	return dist < MAX_COOR_DIST
+
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=10)
 	rospy.init_node('intersection_pub', anonymous=False)
 	rate = rospy.Rate(5)
 	prevInter = -1
+	prevCoor = None
 	while not rospy.is_shutdown():
 		coor = ti.getCoor("Green")
+
+		if not isGoodCoor(coor,prevCoor):
+			#begTime = time.time()
+			#time = time.time() - begTime
+			pub.publish(6) #stop the car and wait until we get the coordinate
+			rate2 = rospy.Rate(8)
+			while not isGoodCoor(ti.getCoor("Green"),prevCoor):# and time < COOR_TIMEOUT:
+				#time = time.time
+				rate2.sleep()
+
+			pub.publish(7) #tell the drive that we are good again
+
+		prevCoor = coor
 		coor = (abs(coor[0]),abs(coor[1]))
+
 		inter = wpm.reachedWarningIntersection(coor)
 
         #check to see if we're in a warning intersection
