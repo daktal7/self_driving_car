@@ -31,9 +31,9 @@ class image_displayer:
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
+		print("in display")
 		frame = self.bridge.imgmsg_to_cv2(data)
 		if frame is None:
-			print("lane detect: Fram is none")
 			return
 		#check to see if we need to detect traffic lights
 		if self.runTLD:
