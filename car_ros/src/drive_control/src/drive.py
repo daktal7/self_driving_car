@@ -133,9 +133,11 @@ def intersect(turn):
     if turn.data == 6:
         print("Drive: GPS BROKEN, STOPPING")
         GPS_FAILED = True
+        drive(0)
     if turn.data == 7:
         print("Drive: GPS recovered")
         GPS_FAILED = False
+        drive(DRIVE_SPEED)
     if turn.data == 40:
         print("Drive: turn right stop sign")
         turn_right_stop_sign()
