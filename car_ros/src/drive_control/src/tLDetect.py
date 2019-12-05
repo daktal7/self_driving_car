@@ -133,17 +133,15 @@ class tlDetector:
         if hsvIm is None:
             print("hsv is none")
             return
-        # print(light.length())
-        #try:
-        #if light is not None:
-        #    green = self.isGreen(light)
-        #    print(green)
-        #    self.light_pub.publish(green)
-            # if(green):
-                # self.intersection = False
-        green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
+
+        #green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
+        
+        time.sleep(1) #disabling light detection for now,
+        green = True #comment these lines out to enable light detection
+
         print("tlDetect: is green?", green)
         self.light_pub.publish(green)
+
         if green:
             self.intersection = False
             print("tlDetect: disabling light detection")
