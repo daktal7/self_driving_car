@@ -22,7 +22,7 @@ DRIVE_LOCK = False
 OBJECT_DETECTED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
-DRIVE_SPEED = 0.007
+DRIVE_SPEED = 0.008
 STARTUP_SPEED = .0095
 GREEN = False
 STORED_TURN = -100 #junk value
@@ -199,7 +199,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1632\n"  # was 1750 // was 1615
+    init_command = "!start1625\n"  # was 1750 // was 1615 // was 1632
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
