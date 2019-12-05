@@ -147,10 +147,12 @@ class image_displayer:
 
 	def intersect(self, data):
 		if data.data == 5:
+			print("lane detector: turnning on traffic light")
 			self.runTLD = True
 
 	def stopLight(self, data):
 		if data.data:
+			print("lane detector: turnning off traffic light")
 			self.runTLD = False
 
 
