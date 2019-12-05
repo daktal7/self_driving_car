@@ -15,20 +15,29 @@ import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Float32
+from tLDetect import tlDetector as tl
 
 
 class image_displayer:
 	def __init__(self):
 		self.bridge = CvBridge()
 		self.image_sub = rospy.Subscriber("video_topic", Image, self.display)
+		self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
 		self.angle_pub = rospy.Publisher("steerAngle", Float32, queue_size = 1)
+		self.light_sub = rospy.Subscriber("light", Bool, stopLight)
 		self.count = 0
+		self.runTLD = False
 
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
 		frame = self.bridge.imgmsg_to_cv2(data)
 		if frame is None:
+			return
+		#check to see if we need to detect traffic lights
+		if self.runTLD:
+			traffic = tl()
+			traffic.lightDetect(frame)
 			return
 		if self.count == 0:
 			#start = time.time()
@@ -135,6 +144,14 @@ class image_displayer:
 			self.count = 0
 		else:
 			self.count = 0
+
+	def intersect(self, data):
+		if data.data == 5:
+			self.runTLD = True
+
+	def stopLight(self, data):
+		if data.data:
+			self.runTLD = False
 
 
 FRAMES_TO_AVERAGE = 3
