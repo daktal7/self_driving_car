@@ -56,8 +56,8 @@ def publishIntersection():
 
 		coor = (abs(coor[0]),abs(coor[1]))
 
-		verifyCoor(coor, prevCoor, pub) #this tests to see if we're getting a bogus coordinate, just comment out if you want to disable
-		prevCoor = coor
+		#verifyCoor(coor, prevCoor, pub) #this tests to see if we're getting a bogus coordinate, just comment out if you want to disable
+		#prevCoor = coor
 
 		inter = wpm.reachedWarningIntersection(coor)
 
