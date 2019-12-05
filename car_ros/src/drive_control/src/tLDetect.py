@@ -114,17 +114,18 @@ class tlDetector:
             self.frameCount = 0
             #print("not in the intersection")
             return
+
         self.frameCount = self.frameCount + 1
         #print("TLDEtect, Framecount: ", frameCount)
         if self.frameCount % self.frameMod:
             return
         #print("In light_detect")
-        im = self.bridge.imgmsg_to_cv2(data,"rgb8")
-        if im is None:
-            print("bad image")
-            return 
+        hsvIm = self.bridge.imgmsg_to_cv2(data)
+        # if im is None:
+        #     print("bad image")
+        #     return 
         #try:
-        hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
+        # hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
         #print("hsv shape:", np.shape(hsvIm))
         #except:
         #    print("Failed to convert to hsv")
@@ -132,23 +133,15 @@ class tlDetector:
         if hsvIm is None:
             print("hsv is none")
             return
-        #try:
-            #print(hsvIm)
-        #light = self.getTL(hsvIm)
-        #except:
-        #    print("failed to get TL")
-        #    return
-        # print(light.length())
-        #try:
-        #if light is not None:
-        #    green = self.isGreen(light)
-        #    print(green)
-        #    self.light_pub.publish(green)
-            # if(green):
-                # self.intersection = False
-        green = self.isGreen(hsvIm[0:int(ROI*len(im[:,0])),:])
+
+        #green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
+
+        time.sleep(1) #disabling light detection for now,
+        green = True #comment these lines out to enable light detection
+
         print("tlDetect: is green?", green)
         self.light_pub.publish(green)
+
         if green:
             self.intersection = False
             print("tlDetect: disabling light detection")

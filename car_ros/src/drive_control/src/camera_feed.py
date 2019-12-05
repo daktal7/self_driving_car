@@ -8,6 +8,7 @@ from signal import signal, SIGINT
 import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+import serial 
 #from std_msgs.msg import Float32
 
 class image_converter:
@@ -18,7 +19,7 @@ class image_converter:
 	
 	def publish_frame(self, frame):
 		try:
-			self.image_pub.publish(self.bridge.cv2_to_imgmsg(frame, "rgb8"))
+			self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)))
 		except CvBridgeError as e:
 			print(e)
 
