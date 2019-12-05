@@ -19,7 +19,7 @@ class image_converter:
 	
 	def publish_frame(self, frame):
 		try:
-			self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)))
+			self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)))
 		except CvBridgeError as e:
 			print(e)
 

@@ -135,7 +135,7 @@ class tlDetector:
             return
 
         #green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
-        
+
         time.sleep(1) #disabling light detection for now,
         green = True #comment these lines out to enable light detection
 
