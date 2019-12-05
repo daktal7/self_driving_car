@@ -41,12 +41,14 @@ def publishIntersection():
 	prevCoor = None
 	while not rospy.is_shutdown():
 		coor = ti.getCoor("Green")
-
+		print(coor)
+		#check if we're getting a bogus coordinate from someone's head or something
 		if not isGoodCoor(coor,prevCoor):
+			print("gpspub: BAD COOR")
 			#begTime = time.time()
 			#time = time.time() - begTime
 			pub.publish(6) #stop the car and wait until we get the coordinate
-			rate2 = rospy.Rate(8)
+			rate2 = rospy.Rate(7)
 			while not isGoodCoor(ti.getCoor("Green"),prevCoor):# and time < COOR_TIMEOUT:
 				#time = time.time
 				rate2.sleep()

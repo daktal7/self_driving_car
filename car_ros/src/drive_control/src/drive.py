@@ -20,6 +20,7 @@ import intersectionLaneSwitches as inter
 
 DRIVE_LOCK = False
 OBJECT_DETECTED = False
+GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.0076
@@ -38,7 +39,7 @@ def handler(signal_received, frame):
 
 
 def steer(angle):
-    if OBJECT_DETECTED:
+    if OBJECT_DETECTED or GPS_FAILED:
         return
     global DRIVE_LOCK
     if WARNING_INTERSECTION:
@@ -118,9 +119,9 @@ def go_straight():
 
 
 def intersect(turn):
-    global STORED_TURN, DRIVE_LOCK, GREEN, OBJECT_DETECTED
+    global STORED_TURN, DRIVE_LOCK, GREEN, OBJECT_DETECTED, GPS_FAILED
     STORED_TURN = turn
-    if OBJECT_DETECTED:
+    if OBJECT_DETECTED or GPS_FAILED:
         return
     global DRIVE_LOCK,WARNING_INTERSECTION
     if turn.data == 4:
@@ -131,10 +132,10 @@ def intersect(turn):
     #     print(i)
     if turn.data == 6:
         print("Drive: GPS BROKEN, STOPPING")
-        OBJECT_DETECTED = True
+        GPS_FAILED = True
     if turn.data == 7:
         print("Drive: GPS recovered")
-        OBJECT_DETECTED = False
+        GPS_FAILED = False
     if turn.data == 40:
         print("Drive: turn right stop sign")
         turn_right_stop_sign()
