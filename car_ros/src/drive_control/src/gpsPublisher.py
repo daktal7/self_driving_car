@@ -47,7 +47,8 @@ def publishIntersection():
 					print("publishing turn %d", turn)
 					pub.publish(2)
 					if inter < 5:
-						pub.publish(5)
+						#pub.publish(5)
+						continue 
 					else:
 						time.sleep(1.5)
 					pub.publish(turn)
