@@ -33,6 +33,19 @@ def isGoodCoor(coor1,coor2):
 	dist = ((coor1[1]-coor2[1])**2)+((coor1[0]-coor2[0])**2)
 	return dist < MAX_COOR_DIST
 
+def testCoor(coor, prevCoor):
+	if not isGoodCoor(coor, prevCoor):
+		print("gpspub: BAD COOR")
+		# begTime = time.time()
+		# time = time.time() - begTime
+		pub.publish(6)  # stop the car and wait until we get the coordinate
+		rate2 = rospy.Rate(7)
+		while not isGoodCoor(ti.getCoor("Green"), prevCoor):  # and time < COOR_TIMEOUT:
+			# time = time.time
+			rate2.sleep()
+
+		pub.publish(7)  # tell the drive that we are good again
+
 def publishIntersection():
 	pub = rospy.Publisher('intersection', Int32, queue_size=10)
 	rospy.init_node('intersection_pub', anonymous=False)
@@ -41,22 +54,11 @@ def publishIntersection():
 	prevCoor = None
 	while not rospy.is_shutdown():
 		coor = ti.getCoor("Green")
-		print(coor)
-		#check if we're getting a bogus coordinate from someone's head or something
-		if not isGoodCoor(coor,prevCoor):
-			print("gpspub: BAD COOR")
-			#begTime = time.time()
-			#time = time.time() - begTime
-			pub.publish(6) #stop the car and wait until we get the coordinate
-			rate2 = rospy.Rate(7)
-			while not isGoodCoor(ti.getCoor("Green"),prevCoor):# and time < COOR_TIMEOUT:
-				#time = time.time
-				rate2.sleep()
 
-			pub.publish(7) #tell the drive that we are good again
-
-		prevCoor = coor
 		coor = (abs(coor[0]),abs(coor[1]))
+
+		testCoor(coor, prevCoor) #this tests to see if we're getting a bogus coordinate, just comment out if you want to disable
+		prevCoor = coor
 
 		inter = wpm.reachedWarningIntersection(coor)
 
