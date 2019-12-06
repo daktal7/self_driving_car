@@ -12,9 +12,9 @@ import serial
 import time
 from signal import signal, SIGINT
 import rospy
-from sensor_msgs.msg import Image, Bool, Int32
+from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Bool, Int32
 
 
 class image_displayer:
