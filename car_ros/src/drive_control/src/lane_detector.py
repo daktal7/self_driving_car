@@ -22,9 +22,9 @@ class image_displayer:
 	def __init__(self):
 		self.bridge = CvBridge()
 		self.image_sub = rospy.Subscriber("video_topic", Image, self.display)
-		self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
+		#self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
 		self.angle_pub = rospy.Publisher("steerAngle", Float32, queue_size = 1)
-		self.light_sub = rospy.Subscriber("light", Bool, stopLight)
+		#self.light_sub = rospy.Subscriber("light", Bool, stopLight)
 		self.count = 0
 		self.runTLD = False
 

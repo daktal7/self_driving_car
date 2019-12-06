@@ -24,8 +24,8 @@ GREEN_CUTOFF = 150
 
 class tlDetector:
     def __init__(self):
-        #self.bridge = CvBridge()
-        #self.image_sub = rospy.Subscriber("video_topic", Image, self.light_detect)
+        self.bridge = CvBridge()
+        self.image_sub = rospy.Subscriber("video_topic", Image, self.light_detect)
         self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
         self.light_pub = rospy.Publisher('light', Bool, queue_size = 10)
         self.intersection = False
@@ -120,16 +120,8 @@ class tlDetector:
         if self.frameCount % self.frameMod:
             return
         #print("In light_detect")
-        #hsvIm = self.bridge.imgmsg_to_cv2(data)
-        # if im is None:
-        #     print("bad image")
-        #     return 
-        #try:
-        # hsvIm = cv2.cvtColor(im,cv2.COLOR_RGB2HSV)
-        #print("hsv shape:", np.shape(hsvIm))
-        #except:
-        #    print("Failed to convert to hsv")
-        #    return
+        hsvIm = self.bridge.imgmsg_to_cv2(data)
+
         if hsvIm is None:
             print("hsv is none")
             return
@@ -145,23 +137,8 @@ class tlDetector:
         if green:
             self.intersection = False
             print("tlDetect: disabling light detection")
-        #except:
-        #    print("Failed to check for green")
-        # roi = 170/len(hsvIm[:,0])
 
-        # cv2.imshow("Traffic Light", im)
-        # key = cv2.waitKey(1) & 0xFF
 
-        # if key == ord("q"):
-        #     break
-        # plt.figure()
-
-        # plt.imshow(im)
-
-        # plt.figure()
-        # plt.imshow(cv2.cvtColor(light,cv2.COLOR_HSV2RGB))
-
-        # plt.show()
 
 tl = tlDetector()
 rospy.init_node('light_node', anonymous=False)
