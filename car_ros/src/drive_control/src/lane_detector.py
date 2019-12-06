@@ -15,7 +15,6 @@ import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Float32
-from tLDetect import tlDetector as tl
 
 
 class image_displayer:
@@ -31,7 +30,6 @@ class image_displayer:
 
 	def display(self, data):
 		global dynamic_coordinates_right, dynamic_coordinates_left
-		print("in display")
 		frame = self.bridge.imgmsg_to_cv2(data)
 		if frame is None:
 			return
