@@ -24,7 +24,7 @@ class image_displayer:
 		self.tl_pub = rospy.Publisher("TL_video", Image, queue_size=1)
 		self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
 		self.angle_pub = rospy.Publisher("steerAngle", Float32, queue_size = 1)
-		self.light_sub = rospy.Subscriber("light", Bool, stopLight)
+		self.light_sub = rospy.Subscriber("light", Bool, self.stopLight)
 		self.count = 0
 		self.runTLD = False
 
