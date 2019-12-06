@@ -25,8 +25,8 @@ GREEN_CUTOFF = 150
 class tlDetector:
     def __init__(self):
         self.bridge = CvBridge()
-        self.image_sub = rospy.Subscriber("video_topic", Image, self.light_detect)
-        self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
+        self.image_sub = rospy.Subscriber("TL_video", Image, self.light_detect)
+        #self.intersection_sub = rospy.Subscriber("intersection", Int32, self.intersect)
         self.light_pub = rospy.Publisher('light', Bool, queue_size = 10)
         self.intersection = False
         self.frameCount = 0
@@ -110,10 +110,10 @@ class tlDetector:
         
 
     def light_detect(self, data):
-        if self.intersection == False:
-            self.frameCount = 0
+        #if self.intersection == False:
+        #    self.frameCount = 0
             #print("not in the intersection")
-            return
+        #    return
 
         self.frameCount = self.frameCount + 1
         #print("TLDEtect, Framecount: ", frameCount)
@@ -135,8 +135,9 @@ class tlDetector:
         self.light_pub.publish(green)
 
         if green:
-            self.intersection = False
-            print("tlDetect: disabling light detection")
+            self.frameCount = 0
+            #self.intersection = False
+            #print("tlDetect: disabling light detection")
 
 
 
