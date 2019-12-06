@@ -12,7 +12,7 @@ import serial
 import time
 from signal import signal, SIGINT
 import rospy
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image, Bool, Int32
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Float32
 
