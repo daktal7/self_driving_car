@@ -36,7 +36,6 @@ class image_displayer:
 			return
 		#check to see if we need to detect traffic lights
 		if self.runTLD:
-			print("lane_detector: publishing frame")
 			self.tl_pub.publish(data)
 			return
 		if self.count == 0:

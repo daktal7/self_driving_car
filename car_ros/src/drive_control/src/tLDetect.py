@@ -126,10 +126,10 @@ class tlDetector:
             print("hsv is none")
             return
 
-        #green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
+        green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
 
-        time.sleep(1) #disabling light detection for now,
-        green = True #comment these lines out to enable light detection
+        #time.sleep(1) #disabling light detection for now,
+        #green = True #comment these lines out to enable light detection
 
         print("tlDetect: is green?", green)
         self.light_pub.publish(green)
