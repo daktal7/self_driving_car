@@ -71,20 +71,20 @@ def turn_right_stop_sign():
     ser.write(command.encode())
     straightTime = 1
     rightTime = 2.4
-     for i in range(RES):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-        time.sleep(straightTime/RES)
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
             while OBJECT_DETECTED:
                 continue
             drive(STARTUP_SPEED)
-        time.sleep(rightTime/RES)
+        time.sleep(straightTime / RES)
+    for i in range(RES):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+        time.sleep(rightTime / RES)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
     print("Drive lock disengaged")
@@ -103,20 +103,20 @@ def turn_right_intersection():
     ser.write(command.encode())
     straightTime = 2.5
     rightTime = 2.8
-     for i in range(RES):
-        if OBJECT_DETECTED:
-            drive(0)
-            while OBJECT_DETECTED:
-                continue
-            drive(STARTUP_SPEED)
-        time.sleep(straightTime/RES)
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
             while OBJECT_DETECTED:
                 continue
             drive(STARTUP_SPEED)
-        time.sleep(rightTime/RES)
+        time.sleep(straightTime / RES)
+    for i in range(RES):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+        time.sleep(rightTime / RES)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
     print("drive lock disengaged")
@@ -137,14 +137,14 @@ def turn_left():
             while OBJECT_DETECTED:
                 continue
             drive(STARTUP_SPEED)
-        time.sleep(straightTime/RES)
+        time.sleep(straightTime / RES)
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
             while OBJECT_DETECTED:
                 continue
             drive(STARTUP_SPEED)
-        time.sleep(leftTime/RES)
+        time.sleep(leftTime / RES)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
     print("drive lock disengaged")
