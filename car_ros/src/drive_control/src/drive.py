@@ -25,6 +25,7 @@ WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.0076
 STARTUP_SPEED = .0095
+RES = 100
 GREEN = False
 STORED_TURN = -100 #junk value
 prevAngle = 0
@@ -114,15 +115,14 @@ def go_straight():
     ser.write(command.encode())
     drive(STARTUP_SPEED)
     straightTime = 5.0
-    res = 100
     #time.sleep(4)
-    for i in range(res):
+    for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
             while OBJECT_DETECTED:
                 continue
             drive(STARTUP_SPEED)
-        time.sleep(straightTime/res)
+        time.sleep(straightTime/RES)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
     print("straight: drive lock disengaged")
