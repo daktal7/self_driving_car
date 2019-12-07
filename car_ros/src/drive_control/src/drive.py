@@ -66,9 +66,6 @@ def turn_right_stop_sign():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    angle = 30 - prevAngle
-    command = "!steering" + str(angle) + "\n"
-    ser.write(command.encode())
     straightTime = 1
     rightTime = 2.4
     for i in range(RES):
@@ -78,6 +75,9 @@ def turn_right_stop_sign():
                 continue
             drive(STARTUP_SPEED)
         time.sleep(straightTime / RES)
+    angle = 30 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
@@ -97,11 +97,7 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    print("Done with straight part of right turn")
-    angle = 30 - prevAngle
-    command = "!steering" + str(angle) + "\n"
-    ser.write(command.encode())
-    straightTime = 4.5
+    straightTime = 2.5
     rightTime = 2.8
     for i in range(RES):
         if OBJECT_DETECTED:
@@ -110,6 +106,10 @@ def turn_right_intersection():
                 continue
             drive(STARTUP_SPEED)
         time.sleep(straightTime / RES)
+    angle = 30 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
+    print("Done with straight part of right turn")
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
@@ -125,10 +125,9 @@ def turn_right_intersection():
 def turn_left():
     global DRIVE_LOCK
     drive(STARTUP_SPEED)
-    time.sleep(2.5)#was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
-    angle = -20 - prevAngle
+    angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
-    ser.write(command.encode())
+    ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     straightTime = 2.5
     leftTime = 2
     for i in range(RES):
@@ -138,6 +137,9 @@ def turn_left():
                 continue
             drive(STARTUP_SPEED)
         time.sleep(straightTime / RES)
+    angle = -20 - prevAngle
+    command = "!steering" + str(angle) + "\n"
+    ser.write(command.encode())
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
