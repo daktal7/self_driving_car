@@ -63,9 +63,9 @@ def publishIntersection():
         #check to see if we're in a warning intersection
 		if inter != -1:
 			if inter != prevInter:
-				prevInter = inter
 				turn = ils.useLaneNumber(inter,prevInter) #check to see if we are going to turn or not
 				if turn is not None:
+					prevInter = inter
 					pub.publish(4)
 					print("gpsPub: In warning intersection", prevInter)
 					# check if we are in the stoplight intersections

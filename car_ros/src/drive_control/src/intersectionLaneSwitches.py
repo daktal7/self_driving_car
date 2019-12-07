@@ -3,7 +3,7 @@ import wpManager as wpm
 import numpy as np
 
 
-csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/big_course.csv"
+csvPath = "/home/nvidia/Desktop/class_code/self_driving_car/car_ros/src/drive_control/src/waypoints/new_gps_course_1.csv"
 wps = wpm.csv2WayPoint(csvPath) # the waypoints are loaded
 prevInter = None
 
@@ -18,6 +18,13 @@ def one():
 	global wps
 	#print("Intersection lane 1")
 	if len(wps) != 0:
+
+		#this is to make sure that we have a valid gps point
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter is not 1:
+			return None
+		wps = np.delete(wps, 0, 0)
+
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 2:
 			print("turn right")
@@ -28,11 +35,11 @@ def one():
 		elif nextInter == 4:
 			print("turn left")
 			return -1
-		elif nextInter == 1:
-			print("deleting waypoint")
-			wps = np.delete(wps, 0, 0)
-			print("new wp size: ", len(wps))
-			return None
+		#elif nextInter == 1:
+		#	print("deleting waypoint")
+		#	wps = np.delete(wps, 0, 0)
+		#	print("new wp size: ", len(wps))
+		#	return None
 		else:
 			print("in intersection 1 and continuing")
 	else:
@@ -45,6 +52,13 @@ def two():
 	global wps
 	#print("Intersection lane 2")
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter is not 2:
+			return None
+		wps = np.delete(wps, 0, 0)
+
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 3:
 			print("turn right")
@@ -55,11 +69,11 @@ def two():
 		elif nextInter == 1:
 			print("turn left")
 			return -1
-		elif nextInter == 2:
-			print("deleting waypoint")
-			wps = np.delete(wps, 0, 0)
-			print("new wp size: ", len(wps))
-			return None
+		#elif nextInter == 2:
+		#	print("deleting waypoint")
+		#	wps = np.delete(wps, 0, 0)
+		#	print("new wp size: ", len(wps))
+		#	return None
 		else:
 			print("in intersection 2 and continuing")
 	else:
@@ -71,6 +85,13 @@ def three():
 	global wps
 	#print("Intersection lane 3")
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter is not 3:
+			return None
+		wps = np.delete(wps, 0, 0)
+
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 4:
 			print("turn right")
@@ -81,11 +102,11 @@ def three():
 		elif nextInter == 2:
 			print("turn left")
 			return -1
-		elif nextInter == 3:
-			print("deleting waypoint")
-			wps = np.delete(wps, 0, 0)
-			print("new wp size: ", len(wps))
-			return None
+		#elif nextInter == 3:
+		#	#print("deleting waypoint")
+		#	wps = np.delete(wps, 0, 0)
+		#	#print("new wp size: ", len(wps))
+		#	return None
 		else:
 			print("in intersection 3 and continuing")
 	else:
@@ -97,6 +118,13 @@ def four():
 	global wps
 	#print("Intersection lane 4")
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		if nextInter is not 4:
+			return None
+		wps = np.delete(wps, 0, 0)
+
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 1:
 			print("turn right")
@@ -107,11 +135,11 @@ def four():
 		elif nextInter == 3:
 			print("turn left")
 			return -1
-		elif nextInter == 4:
-			print("deleting waypoint")
-			wps = np.delete(wps, 0, 0)
-			print("new wp size: ", len(wps))
-			return None
+		#elif nextInter == 4:
+		#	#print("deleting waypoint")
+		#	wps = np.delete(wps, 0, 0)
+		#	#print("new wp size: ", len(wps))
+		#	return None
 		else:
 			print("in intersection 4 and continuing")
 			return None
@@ -124,12 +152,19 @@ def five():
 	#print("Intersection lane 5")
 	global wps
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
 		nextInter = wpm.reachedWarningIntersection(wps[0])
-		if nextInter == 5:
-			wps = np.delete(wps,0,0)
-			print("new wp size: ", len(wps))
+		if nextInter is not 5:
 			return None
-		elif nextInter == 6:
+		wps = np.delete(wps, 0, 0)
+
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		#if nextInter == 5:
+		#	wps = np.delete(wps,0,0)
+		#	#print("new wp size: ", len(wps))
+		#	return None
+		if nextInter == 6:
 			print("turn left stop sign")
 			return -40
 		else:
@@ -145,12 +180,19 @@ def six():
 	#print("Intersection lane 6")
 	global wps
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
 		nextInter = wpm.reachedWarningIntersection(wps[0])
-		if nextInter == 6:
-			wps = np.delete(wps,0,0)
-			print("new wp size: ", len(wps))
+		if nextInter is not 6:
 			return None
-		elif nextInter == 5:
+		wps = np.delete(wps, 0, 0)
+
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		#if nextInter == 6:
+		#	wps = np.delete(wps,0,0)
+		#	print("new wp size: ", len(wps))
+		#	return None
+		if nextInter == 5:
 			print("turn right stop sign")
 			return 40
 		else:
@@ -168,12 +210,19 @@ def seven():
 	#Might need to go straight still for a bit, then make a right turn
 	global wps
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
 		nextInter = wpm.reachedWarningIntersection(wps[0])
-		if nextInter == 7:
-			wps = np.delete(wps,0,0)
-			print("new wp size: ", len(wps))
+		if nextInter is not 7:
 			return None
-		elif nextInter == 8:
+		wps = np.delete(wps, 0, 0)
+
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		#if nextInter == 7:
+		#	wps = np.delete(wps,0,0)
+		#	print("new wp size: ", len(wps))
+		#	return None
+		if nextInter == 8:
 			print("turn right stop sign")
 			return 40
 		else:
@@ -189,12 +238,19 @@ def eight():
 	#Might need to go straight still for a bit, then make a left turn
 	global wps
 	if len(wps) != 0:
+
+		# this is to make sure that we have a valid gps point
 		nextInter = wpm.reachedWarningIntersection(wps[0])
-		if nextInter == 8:
-			wps = np.delete(wps,0,0)
-			print("new wp size: ", len(wps))
+		if nextInter is not 8:
 			return None
-		elif nextInter == 7:
+		wps = np.delete(wps, 0, 0)
+
+		nextInter = wpm.reachedWarningIntersection(wps[0])
+		#if nextInter == 8:
+		#	wps = np.delete(wps,0,0)
+		#	print("new wp size: ", len(wps))
+		#	return None
+		if nextInter == 7:
 			print("turn left stop sign")
 			return -40
 		else:
