@@ -129,7 +129,7 @@ def turn_left():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     straightTime = 2.5
-    leftTime = 2
+    leftTime = 2.8
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
