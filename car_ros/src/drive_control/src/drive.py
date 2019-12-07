@@ -97,7 +97,7 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    straightTime = 2
+    straightTime = 2.5
     rightTime = 2.8
     for i in range(RES):
         if OBJECT_DETECTED:
@@ -128,7 +128,7 @@ def turn_left():
     angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
-    straightTime = 2.5
+    straightTime = 2
     leftTime = 2.8
     for i in range(RES):
         if OBJECT_DETECTED:
