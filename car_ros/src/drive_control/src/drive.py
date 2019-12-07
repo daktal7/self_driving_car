@@ -107,13 +107,14 @@ def turn_left():
 
 
 def go_straight():
+    print("drive: Beginning Straight")
     global DRIVE_LOCK
     angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
     straightTime = 5.0
-    res = 100.0
+    res = 100
     #time.sleep(4)
     for i in range(res):
         if OBJECT_DETECTED:
@@ -124,7 +125,7 @@ def go_straight():
         time.sleep(straightTime/res)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
-    print("drive lock disengaged")
+    print("straight: drive lock disengaged")
 
 
 def intersect(turn):
@@ -217,7 +218,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1628\n"  # was 1750 // was 1615 // was 1632
+    init_command = "!start1635\n"  # was 1750 // was 1615 // was 1632
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())

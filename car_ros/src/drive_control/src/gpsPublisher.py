@@ -53,7 +53,6 @@ def publishIntersection():
 	prevCoor = None
 	while not rospy.is_shutdown():
 		coor = ti.getCoor("Green")
-		print("gps pub, coor:", coor)
 		coor = (abs(coor[0]),abs(coor[1]))
 
 		#verifyCoor(coor, prevCoor, pub) #this tests to see if we're getting a bogus coordinate, just comment out if you want to disable
