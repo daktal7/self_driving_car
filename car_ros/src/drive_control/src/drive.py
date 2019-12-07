@@ -112,7 +112,16 @@ def go_straight():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    time.sleep(4)
+    straightTime = 5.0
+    res = 100.0
+    #time.sleep(4)
+    for i in range(res):
+        if OBJECT_DETECTED:
+            drive(0)
+            while OBJECT_DETECTED:
+                continue
+            drive(STARTUP_SPEED)
+        time.sleep(straightTime/res)
     drive(DRIVE_SPEED)
     DRIVE_LOCK = False
     print("drive lock disengaged")
