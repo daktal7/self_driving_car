@@ -129,7 +129,7 @@ def turn_left():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     drive(STARTUP_SPEED)
-    straightTime = 3 #must be float or else will not work when divided by RES
+    straightTime = 3.0 #must be float or else will not work when divided by RES
     leftTime = 2.0
     for i in range(RES):
         if OBJECT_DETECTED:
