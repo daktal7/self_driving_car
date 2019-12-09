@@ -97,7 +97,7 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    straightTime = 1.5
+    straightTime = 1.8
     rightTime = 3.0
     for i in range(RES):
         if OBJECT_DETECTED:
