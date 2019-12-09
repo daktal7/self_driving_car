@@ -23,7 +23,7 @@ OBJECT_DETECTED = False
 GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
-DRIVE_SPEED = 0.0076
+DRIVE_SPEED = 0.007
 STARTUP_SPEED = .0095
 RES = 100
 GREEN = False
@@ -130,7 +130,7 @@ def turn_left():
     ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     drive(STARTUP_SPEED)
     straightTime = 2.0 #must be float or else will not work when divided by RES
-    leftTime = 2.8
+    leftTime = 2.2
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
@@ -279,6 +279,8 @@ if __name__ == '__main__':
 
     time.sleep(.25)
     drive(0)  # Stop and wait for a second
+    time.sleep(1)
+    drive(STARTUP_SPEED)
     time.sleep(1)
     drive(DRIVE_SPEED)
 
