@@ -24,7 +24,7 @@ GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.007
-STARTUP_SPEED = .01
+STARTUP_SPEED = .02
 RES = 100
 GREEN = False
 STORED_TURN = -100 #junk value
@@ -66,8 +66,8 @@ def turn_right_stop_sign():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    straightTime = 1
-    rightTime = 2.4
+    straightTime = 1.8
+    rightTime = 2.8
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
@@ -129,7 +129,7 @@ def turn_left():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     drive(STARTUP_SPEED)
-    straightTime = 2.8#must be float or else will not work when divided by RES
+    straightTime = 3 #must be float or else will not work when divided by RES
     leftTime = 2.0
     for i in range(RES):
         if OBJECT_DETECTED:
@@ -264,7 +264,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1626\n"  # was 1750 // was 1615 // was 1632
+    init_command = "!start1627\n"  # was 1750 // was 1615 // was 1632
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
