@@ -24,7 +24,7 @@ GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.007
-STARTUP_SPEED = .02
+STARTUP_SPEED = .08
 RES = 100
 GREEN = False
 STORED_TURN = -100 #junk value
@@ -106,7 +106,7 @@ def turn_right_intersection():
                 continue
             drive(STARTUP_SPEED)
         time.sleep(straightTime / RES)
-    angle = 30 - prevAngle
+    angle = 28 - prevAngle
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     print("Done with straight part of right turn")
@@ -129,7 +129,7 @@ def turn_left():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())     #was 2, was 1.5, added a bit more straight time so it would not clip the corner of the other lane
     drive(STARTUP_SPEED)
-    straightTime = 3.0 #must be float or else will not work when divided by RES
+    straightTime = 3.2 #must be float or else will not work when divided by RES
     leftTime = 2.0
     for i in range(RES):
         if OBJECT_DETECTED:
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     drive(0)  # Stop and wait for a second
     time.sleep(1)
     drive(STARTUP_SPEED)
-    time.sleep(.5)
+    # time.sleep(1)
     drive(DRIVE_SPEED)
 
     signal(SIGINT, handler)
