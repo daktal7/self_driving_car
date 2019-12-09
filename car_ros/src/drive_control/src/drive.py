@@ -98,7 +98,7 @@ def turn_right_intersection():
     ser.write(command.encode())
     drive(STARTUP_SPEED)
     straightTime = 2.5
-    rightTime = 2.8
+    rightTime = 3.0
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
