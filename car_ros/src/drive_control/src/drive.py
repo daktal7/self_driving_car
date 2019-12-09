@@ -66,8 +66,8 @@ def turn_right_stop_sign():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    straightTime = 1.8
-    rightTime = 2.8
+    straightTime = .6
+    rightTime = 3.1
     for i in range(RES):
         if OBJECT_DETECTED:
             drive(0)
