@@ -97,7 +97,7 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    straightTime = 2.3
+    straightTime = 1.8
     rightTime = 3.0
     for i in range(RES):
         if OBJECT_DETECTED:
@@ -264,7 +264,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1628\n"  # was 1750 // was 1615 // was 1632
+    init_command = "!start1627\n"  # was 1750 // was 1615 // was 1632
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
