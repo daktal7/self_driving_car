@@ -281,7 +281,7 @@ if __name__ == '__main__':
     drive(0)  # Stop and wait for a second
     time.sleep(1)
     drive(STARTUP_SPEED)
-    # time.sleep(1)
+    time.sleep(.5)
     drive(DRIVE_SPEED)
 
     signal(SIGINT, handler)
