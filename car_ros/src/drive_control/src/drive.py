@@ -24,7 +24,7 @@ GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.007
-STARTUP_SPEED = .05
+STARTUP_SPEED = .06
 RES = 100
 GREEN = False
 STORED_TURN = -100 #junk value
@@ -156,7 +156,7 @@ def turn_left():
 def go_straight():
     print("drive: Beginning Straight")
     global DRIVE_LOCK
-    angle = 3,4 - prevAngle/2
+    angle = 2.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
