@@ -47,6 +47,8 @@ def steer(angle):
         #print("WARNING_INTERSECTION:")
         if abs(angle.data) > ANGLE_THRESHOLD:
             DRIVE_LOCK = True
+            command = "!steering" + str(0) + "\n" #straighten out the wheel
+            ser.write(command.encode())
             print("Drive Lock Engagded")
     if not DRIVE_LOCK:
         #if WARNING_INTERSECTION:
@@ -97,7 +99,7 @@ def turn_right_intersection():
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
-    straightTime = 2.2
+    straightTime = 2.6
     rightTime = 3.0
     for i in range(RES):
         if OBJECT_DETECTED:
