@@ -24,7 +24,7 @@ GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.007
-STARTUP_SPEED = .06
+STARTUP_SPEED = .07
 RES = 100
 GREEN = False
 STORED_TURN = -100 #junk value
@@ -231,6 +231,8 @@ def emergencyStop(flag):
         if OBJECT_DETECTED:
             print("drive: object gone, starting")
             OBJECT_DETECTED = False
+            drive(STARTUP_SPEED)
+            time.sleep(.25)
             drive(DRIVE_SPEED)
 
 
