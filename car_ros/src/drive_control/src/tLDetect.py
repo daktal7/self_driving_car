@@ -21,6 +21,7 @@ GREEN_LOWER = GREEN_CENTER-GREEN_BUFFER
 GREEN_UPPER = GREEN_CENTER+GREEN_BUFFER+10
 SAT_CUTOFF = 200
 GREEN_CUTOFF = 150
+TIMEOUT_LIM = 30
 
 class tlDetector:
     def __init__(self):
@@ -31,6 +32,7 @@ class tlDetector:
         self.intersection = False
         self.frameCount = 0
         self.frameMod = 20
+        self.timeOut = 0
     # im must be in hsv
     #returns 'r' for red and 'g' for green
     #if box is none the algorithm will run over the entire image
@@ -110,7 +112,8 @@ class tlDetector:
         
 
     def light_detect(self, data):
-        #if self.intersection == False:
+        if self.timeOut == 0:
+            self.timeOut = time.time()
         #    self.frameCount = 0
             #print("not in the intersection")
         #    return
@@ -125,11 +128,13 @@ class tlDetector:
         if hsvIm is None:
             print("hsv is none")
             return
+        green = self.isGreen(hsvIm[0:int(ROI * len(hsvIm[:, 0])), :])
+        if (time.time() - self.timeOut) > TIMEOUT_LIM:
+            print("Green Timed-out")
+            green = True
 
-        #green = self.isGreen(hsvIm[0:int(ROI*len(hsvIm[:,0])),:])
-
-        time.sleep(1) #disabling light detection for now,
-        green = True #comment these lines out to enable light detection
+        #time.sleep(1) #disabling light detection for now,
+        #green = True #comment these lines out to enable light detection
 
         print("tlDetect: is green?", green)
         self.light_pub.publish(green)
