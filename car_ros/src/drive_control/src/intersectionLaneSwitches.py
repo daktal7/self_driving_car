@@ -24,7 +24,9 @@ def one():
 		if nextInter is not 1:
 			return None
 		wps = np.delete(wps, 0, 0)
-
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 2:
 			print("turn right")
@@ -58,6 +60,9 @@ def two():
 		if nextInter is not 2:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 3:
@@ -91,6 +96,9 @@ def three():
 		if nextInter is not 3:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 4:
@@ -124,6 +132,9 @@ def four():
 		if nextInter is not 4:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		if nextInter == 1:
@@ -158,6 +169,9 @@ def five():
 		if nextInter is not 5:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		#if nextInter == 5:
@@ -186,6 +200,9 @@ def six():
 		if nextInter is not 6:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		#if nextInter == 6:
@@ -216,6 +233,9 @@ def seven():
 		if nextInter is not 7:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		#if nextInter == 7:
@@ -244,6 +264,9 @@ def eight():
 		if nextInter is not 8:
 			return None
 		wps = np.delete(wps, 0, 0)
+		if len(wps) == 0:
+			print("Finished waypoints")
+			return 2
 
 		nextInter = wpm.reachedWarningIntersection(wps[0])
 		#if nextInter == 8:
