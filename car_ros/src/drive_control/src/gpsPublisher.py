@@ -74,9 +74,10 @@ def publishIntersection():
 						coor = ti.getCoor("Green")
 						coor = (abs(coor[0]),abs(coor[1]))
 						rateInner.sleep()
-					print("publishing turn %d", turn)
+					print("gpsPublisher: publishing turn %d", turn)
 					pub.publish(2)
 					if inter < 5:
+						print("gpsPublisher: publishing 5")
 						pub.publish(5)
 					else:
 						time.sleep(1.5)

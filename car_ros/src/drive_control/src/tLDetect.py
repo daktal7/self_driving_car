@@ -107,6 +107,7 @@ class tlDetector:
            if self.intersection == False:
                 print("tlDetect: turningn light detection on")
            self.intersection = True
+           self.timeOut = 0
             # time.sleep(10)
             # self.intersection = False
         
