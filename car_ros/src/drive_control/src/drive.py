@@ -24,7 +24,7 @@ GPS_FAILED = False
 WARNING_INTERSECTION = False
 ANGLE_THRESHOLD = 12
 DRIVE_SPEED = 0.007
-STARTUP_SPEED = .07
+STARTUP_SPEED = .075
 RES = 100
 GREEN = False
 STORED_TURN = -100 #junk value
@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1632\n"  # was 1750 // was 1615 // was 1632
+    init_command = "!start1628\n"  # was 1750 // was 1615 // was 1632
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())
