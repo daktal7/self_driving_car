@@ -141,6 +141,7 @@ class tlDetector:
 
         if green:
             self.frameCount = 0
+            self.timeOut = 0
             #self.intersection = False
             #print("tlDetect: disabling light detection")
 
