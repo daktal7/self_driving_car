@@ -129,6 +129,8 @@ class tlDetector:
             print("hsv is none")
             return
         green = self.isGreen(hsvIm[0:int(ROI * len(hsvIm[:, 0])), :])
+        print("tlDetect: init time", self.timeOut)
+        print("tlDetect: elapsed time: ", time.time()-self.timeOut)
         if (time.time() - self.timeOut) > TIMEOUT_LIM:
             print("Green Timed-out")
             green = True
