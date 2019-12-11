@@ -19,9 +19,9 @@ GREEN_CENTER = 60
 GREEN_BUFFER = 20
 GREEN_LOWER = GREEN_CENTER-GREEN_BUFFER
 GREEN_UPPER = GREEN_CENTER+GREEN_BUFFER+10
-SAT_CUTOFF = 200
-GREEN_CUTOFF = 150
-TIMEOUT_LIM = 30
+SAT_CUTOFF = 200 #the saturation level needed for the green pixels to be counted
+GREEN_CUTOFF = 180 #number of green pixels needed to trigger the green light
+TIMEOUT_LIM = 40 #number of seconds that we will wait at the traffic light until we just go.
 
 class tlDetector:
     def __init__(self):
