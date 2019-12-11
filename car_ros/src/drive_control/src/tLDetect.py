@@ -104,9 +104,10 @@ class tlDetector:
 
     def intersect(self, data):
         if data.data == 5:
-           if self.intersection == False:
-                print("tlDetect: turningn light detection on")
-           self.intersection = True
+           #if self.intersection == False:
+           #     print("tlDetect: turningn light detection on")
+           #self.intersection = True
+           print("TLDEtect: Set Timeout to Zero")
            self.timeOut = 0
             # time.sleep(10)
             # self.intersection = False
