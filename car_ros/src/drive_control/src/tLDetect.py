@@ -138,7 +138,7 @@ class tlDetector:
 
         print("tlDetect: is green?", green)
         self.light_pub.publish(green)
-
+        self.timeOut = 0
         if green:
             self.frameCount = 0
             self.timeOut = 0

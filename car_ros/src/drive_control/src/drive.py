@@ -158,7 +158,7 @@ def turn_left():
 def go_straight():
     print("drive: Beginning Straight")
     global DRIVE_LOCK
-    angle = 2.5 - prevAngle/2
+    angle = 3.5 - prevAngle/2
     command = "!steering" + str(angle) + "\n"
     ser.write(command.encode())
     drive(STARTUP_SPEED)
@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
     print("about to init")
     # will need to change because of new gear ratios
-    init_command = "!start1626\n"  # was 1750 // was 1615 // was 1632
+    init_command = "!start1628\n"  # was 1750 // was 1615 // was 1632
     ser.write(init_command.encode())
     init_command = "!inits.002\n"
     ser.write(init_command.encode())

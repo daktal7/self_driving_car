@@ -149,10 +149,10 @@ class image_displayer:
 			print("lane detector: turnning on traffic light")
 			self.runTLD = True
 
-	def stopLight(self, data):
-		if data.data:
-			print("lane detector: turnning off traffic light")
-			self.runTLD = False
+	# def stopLight(self, data):
+	# 	if data.data:
+	# 		print("lane detector: turnning off traffic light")
+	# 		self.runTLD = False
 
 
 FRAMES_TO_AVERAGE = 3
